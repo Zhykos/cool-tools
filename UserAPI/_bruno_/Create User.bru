@@ -1,11 +1,11 @@
 meta {
   name: Create User
   type: http
-  seq: 1
+  seq: 3
 }
 
 post {
-  url: http://localhost:8080/user
+  url: http://{{url-user-api}}/user
   body: json
   auth: none
 }
