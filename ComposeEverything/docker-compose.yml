@@ -1,0 +1,7 @@
+services:
+  user-api:
+    build:
+      context: ../UserAPI
+      dockerfile: Dockerfile
+    ports:
+      - "9001:8080"
