@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "[demo-opt] user",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

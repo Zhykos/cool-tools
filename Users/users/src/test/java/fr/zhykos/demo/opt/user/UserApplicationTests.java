@@ -1,10 +1,10 @@
-package fr.zhykos.demo.opt.users;
+package fr.zhykos.demo.opt.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UsersApplicationTests {
+class UserApplicationTests {
 
 	@Test
 	void contextLoads() {
