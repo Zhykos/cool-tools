@@ -33,4 +33,10 @@ public class UserController {
 		return ResponseEntity.ok(users.parallelStream().map(mapper::domainToDto).toList());
 	}
 
+	@GetMapping("/fail")
+	public ResponseEntity<Object> fail() {
+		userService.fail();
+		return ResponseEntity.noContent().build();
+	}
+
 }

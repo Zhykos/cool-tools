@@ -29,4 +29,9 @@ public class UserService {
 		return StreamSupport.stream(entities.spliterator(), true).map(mapper::entityToDomain).toList();
 	}
 
+	public User fail() {
+		final var noUser = usersRepository.findById(-1L);
+		return mapper.entityToDomain(noUser.get());
+	}
+
 }
