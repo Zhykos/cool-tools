@@ -1,8 +1,36 @@
 services:
 
-  user-api:
+  user:
     build:
       context: ../UserAPI
       dockerfile: Dockerfile
     ports:
       - "9001:8080"
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    restart: unless-stopped
+    volumes:
+      - ./volumes/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./volumes/prometheus/targets/otel_targets.yml:/etc/prometheus/targets/otel_targets.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+
+  opentelemetry:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    user: 0:0
+    command:
+      - --config=/etc/otel/receivers.yml
+      - --config=/etc/otel/processors.yml
+      - --config=/etc/otel/exporters.yml
+      - --config=/etc/otel/service.yml
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+    volumes:
+      - ./volumes/opentelemetry:/etc/otel:ro
+
+volumes:
+  prometheus_data: { }

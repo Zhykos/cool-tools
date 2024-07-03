@@ -1,0 +1,6 @@
+service:
+  pipelines:
+    metrics:
+      receivers: [prometheus/user]
+      processors: [batch]
+      exporters: [prometheus]

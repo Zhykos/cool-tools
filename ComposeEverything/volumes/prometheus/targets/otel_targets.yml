@@ -1,0 +1,4 @@
+---
+
+- targets:
+    - 'opentelemetry:9091'
