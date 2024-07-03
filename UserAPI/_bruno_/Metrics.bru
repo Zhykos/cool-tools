@@ -1,0 +1,17 @@
+meta {
+  name: Metrics
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://{{url-user-api}}/actuator/prometheus
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Toto"
+  }
+}

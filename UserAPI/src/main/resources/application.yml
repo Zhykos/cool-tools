@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: UserAPI
+  profiles:
+    active: json-logging
+  datasource:
+    url: jdbc:h2:file:~/H2/fr.zhykos.demo.opt.user.db
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+
+management:
+  endpoints.web.exposure.include: prometheus,health
+  metrics:
+    distribution.percentiles-histogram:
+      http.server.requests: true
+    tags:
+      application: ${spring.application.name}
