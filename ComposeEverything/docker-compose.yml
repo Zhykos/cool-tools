@@ -53,6 +53,25 @@ services:
       - ./volumes/loki/local-config.yaml:/etc/loki/local-config.yaml
       - loki_data:/loki
 
+  grafana:
+    image: grafana/grafana:10.0.3
+    user: '472'
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: password
+      GF_USERS_ALLOW_SIGN_UP: false
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+    volumes:
+      - grafana_data:/var/lib/grafana
+      #- /opt/bw/grafana/provisioning/:/etc/grafana/provisioning/
+    ports:
+      - "3000:3000"
+
 volumes:
   prometheus_data: { }
   loki_data: {}
+  grafana_data: {}
