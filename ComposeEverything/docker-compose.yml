@@ -1,11 +1,20 @@
 services:
 
   user:
+    labels:
+        application: user
     build:
       context: ../UserAPI
       dockerfile: Dockerfile
     ports:
       - "9001:8080"
+    logging:
+        driver: "json-file"
+        options:
+          labels: "application"
+          tag: "id={{.ID}} name={{.Name}} image={{.ImageName}}"
+          max-size: "10m"
+          max-file: "3"
 
   prometheus:
     image: prom/prometheus:v2.53.0
@@ -32,5 +41,18 @@ services:
     volumes:
       - ./volumes/opentelemetry:/etc/otel:ro
 
+  loki:
+    image: grafana/loki:2.8.1
+    restart: unless-stopped
+    environment:
+      - LOKI_RETENTION_PERIOD=90d
+    command:
+      - -config.file=/etc/loki/local-config.yaml
+      - -config.expand-env=true
+    volumes:
+      - ./volumes/loki/local-config.yaml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+
 volumes:
   prometheus_data: { }
+  loki_data: {}

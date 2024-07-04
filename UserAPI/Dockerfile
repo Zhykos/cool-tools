@@ -12,4 +12,4 @@ WORKDIR /app
 
 COPY --from=MAVEN_BUILD /build/target/user-1.0.0-SNAPSHOT.jar /app/
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "user-1.0.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "user-1.0.0-SNAPSHOT.jar", "--spring.profiles.active=json-logging"]

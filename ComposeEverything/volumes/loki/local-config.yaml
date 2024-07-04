@@ -1,0 +1,35 @@
+---
+auth_enabled: false
+
+server:
+  http_listen_port: ${LOKI_LISTEN_PORT:-3100}
+
+common:
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
+
+compactor:
+  retention_enabled: true
+
+limits_config:
+  retention_period: ${LOKI_RETENTION_PERIOD:-30d}
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+
+ruler:
+  alertmanager_url: http://localhost:9093

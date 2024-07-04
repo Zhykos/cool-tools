@@ -6,3 +6,6 @@ exporters:
 
   logging:
     verbosity: detailed
+
+  loki:
+    endpoint: 'http://loki:3100/loki/api/v1/push'

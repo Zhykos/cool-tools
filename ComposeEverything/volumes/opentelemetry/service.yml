@@ -4,3 +4,7 @@ service:
       receivers: [prometheus/user]
       processors: [batch]
       exporters: [prometheus]
+    logs:
+      receivers: [filelog/containers]
+      processors: [batch]
+      exporters: [logging, loki]
