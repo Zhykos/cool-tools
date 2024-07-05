@@ -11,7 +11,7 @@ receivers:
             - targets:
               - user:8080
   filelog/containers:
-    include: ["/var/lib/docker/containers/*/*.log"]
+    include: ["/logs/*.log"]
     start_at: end
     include_file_path: false
     include_file_name: false
@@ -20,48 +20,3 @@ receivers:
         timestamp:
           parse_from: attributes.time
           layout: '%Y-%m-%dT%H:%M:%S.%LZ'
-      - type: filter
-        expr: '(attributes?.attrs?.tag ?? "empty") == "empty"'
-      - type: key_value_parser
-        parse_from: attributes["attrs"]["tag"]
-        parse_to: resource.container
-        on_error: drop
-      - type: move
-        from: resource.container.id
-        to: resource.container_id
-      - type: move
-        from: resource.container.name
-        to: resource.container_name
-      - type: move
-        from: resource.container.image
-        to: resource.container_image
-      - type: move
-        from: attributes.log
-        to: body
-      - type: move
-        from: attributes["attrs"]["application"]
-        to: resource.application
-      - type: json_parser
-        timestamp:
-          parse_from: attributes.timestamp
-          layout: '%Y-%m-%dT%H:%M:%S.%LZ'
-        severity:
-          parse_from: attributes.level
-          mapping:
-            warn: WARN
-            error: ERROR
-            info: INFO
-            debug: DEBUG
-      - type: move
-        from: attributes.message
-        to: body
-      - type: remove
-        field: attributes.time
-      - type: remove
-        field: attributes.stream
-      - type: remove
-        field: attributes["timestamp"]
-      - type: remove
-        field: attributes["level"]
-      - type: remove
-        field: attributes["attrs"]
