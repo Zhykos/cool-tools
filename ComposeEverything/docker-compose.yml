@@ -17,6 +17,11 @@ services:
           max-file: "3"
     volumes:
       - ./volumes/user/logs:/app/logs
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://user:8080/actuator/health || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   prometheus:
     image: prom/prometheus:v2.53.0
@@ -27,6 +32,9 @@ services:
       - prometheus_data:/prometheus
     ports:
       - "9090:9090"
+    depends_on:
+      user:
+        condition: service_healthy
 
   opentelemetry:
     image: otel/opentelemetry-collector-contrib:0.104.0
@@ -43,6 +51,10 @@ services:
     volumes:
       - ./volumes/opentelemetry:/etc/otel:ro
       - ./volumes/user/logs:/logs
+    depends_on:
+      user:
+        condition: service_healthy
+    restart: always
 
   loki:
     image: grafana/loki:2.8.1
@@ -55,6 +67,16 @@ services:
     volumes:
       - ./volumes/loki/local-config.yaml:/etc/loki/local-config.yaml
       - loki_data:/loki
+    depends_on:
+      user:
+        condition: service_healthy
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "3100:3100"
 
   grafana:
     image: grafana/grafana:10.0.3
@@ -70,9 +92,13 @@ services:
         max-size: 10m
     volumes:
       - grafana_data:/var/lib/grafana
-      #- /opt/bw/grafana/provisioning/:/etc/grafana/provisioning/
     ports:
       - "3000:3000"
+    depends_on:
+      loki:
+        condition: service_healthy
+      opentelemetry:
+        condition: service_started
 
 volumes:
   prometheus_data: { }
