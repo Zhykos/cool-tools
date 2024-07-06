@@ -8,13 +8,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9001:8080"
-    logging:
-        driver: "json-file"
-        options:
-          labels: "application"
-          tag: "id={{.ID}} name={{.Name}} image={{.ImageName}}"
-          max-size: "10m"
-          max-file: "3"
     volumes:
       - ./volumes/user/logs:/app/logs
     healthcheck:
@@ -22,6 +15,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    depends_on:
+      - grafana
 
   prometheus:
     image: prom/prometheus:v2.53.0
@@ -51,13 +46,10 @@ services:
     volumes:
       - ./volumes/opentelemetry:/etc/otel:ro
       - ./volumes/user/logs:/logs
-    depends_on:
-      user:
-        condition: service_healthy
     restart: always
 
   loki:
-    image: grafana/loki:2.8.1
+    image: grafana/loki:3.1.0
     restart: unless-stopped
     environment:
       - LOKI_RETENTION_PERIOD=90d
@@ -67,9 +59,6 @@ services:
     volumes:
       - ./volumes/loki/local-config.yaml:/etc/loki/local-config.yaml
       - loki_data:/loki
-    depends_on:
-      user:
-        condition: service_healthy
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1
       interval: 15s

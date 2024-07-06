@@ -15,18 +15,19 @@ common:
     kvstore:
       store: inmemory
 
-compactor:
-  retention_enabled: true
+#compactor:
+ # retention_enabled: true
 
 limits_config:
   retention_period: ${LOKI_RETENTION_PERIOD:-30d}
+  allow_structured_metadata: true
 
 schema_config:
   configs:
     - from: 2020-10-24
-      store: boltdb-shipper
+      store: tsdb
       object_store: filesystem
-      schema: v11
+      schema: v13
       index:
         prefix: index_
         period: 24h

@@ -10,23 +10,16 @@ receivers:
           static_configs:
             - targets:
               - user:8080
-  filelog/containers:
+  filelog:
     include: ["/logs/*.log"]
-    start_at: end
-    include_file_path: false
-    include_file_name: false
+    start_at: beginning
+    include_file_path: true
+    include_file_name: true
     operators:
-      - type: json_parser
+      - type: regex_parser
+        regex: '^(?P<time>\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}\.\d{3}) \[.+?\] (?P<sev>[A-Z]*) .+? - (?P<msg>.*)$'
         timestamp:
-          parse_from: attributes.timestamp
-          layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          parse_from: attributes.time
+          layout: '%d-%m-%Y %H:%M:%S'
         severity:
-          parse_from: attributes.level
-          mapping:
-            warn: WARN
-            error: ERROR
-            info: INFO
-            debug: DEBUG
-      - type: move
-        from: attributes.message
-        to: body
+          parse_from: attributes.sev

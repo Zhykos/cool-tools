@@ -32,7 +32,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -41,7 +41,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -75,7 +76,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -111,7 +112,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -120,7 +121,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -154,7 +156,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -198,7 +200,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -210,7 +212,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -249,7 +252,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -266,7 +269,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -278,7 +281,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -315,7 +319,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -333,7 +337,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -376,7 +380,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red"
+                "color": "red",
+                "value": null
               },
               {
                 "color": "green",
@@ -411,7 +416,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -428,7 +433,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -471,7 +476,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -506,7 +512,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -523,7 +529,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -565,7 +571,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -600,7 +607,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -617,7 +624,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -659,7 +666,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -694,7 +702,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -711,7 +719,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+        "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
       },
       "fieldConfig": {
         "defaults": {
@@ -753,7 +761,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -788,7 +797,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+            "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -805,178 +814,52 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "ERROR"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "INFO"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "CRITICAL"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "purple",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "uid": "bc169f76-4144-4184-9800-afa5ce9a3128"
       },
       "gridPos": {
-        "h": 9,
-        "w": 6,
+        "h": 8,
+        "w": 24,
         "x": 0,
         "y": 21
       },
-      "id": 14,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.4.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
-          },
-          "editorMode": "code",
-          "expr": "sum by(type) (rate({compose_service=~\"app-.*\"} | pattern `<date> <time> <_>=<trace_id> <_>=<span_id> <_>=<trace_flags> <type> <_> --- <msg>` | type != \"\" |= \"$log_keyword\" [1m]))",
-          "legendFormat": "{{type}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Log Type Rate",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 18,
-        "x": 6,
-        "y": 21
-      },
-      "id": 2,
+      "id": 24,
       "options": {
         "dedupStrategy": "none",
         "enableLogDetails": true,
         "prettifyLogMessage": false,
         "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": false,
+        "showLabels": true,
+        "showTime": true,
         "sortOrder": "Descending",
-        "wrapLogMessage": true
+        "wrapLogMessage": false
       },
-      "pluginVersion": "8.4.3",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
+            "uid": "bc169f76-4144-4184-9800-afa5ce9a3128"
           },
           "editorMode": "builder",
-          "expr": "{exporter=\"OTLP\"} |= `` | json",
-          "hide": false,
+          "expr": "{exporter=\"OTLP\"}",
           "queryType": "range",
-          "refId": "B"
+          "refId": "A"
         }
       ],
-      "title": "Log of All Spring Boot Apps",
+      "title": "Panel Title",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "format": "json",
+            "jsonPaths": [
+              {
+                "path": "attributes.msg"
+              }
+            ],
+            "source": "Line"
+          }
+        }
+      ],
       "type": "logs"
     }
   ],
@@ -994,7 +877,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
+          "uid": "fc93ae64-6921-46c8-8091-83774e3c6d4d"
         },
         "definition": "label_values(application)",
         "hide": 0,
@@ -1037,13 +920,13 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Spring Boot Observability",
   "uid": "dLsDQIUnzb",
-  "version": 4,
+  "version": 2,
   "weekStart": ""
 }
