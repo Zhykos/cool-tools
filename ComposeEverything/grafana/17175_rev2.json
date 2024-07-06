@@ -1,67 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_LOKI",
-      "label": "Loki",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "loki",
-      "pluginName": "Loki"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "bargauge",
-      "name": "Bar gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.1.0"
-    },
-    {
-      "type": "panel",
-      "id": "logs",
-      "name": "Logs",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "loki",
-      "name": "Loki",
-      "version": "1.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -86,15 +23,16 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
+  "gnetId": 17175,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -103,8 +41,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -133,12 +70,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.1.0",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -174,7 +111,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -183,8 +120,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -213,12 +149,12 @@
         },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "10.1.0",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -262,7 +198,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -274,8 +210,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -309,12 +244,12 @@
         "showUnfilled": true,
         "valueMode": "color"
       },
-      "pluginVersion": "10.1.0",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -331,7 +266,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -343,8 +278,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -376,12 +310,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.1.0",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -399,7 +333,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -421,7 +355,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -443,8 +376,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
-                "value": null
+                "color": "red"
               },
               {
                 "color": "green",
@@ -479,7 +411,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -496,7 +428,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -518,7 +450,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -540,8 +471,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -576,7 +506,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -593,7 +523,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -614,7 +544,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -636,8 +565,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -672,7 +600,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -689,7 +617,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -710,7 +638,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -732,8 +659,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -768,7 +694,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -785,7 +711,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
       },
       "fieldConfig": {
         "defaults": {
@@ -806,7 +732,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -828,8 +753,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -864,7 +788,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -881,7 +805,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_LOKI}"
+        "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
       },
       "fieldConfig": {
         "defaults": {
@@ -902,7 +826,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -924,8 +847,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1006,7 +928,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_LOKI}"
+            "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
           },
           "editorMode": "code",
           "expr": "sum by(type) (rate({compose_service=~\"app-.*\"} | pattern `<date> <time> <_>=<trace_id> <_>=<span_id> <_>=<trace_flags> <type> <_> --- <msg>` | type != \"\" |= \"$log_keyword\" [1m]))",
@@ -1021,7 +943,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_LOKI}"
+        "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
       },
       "gridPos": {
         "h": 9,
@@ -1045,13 +967,13 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_LOKI}"
+            "uid": "a1e9143e-3fbf-49e1-a5ef-d18ba6736eba"
           },
-          "editorMode": "code",
-          "expr": "{compose_service=~\"app-.*\"} | pattern `<date> <time> <_>=<trace_id> <_>=<span_id> <_>=<trace_flags> <type> <_> --- <msg>` | line_format \"{{.compose_service}}\\t{{.type}}\\ttrace_id={{.trace_id}}\\t{{.msg}}\" |= \"$log_keyword\"",
+          "editorMode": "builder",
+          "expr": "{exporter=\"OTLP\"} |= `` | json",
           "hide": false,
           "queryType": "range",
-          "refId": "A"
+          "refId": "B"
         }
       ],
       "title": "Log of All Spring Boot Apps",
@@ -1065,10 +987,14 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "UserAPI",
+          "value": "UserAPI"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "c03c0a3a-e592-4336-b0b6-86c84ad83811"
         },
         "definition": "label_values(application)",
         "hide": 0,
@@ -1118,7 +1044,6 @@
   "timezone": "",
   "title": "Spring Boot Observability",
   "uid": "dLsDQIUnzb",
-  "version": 1,
-  "weekStart": "",
-  "gnetId": 17175
+  "version": 4,
+  "weekStart": ""
 }
