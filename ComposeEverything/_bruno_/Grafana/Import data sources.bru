@@ -1,0 +1,28 @@
+meta {
+  name: Import data sources
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/datasources/
+  body: none
+  auth: basic
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:basic {
+  username: admin
+  password: password
+}
+
+body:form-urlencoded {
+  user: admin:password
+}
+
+body:multipart-form {
+  user: admin:password
+}
