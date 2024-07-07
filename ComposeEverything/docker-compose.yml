@@ -46,7 +46,13 @@ services:
     volumes:
       - ./volumes/opentelemetry:/etc/otel:ro
       - ./volumes/user/logs:/logs
-    restart: always
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:13133/healthz || exit 1
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "13133:13133" # health check
 
   loki:
     image: grafana/loki:3.1.0
