@@ -11,9 +11,20 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
 
 management:
-  endpoints.web.exposure.include: prometheus,health
+  endpoints.web.exposure.include: "*"
   metrics:
     distribution.percentiles-histogram:
       http.server.requests: true
     tags:
       application: ${spring.application.name}
+
+otel:
+  propagators:
+    - tracecontext
+    #- b3
+  resource:
+    attributes:
+      deployment.environment: dev
+      service:
+        name: UserAPI
+        namespace: fr.zhykos.demo.opt

@@ -12,3 +12,7 @@ service:
       receivers: [filelog]
       processors: [batch]
       exporters: [logging, loki]
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, debug, otlphttp/jaeger]

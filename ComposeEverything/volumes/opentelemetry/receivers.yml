@@ -1,6 +1,7 @@
 ---
 
 receivers:
+
   prometheus/user:
     config:
       scrape_configs:
@@ -10,6 +11,7 @@ receivers:
           static_configs:
             - targets:
               - user:8080
+
   filelog:
     include: ["/logs/*.log"]
     start_at: beginning
@@ -23,3 +25,13 @@ receivers:
           layout: '%d-%m-%Y %H:%M:%S'
         severity:
           parse_from: attributes.sev
+
+  otlp:
+    protocols:
+      grpc:
+        endpoint: ":4317"
+      http:
+        endpoint: ":4318"
+        include_metadata: true
+        cors:
+          allowed_origins:

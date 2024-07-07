@@ -33,16 +33,11 @@ services:
 
   opentelemetry:
     image: otel/opentelemetry-collector-contrib:0.104.0
-    user: 0:0
     command:
       - --config=/etc/otel/receivers.yml
       - --config=/etc/otel/processors.yml
       - --config=/etc/otel/exporters.yml
       - --config=/etc/otel/service.yml
-    logging:
-      driver: local
-      options:
-        max-size: 10m
     volumes:
       - ./volumes/opentelemetry:/etc/otel:ro
       - ./volumes/user/logs:/logs
@@ -53,6 +48,14 @@ services:
       retries: 5
     ports:
       - "13133:13133" # health check
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+    expose:
+      - "4317"
+      - "4318"
+      - "13133"
+    depends_on:
+      - jaeger
 
   loki:
     image: grafana/loki:3.1.0
@@ -94,6 +97,18 @@ services:
         condition: service_healthy
       opentelemetry:
         condition: service_started
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.58
+    restart: always
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+    expose:
+      - "14268"
+      - "14250"
+      - "16686"
 
 volumes:
   prometheus_data: { }
