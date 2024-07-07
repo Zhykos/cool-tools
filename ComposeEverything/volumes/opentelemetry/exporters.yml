@@ -10,10 +10,9 @@ exporters:
   loki:
     endpoint: 'http://loki:3100/loki/api/v1/push'
 
-  otlphttp/jaeger:
-    endpoint: http://jaeger:14250
-    tls:
-      insecure: true
+  zipkin:
+    endpoint: "http://zipkin:9411/api/v2/spans"
+    format: proto
 
   debug:
     verbosity: detailed

@@ -55,7 +55,7 @@ services:
       - "4318"
       - "13133"
     depends_on:
-      - jaeger
+      - zipkin
 
   loki:
     image: grafana/loki:3.1.0
@@ -98,17 +98,13 @@ services:
       opentelemetry:
         condition: service_started
 
-  jaeger:
-    image: jaegertracing/all-in-one:1.58
+  zipkin:
+    image: openzipkin/zipkin:3.4.0
     restart: always
     ports:
-      - "16686:16686"
-      - "14268:14268"
-      - "14250:14250"
+      - "9411:9411"
     expose:
-      - "14268"
-      - "14250"
-      - "16686"
+      - "9411"
 
 volumes:
   prometheus_data: { }

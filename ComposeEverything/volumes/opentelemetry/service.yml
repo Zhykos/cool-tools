@@ -15,4 +15,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, debug, otlphttp/jaeger]
+      exporters: [logging, debug, zipkin]
