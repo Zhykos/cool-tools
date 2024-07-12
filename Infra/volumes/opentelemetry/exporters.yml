@@ -4,9 +4,6 @@ exporters:
     send_timestamps: true
     enable_open_metrics: true
 
-  logging:
-    verbosity: detailed
-
   loki:
     endpoint: 'http://loki:3100/loki/api/v1/push'
 
@@ -16,5 +13,5 @@ exporters:
 
   debug:
     verbosity: detailed
-    sampling_initial: 5
-    sampling_thereafter: 200
+    #sampling_initial: 5
+    #sampling_thereafter: 200

@@ -10,21 +10,34 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
 
+server:
+  port: 9001
+
 management:
-  endpoints.web.exposure.include: "*"
+  endpoints:
+    web:
+      exposure:
+        include: "*"
   metrics:
-    distribution.percentiles-histogram:
-      http.server.requests: true
     tags:
       application: ${spring.application.name}
-
+    distribution:
+      percentiles-histogram:
+        all: true
+      http:
+        server:
+          requests: true
 otel:
+  instrumentation:
+    http:
+      server:
+        emit-experimental-telemetry: true
+  service:
+    name: ${spring.application.name}
   propagators:
     - tracecontext
-    #- b3
   resource:
     attributes:
-      deployment.environment: dev
       service:
-        name: UserAPI
+        name: ${spring.application.name}
         namespace: fr.zhykos.demo.opt

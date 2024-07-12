@@ -1,23 +1,5 @@
 services:
 
-  user:
-    labels:
-        application: user
-    build:
-      context: ../UserAPI
-      dockerfile: Dockerfile
-    ports:
-      - "9001:8080"
-    volumes:
-      - ./volumes/user/logs:/app/logs
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://user:8080/actuator/health || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    depends_on:
-      - grafana
-
   prometheus:
     image: prom/prometheus:v2.53.0
     restart: unless-stopped
@@ -27,9 +9,10 @@ services:
       - prometheus_data:/prometheus
     ports:
       - "9090:9090"
-    depends_on:
-      user:
-        condition: service_healthy
+      - "9091:9091"
+    expose:
+      - "9090"
+      - "9091"
 
   opentelemetry:
     image: otel/opentelemetry-collector-contrib:0.104.0
@@ -40,7 +23,7 @@ services:
       - --config=/etc/otel/service.yml
     volumes:
       - ./volumes/opentelemetry:/etc/otel:ro
-      - ./volumes/user/logs:/logs
+      - ../UserAPI/logs:/logs
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:13133/healthz || exit 1
       interval: 15s
