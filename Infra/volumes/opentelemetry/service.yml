@@ -8,10 +8,10 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, prometheus]
-   # logs:
-    #  receivers: [otlp]
-     # processors: [batch]
-      #exporters: [debug]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, loki]
     #traces:
      # receivers: [otlp]
       #processors: [batch]
