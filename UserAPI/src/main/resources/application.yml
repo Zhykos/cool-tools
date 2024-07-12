@@ -27,6 +27,7 @@ management:
       http:
         server:
           requests: true
+
 otel:
   instrumentation:
     http:
