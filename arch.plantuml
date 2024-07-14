@@ -1,9 +1,9 @@
 @startuml Arch
 
-archimate #Application "UserAPI\n(SpringBoot)" as UsersJava <<application-service>>
+archimate #Application "UserAPI\n(SpringBoot)" as UserAPI <<application-service>>
 
 archimate #Technology "Users\n(H2)" as UsersDB <<technology-service>>
 
-UsersJava --> UsersDB
+UserAPI --> UsersDB
 
 @enduml
