@@ -1,67 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_LOKI",
-      "label": "Loki",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "loki",
-      "pluginName": "Loki"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "bargauge",
-      "name": "Bar gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.0.3"
-    },
-    {
-      "type": "panel",
-      "id": "logs",
-      "name": "Logs",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "loki",
-      "name": "Loki",
-      "version": "1.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -88,14 +25,14 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 17175,
   "graphTooltip": 0,
-  "id": null,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -139,11 +76,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(http_server_requests_seconds_count{application=\"$app_name\", uri!=\"/actuator/prometheus\"})",
+          "expr": "sum(http_server_request_duration_seconds_count{exported_job=\"$app_name\", uri!=\"/actuator/prometheus\"})",
           "instant": true,
           "interval": "",
           "legendFormat": "",
@@ -175,7 +112,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -203,7 +140,7 @@
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -219,11 +156,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by(uri) (http_server_request_duration_seconds_count{application=\"$app_name\", uri!=\"/actuator/prometheus\"})",
+          "expr": "sum by(http_request_method,http_route) (http_server_request_duration_seconds_count{exported_job=\"$app_name\", uri!=\"/actuator/prometheus\"})",
           "instant": true,
           "interval": "",
           "legendFormat": "{{method}} {{uri}}",
@@ -263,7 +200,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -315,11 +252,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by(http_route,http_request_method)(http_server_request_duration_seconds_sum{application=\"$app_name\"}) / sum by(http_route,http_request_method)(http_server_request_duration_seconds_count{application=\"$app_name\"})",
+          "expr": "sum by(http_route,http_request_method)(http_server_request_duration_seconds_sum{exported_job=\"$app_name\"}) / sum by(http_route,http_request_method)(http_server_request_duration_seconds_count{exported_job=\"$app_name\"})",
           "interval": "",
           "legendFormat": "{{http_request_method}} {{http_route}} ",
           "range": true,
@@ -332,7 +269,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -382,11 +319,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(http_server_requests_seconds_count{application=\"$app_name\", outcome=\"SERVER_ERROR\"})",
+          "expr": "sum(http_server_request_duration_seconds_count{exported_job=\"$app_name\", outcome=\"SERVER_ERROR\"})",
           "interval": "",
           "legendFormat": "",
           "range": true,
@@ -400,7 +337,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -463,6 +400,7 @@
         "y": 6
       },
       "id": 18,
+      "interval": "60",
       "options": {
         "legend": {
           "calcs": [],
@@ -479,11 +417,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by(uri) (http_server_request_duration_seconds_count{application=\"$app_name\", status=~\"2.*\", uri!=\"/actuator/prometheus\"}) / sum by(uri) (http_server_request_duration_seconds_count{application=\"$app_name\", uri!=\"/actuator/prometheus\"})",
+          "expr": "sum by(uri) (http_server_request_duration_seconds_count{exported_job=\"$app_name\", http_response_status_code=~\"2.*\", uri!=\"/actuator/prometheus\"}) / sum by(uri) (http_server_request_duration_seconds_count{exported_job=\"$app_name\", uri!=\"/actuator/prometheus\"})",
           "interval": "",
           "legendFormat": "{{path}}",
           "range": true,
@@ -496,7 +434,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -575,11 +513,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by(uri) (http_server_requests_seconds_count{application=\"$app_name\", status=~\"5.*\", uri!=\"/actuator/prometheus\"}) / sum by(uri) (http_server_requests_seconds_count{application=\"$app_name\", uri!=\"/actuator/prometheus\"})",
+          "expr": "sum by(uri) (http_server_request_duration_seconds_count{exported_job=\"$app_name\", http_response_status_code=~\"5.*\", uri!=\"/actuator/prometheus\"}) / sum by(uri) (http_server_request_duration_seconds_count{exported_job=\"$app_name\", uri!=\"/actuator/prometheus\"})",
           "interval": "",
           "legendFormat": "{{uri}}",
           "range": true,
@@ -592,7 +530,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -670,11 +608,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "histogram_quantile(.99,sum(rate(http_server_requests_seconds_bucket{application=\"$app_name\", uri!=\"/actuator/prometheus\"}[1m])) by(uri, le))",
+          "expr": "histogram_quantile(.99,sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$app_name\"}[15m])) by(http_route, le))",
           "interval": "",
           "legendFormat": "{{uri}}",
           "range": true,
@@ -687,7 +625,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -765,11 +703,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "histogram_quantile(.95,sum(rate(http_server_requests_seconds_bucket{application=\"$app_name\", uri!=\"/actuator/prometheus\"}[1m])) by(uri, le))",
+          "expr": "histogram_quantile(.95,sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$app_name\"}[15m])) by(http_route, le))",
           "interval": "",
           "legendFormat": "{{uri}}",
           "range": true,
@@ -782,7 +720,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
       },
       "fieldConfig": {
         "defaults": {
@@ -860,11 +798,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by(uri)(rate(http_server_requests_seconds_count{application=\"$app_name\"}[1m]))",
+          "expr": "sum by(http_route)(rate(http_server_request_duration_seconds_count{exported_job=\"$app_name\"}[15m]))",
           "interval": "",
           "legendFormat": "{{uri}}",
           "range": true,
@@ -877,7 +815,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_LOKI}"
+        "uid": "a457a55a-3728-4745-ade2-856449ba6ce6"
       },
       "fieldConfig": {
         "defaults": {
@@ -979,7 +917,7 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 6,
+        "w": 8,
         "x": 0,
         "y": 21
       },
@@ -1001,13 +939,13 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_LOKI}"
+            "uid": "a457a55a-3728-4745-ade2-856449ba6ce6"
           },
           "editorMode": "code",
-          "expr": "sum by(type) (rate({compose_service=~\"app-.*\"} | pattern `<date> <time> <_>=<trace_id> <_>=<span_id> <_>=<trace_flags> <type> <_> --- <msg>` | type != \"\" |= \"$log_keyword\" [1m]))",
-          "legendFormat": "{{type}}",
+          "expr": "sum by(level) (rate({service_name=\"$app_name\"} | json | line_format `{{.severity}}` | pattern `<level>` [10m]))",
+          "hide": false,
           "queryType": "range",
-          "refId": "A"
+          "refId": "B"
         }
       ],
       "title": "Log Type Rate",
@@ -1016,12 +954,12 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${DS_LOKI}"
+        "uid": "a457a55a-3728-4745-ade2-856449ba6ce6"
       },
       "gridPos": {
         "h": 9,
-        "w": 18,
-        "x": 6,
+        "w": 16,
+        "x": 8,
         "y": 21
       },
       "id": 2,
@@ -1040,10 +978,10 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_LOKI}"
+            "uid": "a457a55a-3728-4745-ade2-856449ba6ce6"
           },
           "editorMode": "builder",
-          "expr": "{exporter=\"OTLP\"} | json | line_format `\"{{.body}}\"`",
+          "expr": "{job=\"$app_name\"} | json | line_format `\"{{.body}}\"`",
           "hide": false,
           "queryType": "range",
           "refId": "B"
@@ -1060,12 +998,16 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "fr.zhykos.demo.opt/UserAPI",
+          "value": "fr.zhykos.demo.opt/UserAPI"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "aedb7396-3255-48f0-b87d-6c1e23282778"
         },
-        "definition": "label_values(application)",
+        "definition": "label_values(exported_job)",
         "hide": 0,
         "includeAll": false,
         "label": "Application Name",
@@ -1073,46 +1015,25 @@
         "name": "app_name",
         "options": [],
         "query": {
-          "query": "label_values(application)",
-          "refId": "StandardVariableQuery"
+          "query": "label_values(exported_job)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "",
-          "value": ""
-        },
-        "description": "query with keyword",
-        "hide": 0,
-        "label": "Log Query",
-        "name": "log_keyword",
-        "options": [
-          {
-            "selected": true,
-            "text": "",
-            "value": ""
-          }
-        ],
-        "query": "",
-        "skipUrlSync": false,
-        "type": "textbox"
       }
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Spring Boot Observability",
   "uid": "dLsDQIUnzb",
-  "version": 6,
+  "version": 13,
   "weekStart": ""
 }
