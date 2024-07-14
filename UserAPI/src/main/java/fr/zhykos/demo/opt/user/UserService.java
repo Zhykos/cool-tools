@@ -20,7 +20,7 @@ public class UserService {
 	public User createUser(final String name) {
 		final var entityToAddInRepository = UserEntity.builder().uuid(UUID.randomUUID().toString()).name(name).build();
 		final var createdEntity = usersRepository.save(entityToAddInRepository);
-		log.info("New user created: " + createdEntity);
+        log.info("New user created: {}", createdEntity);
 		return mapper.entityToDomain(createdEntity);
 	}
 
@@ -29,9 +29,9 @@ public class UserService {
 		return StreamSupport.stream(entities.spliterator(), true).map(mapper::entityToDomain).toList();
 	}
 
-	public User fail() {
+	public void fail() {
 		final var noUser = usersRepository.findById(-1L);
-		return mapper.entityToDomain(noUser.get());
+		mapper.entityToDomain(noUser.orElseThrow());
 	}
 
 }
