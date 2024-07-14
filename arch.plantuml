@@ -1,9 +1,24 @@
 @startuml Arch
+skinparam nodesep 4
+!include <archimate/Archimate>
 
 archimate #Application "UserAPI\n(SpringBoot)" as UserAPI <<application-service>>
+archimate #Application Zipkin <<application-service>>
+archimate #Application Grafana <<application-service>>
+archimate #Application Prometheus <<application-service>>
 
 archimate #Technology "Users\n(H2)" as UsersDB <<technology-service>>
+archimate #Technology "OpenTelemetry Collector" as OTC <<technology-service>>
+archimate #Technology Loki <<technology-service>>
 
-UserAPI --> UsersDB
+Rel_Access_rw(UserAPI, UsersDB)
+Rel_Flow(UserAPI, OTC, logs)
+Rel_Flow(OTC, Loki, logs)
+Rel_Flow(Loki, Grafana, logs)
+Rel_Flow(UserAPI, OTC, metrics)
+Rel_Flow(OTC, Prometheus, metrics)
+Rel_Flow(Prometheus, Grafana, metrics)
+Rel_Flow(UserAPI, OTC, spans)
+Rel_Flow(OTC, Zipkin, spans)
 
 @enduml
