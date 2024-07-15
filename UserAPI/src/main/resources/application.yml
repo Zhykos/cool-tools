@@ -37,6 +37,8 @@ otel:
     http:
       server:
         emit-experimental-telemetry: true
+    micrometer:
+      enabled: true
   service:
     name: ${spring.application.name}
   propagators:

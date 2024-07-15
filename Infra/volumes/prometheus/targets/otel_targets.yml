@@ -2,3 +2,4 @@
 
 - targets:
     - 'opentelemetry:9091'
+    - 'localhost:9091'
