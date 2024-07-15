@@ -4,7 +4,7 @@ spring:
   profiles:
     active: json-logging
   datasource:
-    url: jdbc:h2:file:~/H2/fr.zhykos.demo.opt.user.db
+    url: jdbc:h2:mem:users
   jpa:
     hibernate:
       ddl-auto: update
