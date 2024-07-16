@@ -37,6 +37,11 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- OpenTelemetry -->
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-spring-boot-starter</artifactId>
+		</dependency>
 
 		<!-- Spring -->
 		<dependency>
@@ -78,6 +83,23 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.3.0</version>
+		</dependency>
+
+		<!-- Metrics -->
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core-micrometer</artifactId>
+			<version>1.1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>3.3.1</version>
 		</dependency>
 
 	</dependencies>
