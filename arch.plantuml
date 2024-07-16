@@ -2,10 +2,10 @@
 skinparam nodesep 4
 !include <archimate/Archimate>
 
-archimate #Application "UserAPI\n(SpringBoot)" as UserAPI <<application-service>>
-archimate #Application Zipkin <<application-service>>
-archimate #Application Grafana <<application-service>>
-archimate #Application Prometheus <<application-service>>
+archimate #Application "UserAPI:9001\n(SpringBoot)" as UserAPI <<application-service>>
+archimate #Application "Zipkin:9411" as Zipkin <<application-service>>
+archimate #Application "Grafana:3000" as Grafana <<application-service>>
+archimate #Application "Prometheus:9090" as Prometheus <<application-service>>
 
 archimate #Technology "Users\n(H2)" as UsersDB <<technology-service>>
 archimate #Technology "OpenTelemetry Collector" as OTC <<technology-service>>
@@ -20,5 +20,6 @@ Rel_Flow(OTC, Prometheus, metrics)
 Rel_Flow(Prometheus, Grafana, metrics)
 Rel_Flow(UserAPI, OTC, spans)
 Rel_Flow(OTC, Zipkin, spans)
+Rel_Flow(Prometheus, UserAPI, "scrape\nmetrics")
 
 @enduml
