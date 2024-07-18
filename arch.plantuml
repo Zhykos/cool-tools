@@ -3,23 +3,36 @@ skinparam nodesep 4
 !include <archimate/Archimate>
 
 archimate #Application "UserAPI:9001\n(SpringBoot)" as UserAPI <<application-service>>
+archimate #Application "ProductAPI:9002\n(SpringBoot)" as ProductAPI <<application-service>>
+
+archimate #Technology "Users\n(H2)" as UsersDB <<technology-service>>
+archimate #Technology PostgreSQL <<technology-service>>
+
 archimate #Application "Zipkin:9411" as Zipkin <<application-service>>
 archimate #Application "Grafana:3000" as Grafana <<application-service>>
 archimate #Application "Prometheus:9090" as Prometheus <<application-service>>
 
-archimate #Technology "Users\n(H2)" as UsersDB <<technology-service>>
 archimate #Technology "OpenTelemetry Collector" as OTC <<technology-service>>
 archimate #Technology Loki <<technology-service>>
 
 Rel_Access_rw(UserAPI, UsersDB)
+Rel_Access_rw(ProductAPI, PostgreSQL)
+
 Rel_Flow(UserAPI, OTC, logs)
+Rel_Flow(UserAPI, OTC, metrics)
+Rel_Flow(UserAPI, OTC, spans)
+
+Rel_Flow(Prometheus, UserAPI, "scrape\nmetrics")
+Rel_Flow(Prometheus, ProductAPI, "scrape\nmetrics")
+
+Rel_Flow(ProductAPI, OTC, logs)
+Rel_Flow(ProductAPI, OTC, metrics)
+Rel_Flow(ProductAPI, OTC, spans)
+
 Rel_Flow(OTC, Loki, logs)
 Rel_Flow(Loki, Grafana, logs)
-Rel_Flow(UserAPI, OTC, metrics)
 Rel_Flow(OTC, Prometheus, metrics)
 Rel_Flow(Prometheus, Grafana, metrics)
-Rel_Flow(UserAPI, OTC, spans)
 Rel_Flow(OTC, Zipkin, spans)
-Rel_Flow(Prometheus, UserAPI, "scrape\nmetrics")
 
 @enduml
