@@ -7,12 +7,14 @@ spring:
     url: jdbc:postgresql://localhost:15432/db
     username: user
     password: password
+    initialization-mode: always
     hikari:
       maximum-pool-size: 5
       connection-timeout: 20000
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+    show-sql: true
 
 server:
   port: 9002

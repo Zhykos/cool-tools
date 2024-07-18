@@ -4,20 +4,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.*;
 
 @Entity
 @Table(name = "products")
-public record ProductEntity(
-        @Id
-        @GeneratedValue
-        Long id,
+@Builder
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+public class ProductEntity {
+    @Id
+    @GeneratedValue
+    private Long id;
 
-        String uuid,
+    private String uuid;
 
-        String name,
+    private String name;
 
-        String description,
+    private String description;
 
-        double price
-) {
+    private double price;
 }
