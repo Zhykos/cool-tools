@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "[demo-opt] Product API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,0 +1,11 @@
+meta {
+  name: Prometheus metrics
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://{{url-api}}/actuator/prometheus
+  body: none
+  auth: none
+}
