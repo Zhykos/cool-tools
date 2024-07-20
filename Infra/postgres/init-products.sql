@@ -1,3 +1,13 @@
+DROP TABLE if exists public.products;
+
+CREATE TABLE public.products (
+    id SERIAL PRIMARY KEY,
+    "uuid" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL
+);
+
 INSERT INTO public.products(id, "uuid", "name", description, price) VALUES (1, '316ea7ac-cecf-4806-9df0-03aebb062388', 'Product 001', 'Description 001', 1.1);
 INSERT INTO public.products(id, "uuid", "name", description, price) VALUES (2, 'dfc3faca-39fd-499b-82f2-1b9a8bf3499d', 'Product 002', 'Description 002', 2.0);
 INSERT INTO public.products(id, "uuid", "name", description, price) VALUES (3, '91ef4024-df7d-4e38-8338-d3e274e85c80', 'Product 003', 'Description 003', 3.14);
