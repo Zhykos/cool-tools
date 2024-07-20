@@ -11,10 +11,6 @@ spring:
     hikari:
       maximum-pool-size: 5
       connection-timeout: 20000
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
 
 server:
   port: 9002

@@ -23,7 +23,7 @@ public class ProductController {
 	@ApiResponse(responseCode = "200", description = "List of products (flux)")
 	public Flux<ProductDTO> listProducts() {
 		final var products = service.listProducts();
-		return Flux.fromStream(products.map(mapper::domainToDto));
+		return products.map(mapper::domainToDto);
 	}
 
 }

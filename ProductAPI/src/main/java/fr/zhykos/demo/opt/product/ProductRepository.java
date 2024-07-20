@@ -1,7 +1,7 @@
 package fr.zhykos.demo.opt.product;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface ProductRepository extends CrudRepository<ProductEntity, Long> {
+public interface ProductRepository extends ReactiveCrudRepository<ProductEntity, Long> {
 
 }

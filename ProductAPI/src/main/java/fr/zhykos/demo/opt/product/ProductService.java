@@ -3,9 +3,7 @@ package fr.zhykos.demo.opt.product;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @Service
@@ -15,9 +13,9 @@ public class ProductService {
 	private final ProductRepository repository;
 	private final ProductMapper mapper;
 
-	public Stream<Product> listProducts() {
-		final Iterable<ProductEntity> entities = repository.findAll();
-		return StreamSupport.stream(entities.spliterator(), true).map(mapper::entityToDomain);
+	public Flux<Product> listProducts() {
+		final Flux<ProductEntity> entities = repository.findAll();
+		return entities.map(mapper::entityToDomain);
 	}
 
 }
