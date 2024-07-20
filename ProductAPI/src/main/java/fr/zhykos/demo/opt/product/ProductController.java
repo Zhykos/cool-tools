@@ -18,7 +18,7 @@ public class ProductController {
 	private final ProductService service;
 	private final ProductMapper mapper;
 
-	@GetMapping
+	@GetMapping(produces = "application/stream+json")
 	@Operation(summary = "List all products (flux)", description = "List all products in a reactive way")
 	@ApiResponse(responseCode = "200", description = "List of products (flux)")
 	public Flux<ProductDTO> listProducts() {
