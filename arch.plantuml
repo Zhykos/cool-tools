@@ -6,7 +6,7 @@ archimate #Application "UserAPI:9001\n(SpringBoot)" as UserAPI <<application-ser
 archimate #Application "ProductAPI:9002\n(SpringBoot)" as ProductAPI <<application-service>>
 
 archimate #Technology "Users\n(H2)" as UsersDB <<technology-service>>
-archimate #Technology PostgreSQL <<technology-service>>
+archimate #Technology "Products:9012\n(PostgreSQL)" as ProductsDB <<technology-service>>
 
 archimate #Application "Zipkin:9411" as Zipkin <<application-service>>
 archimate #Application "Grafana:3000" as Grafana <<application-service>>
@@ -16,7 +16,7 @@ archimate #Technology "OpenTelemetry Collector" as OTC <<technology-service>>
 archimate #Technology Loki <<technology-service>>
 
 Rel_Access_rw(UserAPI, UsersDB)
-Rel_Access_rw(ProductAPI, PostgreSQL)
+Rel_Access_rw(ProductAPI, ProductsDB)
 
 Rel_Flow(UserAPI, OTC, logs)
 Rel_Flow(UserAPI, OTC, metrics)

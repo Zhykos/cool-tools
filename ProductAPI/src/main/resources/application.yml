@@ -3,8 +3,8 @@ spring:
     name: ProductAPI
   profiles:
     active: json-logging
-  datasource:
-    url: jdbc:postgresql://localhost:15432/db
+  r2dbc:
+    url: r2dbc:postgresql://localhost:9012/db
     username: user
     password: password
     initialization-mode: always

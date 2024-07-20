@@ -1,3 +1,5 @@
+name: fr.zhykos.demo.opt
+
 services:
 
   prometheus:
@@ -14,7 +16,7 @@ services:
       - "9090"
       - "9091"
 
-  opentelemetry:
+  opentelemetry-collector:
     image: otel/opentelemetry-collector-contrib:0.104.0
     command:
       - --config=/etc/otel/receivers.yml
@@ -78,7 +80,7 @@ services:
     depends_on:
       loki:
         condition: service_healthy
-      opentelemetry:
+      opentelemetry-collector:
         condition: service_started
 
   zipkin:
@@ -89,17 +91,15 @@ services:
     expose:
       - "9411"
 
-  postgres:
+  postgres-products:
     image: postgres:16.3-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
-    volumes:
-      - ./volumes/postgres:/var/lib/postgresql/data
     ports:
-      - "15432:5432"
+      - "9012:5432"
 
 volumes:
   prometheus_data: { }
