@@ -1,4 +1,4 @@
-name: fr-zhykos-demo-opt
+name: fr-zhykos-demo-opt-infra
 
 services:
 
@@ -94,6 +94,8 @@ services:
   postgres-products:
     image: postgres:16.3-alpine
     restart: unless-stopped
+    profiles:
+      - also-start-databases
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
