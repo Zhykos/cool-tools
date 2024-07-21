@@ -1,0 +1,25 @@
+name: fr-zhykos-demo-opt-all
+
+include:
+  - path: Infra/docker-compose.yml
+
+services:
+
+  user-api:
+    build: UserAPI
+    ports:
+      - "9001:9001"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:9001/actuator/health || exit 1
+
+  product-api:
+    build: ProductAPI
+    ports:
+      - "9002:9002"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+      - SPRING_R2DBC_URL=r2dbc:postgresql://${EXTERNAL_IP}:9012/db
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:9002/actuator/health || exit 1

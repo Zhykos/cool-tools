@@ -1,5 +1,15 @@
 # opentelemetry-demo-microservices
 
+## Run the demo
+
+### Start the services and applications
+
+For MacOS *(tested on M1 and Sonoma 14.5)*:
+
+```shell
+export EXTERNAL_IP=$(ipconfig getifaddr en0) && docker compose up -d --build
+```
+
 ---
 
 ## Kudos
