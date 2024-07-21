@@ -10,6 +10,6 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-COPY --from=MAVEN_BUILD /build/target/user-api-1.0.0-SNAPSHOT.jar /app/
-EXPOSE 9001
-ENTRYPOINT ["java", "-jar", "user-api-1.0.0-SNAPSHOT.jar"]
+COPY --from=MAVEN_BUILD /build/target/product-api-1.0.0-SNAPSHOT.jar /app/
+EXPOSE 9002
+ENTRYPOINT ["java", "-jar", "product-api-1.0.0-SNAPSHOT.jar"]
