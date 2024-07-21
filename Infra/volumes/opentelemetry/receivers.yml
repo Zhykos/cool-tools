@@ -11,6 +11,7 @@ receivers:
           static_configs:
             - targets:
               - localhost:9001
+              - localhost:9002
 
   filelog:
     include: ["/logs/*.log"]
