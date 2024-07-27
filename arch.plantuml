@@ -4,6 +4,7 @@ skinparam nodesep 4
 
 archimate #Application "UserAPI:9001\n(SpringBoot)" as UserAPI <<application-service>>
 archimate #Application "ProductAPI:9002\n(SpringBoot)" as ProductAPI <<application-service>>
+archimate #Application "BasketAPI:9003\n(Play)" as BasketAPI <<application-service>>
 
 archimate #Technology "Users\n(H2)" as UsersDB <<technology-service>>
 archimate #Technology "Products:9012\n(PostgreSQL)" as ProductsDB <<technology-service>>
@@ -28,6 +29,8 @@ Rel_Flow(Prometheus, ProductAPI, "scrape\nmetrics")
 Rel_Flow(ProductAPI, OTC, logs)
 Rel_Flow(ProductAPI, OTC, metrics)
 Rel_Flow(ProductAPI, OTC, spans)
+
+Rel_Flow(BasketAPI, OTC, spans)
 
 Rel_Flow(OTC, Loki, logs)
 Rel_Flow(Loki, Grafana, logs)
