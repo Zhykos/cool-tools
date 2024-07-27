@@ -3,7 +3,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index()
+GET     /                           controllers.BasketController.index()
 
 # Routes needed to process a form.
 GET     /$model;format="camel"$                       controllers.$model;format="Camel"$Controller.$model;format="camel"$Get(request: Request)

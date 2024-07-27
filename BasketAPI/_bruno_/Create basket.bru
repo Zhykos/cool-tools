@@ -1,0 +1,21 @@
+meta {
+  name: Create basket
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://{{url}}/basket/:userId
+  body: json
+  auth: none
+}
+
+params:path {
+  userId: 0
+}
+
+body:json {
+  {
+    "productId": "0000"
+  }
+}
