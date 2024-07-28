@@ -29,4 +29,5 @@ services:
     ports:
       - "9003:9000"
     environment:
+      - OTEL_SERVICE_NAME=fr.zhykos.demo.otp/BasketAPI
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
