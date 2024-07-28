@@ -23,3 +23,10 @@ services:
       - SPRING_R2DBC_URL=r2dbc:postgresql://${EXTERNAL_IP}:9012/db
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:9002/actuator/health || exit 1
+
+  basket-api:
+    build: BasketAPI
+    ports:
+      - "9003:9000"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
