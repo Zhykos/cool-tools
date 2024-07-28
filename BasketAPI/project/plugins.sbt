@@ -5,3 +5,4 @@ addSbtPlugin("org.playframework" % "sbt-plugin" % "3.0.4")
 // http://www.foundweekends.org/giter8/scaffolding.html
 // sbt "g8Scaffold form"
 addSbtPlugin("org.foundweekends.giter8" % "sbt-giter8-scaffold" % "0.16.2")
+addSbtPlugin("com.lightbend.sbt" % "sbt-javaagent" % "0.1.6")
