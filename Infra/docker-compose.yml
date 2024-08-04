@@ -103,6 +103,15 @@ services:
     ports:
       - "9012:5432"
 
+  mongo-orders:
+    image: mongo:7-jammy
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "9014:27017"
+
 volumes:
   prometheus_data: { }
   loki_data: {}
