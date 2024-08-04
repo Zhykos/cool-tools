@@ -2,40 +2,38 @@ package handlers
 
 import (
     "context"
-    "encoding/json"
     "net/http"
+    "github.com/gin-gonic/gin"
 
     "OrderAPI/config"
     "OrderAPI/models"
-    "go.mongodb.org/mongo-driver/bson"
-    "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // Create a new user
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func CreateUser(c *gin.Context) {
     client, err := config.ConnectToMongoDB()
     if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
+        c.IndentedJSON(http.StatusInternalServerError, err.Error())
         return
     }
     defer client.Disconnect(context.Background())
 
     var user models.User
-    if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
+    if err := c.BindJSON(&user); err != nil {
+        c.IndentedJSON(http.StatusBadRequest, err.Error())
         return
     }
 
     collection := client.Database("your_database_name").Collection("users")
     result, err := collection.InsertOne(context.Background(), user)
     if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
+        c.IndentedJSON(http.StatusInternalServerError, err.Error())
         return
     }
 
-    json.NewEncoder(w).Encode(result)
+    c.IndentedJSON(http.StatusCreated, result)
 }
-
+/*
 // Get all users
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
     client, err := config.ConnectToMongoDB()
@@ -148,3 +146,4 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
     json.NewEncoder(w).Encode(result)
 }
+*/

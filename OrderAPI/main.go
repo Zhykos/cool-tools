@@ -2,19 +2,20 @@ package main
 
 import (
     "fmt"
-    "log"
-    "net/http"
+    "github.com/gin-gonic/gin"
 
     "OrderAPI/handlers"
 )
 
 func main() {
-    http.HandleFunc("/users", handlers.CreateUser)
-    http.HandleFunc("/users", handlers.GetAllUsers)
-    http.HandleFunc("/users/", handlers.GetUserByID)
-    http.HandleFunc("/users/", handlers.UpdateUser)
-    http.HandleFunc("/users/", handlers.DeleteUser)
+    router := gin.Default()
+
+    router.POST("/users", handlers.CreateUser)
+    //router.GET("/users", handlers.GetAllUsers)
+    //router.GET("/users/", handlers.GetUserByID)
+    //router.PATCH("/users/", handlers.UpdateUser)
+    //router.DELETE("/users/", handlers.DeleteUser)
 
     fmt.Println("Server running on port 8080")
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    router.Run("localhost:9004")
 }
