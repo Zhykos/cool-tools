@@ -14,5 +14,5 @@ func main() {
     //router.PATCH("/users/", handlers.UpdateUser)
     //router.DELETE("/users/", handlers.DeleteUser)
 
-    router.Run("localhost:9004")
+    router.Run("0.0.0.0:9004")
 }

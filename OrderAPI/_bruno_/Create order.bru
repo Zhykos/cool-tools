@@ -5,11 +5,15 @@ meta {
 }
 
 post {
-  url: http://localhost:9004/users
+  url: http://{{url}}/order
   body: json
   auth: none
 }
 
 body:json {
-  {}
+  {
+    "UserID": "efsd",
+    "ProductID": "PPPP",
+    "Price": 13
+  }
 }

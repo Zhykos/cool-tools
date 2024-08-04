@@ -31,3 +31,10 @@ services:
     environment:
       - OTEL_SERVICE_NAME=fr.zhykos.demo.otp/BasketAPI
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+
+  order-api:
+    build: OrderAPI
+    ports:
+      - "9004:9004"
+    environment:
+      - MONGODB_URI=mongodb://root:password@${EXTERNAL_IP}:9014

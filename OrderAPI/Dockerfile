@@ -12,4 +12,4 @@ RUN go build
 
 EXPOSE 9004
 
-ENTRYPOINT ["MONGODB_URI=mongodb://root:password@localhost:9014 ./OrderAPI"]
+ENTRYPOINT ["./OrderAPI"]
