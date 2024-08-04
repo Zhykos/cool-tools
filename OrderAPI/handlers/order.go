@@ -4,13 +4,11 @@ import (
     "context"
     "net/http"
     "github.com/gin-gonic/gin"
-
     "OrderAPI/config"
     "OrderAPI/models"
 )
 
-// Create a new user
-func CreateUser(c *gin.Context) {
+func CreateOrder(c *gin.Context) {
     client, err := config.ConnectToMongoDB()
     if err != nil {
         c.IndentedJSON(http.StatusInternalServerError, err.Error())
@@ -18,14 +16,14 @@ func CreateUser(c *gin.Context) {
     }
     defer client.Disconnect(context.Background())
 
-    var user models.User
-    if err := c.BindJSON(&user); err != nil {
+    var order models.Order
+    if err := c.BindJSON(&order); err != nil {
         c.IndentedJSON(http.StatusBadRequest, err.Error())
         return
     }
 
-    collection := client.Database("your_database_name").Collection("users")
-    result, err := collection.InsertOne(context.Background(), user)
+    collection := client.Database("demo-opt-orders").Collection("orders")
+    result, err := collection.InsertOne(context.Background(), order)
     if err != nil {
         c.IndentedJSON(http.StatusInternalServerError, err.Error())
         return
