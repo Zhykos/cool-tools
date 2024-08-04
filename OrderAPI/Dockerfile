@@ -4,7 +4,7 @@ COPY go.mod /build/
 COPY go.sum /build/
 COPY main.go /build/
 COPY config/ /build/config/
-COPY handlers/ /build/handlers/
+COPY services/ /build/services/
 COPY models/ /build/models/
 
 WORKDIR /build/
