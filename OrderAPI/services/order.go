@@ -10,6 +10,7 @@ import (
     "log"
     "net/http"
     "os"
+    "strings"
 
     "OrderAPI/config"
     "OrderAPI/models"
@@ -30,7 +31,9 @@ func CreateOrder(c *gin.Context) {
     }
 
     userName := GetUserName(order.UserID)
+    productName := GetProductName(order.ProductID)
     order.UserName = userName
+    order.ProductName = productName
 
     collection := client.Database("demo-opt-orders").Collection("orders")
     result, err := collection.InsertOne(context.Background(), order)
@@ -65,11 +68,11 @@ func GetUserName(userId string) (string) {
     var users []models.User
     err2 := json.Unmarshal(allUsersRaw, &users)
     if err2 != nil {
-        log.Fatalf("Error unmarshaling JSON: %v", err2)
+        log.Fatalf("Error unmarshalling JSON: %v", err2)
         os.Exit(1)
     }
 
-    user, err3 := searchByValue(users, userId)
+    user, err3 := searchUserById(users, userId)
     if err3 != nil {
         log.Fatalf("Cannot find user: %v", err3)
         os.Exit(1)
@@ -78,11 +81,67 @@ func GetUserName(userId string) (string) {
     return user.Name
 }
 
-func searchByValue(users []models.User, id string) (*models.User, error) {
+func searchUserById(users []models.User, id string) (*models.User, error) {
     for _, item := range users {
         if item.UUID == id {
             return &item, nil
         }
     }
-    return nil, errors.New("item not found")
+    return nil, errors.New("User not found")
+}
+
+func GetProductName(productId string) (string) {
+    uri := os.Getenv("PRODUCT_API_URI")
+    if uri == "" {
+        fmt.Print("PRODUCT_API_URI is not set")
+        os.Exit(1)
+    }
+
+    response, err := http.Get(uri + "/product")
+    defer response.Body.Close()
+
+    if err != nil {
+        fmt.Print(err.Error())
+        os.Exit(1)
+    }
+
+    allProductsRaw, err := ioutil.ReadAll(response.Body)
+    if err != nil {
+        log.Fatal(err)
+        os.Exit(1)
+    }
+
+    var products []models.Product
+    groups := strings.Split(string(allProductsRaw), "\n")
+    for _, group := range groups {
+        group = strings.Trim(group, " ")
+        if group == "" {
+            continue
+        }
+
+        var product models.Product
+        err2 := json.Unmarshal([]byte(group), &product)
+        if err2 != nil {
+            log.Fatalf("Error unmarshalling JSON: %v", err2)
+            os.Exit(1)
+        }
+        products = append(products, product)
+    }
+
+    product, err3 := searchProductById(products, productId)
+    if err3 != nil {
+        log.Fatalf("Cannot find product: %v", err3)
+        os.Exit(1)
+    }
+
+    return product.Name
+}
+
+func searchProductById(products []models.Product, id string) (*models.Product, error) {
+    for _, item := range products {
+        if item.UUID == id {
+            return &item, nil
+        }
+    }
+    return nil, errors.New("Product not found")
 }
