@@ -10,5 +10,5 @@ type Order struct {
     UserName string `bson:"user_name,omitempty"`
     ProductID string `bson:"product_id,omitempty"`
     ProductName string `bson:"product_name,omitempty"`
-    Price int `bson:"price,omitempty"`
+    Price float64 `bson:"price,omitempty"`
 }

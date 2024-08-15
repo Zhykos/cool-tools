@@ -31,9 +31,10 @@ func CreateOrder(c *gin.Context) {
     }
 
     userName := GetUserName(order.UserID)
-    productName := GetProductName(order.ProductID)
+    product := GetProduct(order.ProductID)
     order.UserName = userName
-    order.ProductName = productName
+    order.ProductName = product.Name
+    order.Price = product.Price
 
     collection := client.Database("demo-opt-orders").Collection("orders")
     result, err := collection.InsertOne(context.Background(), order)
@@ -90,7 +91,7 @@ func searchUserById(users []models.User, id string) (*models.User, error) {
     return nil, errors.New("User not found")
 }
 
-func GetProductName(productId string) (string) {
+func GetProduct(productId string) (models.Product) {
     uri := os.Getenv("PRODUCT_API_URI")
     if uri == "" {
         fmt.Print("PRODUCT_API_URI is not set")
@@ -134,7 +135,7 @@ func GetProductName(productId string) (string) {
         os.Exit(1)
     }
 
-    return product.Name
+    return *product
 }
 
 func searchProductById(products []models.Product, id string) (*models.Product, error) {
