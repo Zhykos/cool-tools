@@ -38,3 +38,5 @@ services:
       - "9004:9004"
     environment:
       - MONGODB_URI=mongodb://root:password@${EXTERNAL_IP}:9014
+      - USER_API_URI=http://user-api:9001
+      - PRODUCT_API_URI=http://product-api:9002
