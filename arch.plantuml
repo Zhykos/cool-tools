@@ -5,10 +5,12 @@ skinparam nodesep 4
 archimate #Application "UserAPI:9001\n(Java/SpringBoot)" as UserAPI <<application-service>>
 archimate #Application "ProductAPI:9002\n(Java/SpringBoot)" as ProductAPI <<application-service>>
 archimate #Application "BasketAPI:9003\n(Java/PlayFramework)" as BasketAPI <<application-service>>
+archimate #Application "OrderAPI:9004\n(Go)" as OrderAPI <<application-service>>
 
 archimate #Technology "Users\n(mem:H2)" as UsersDB <<technology-service>>
 archimate #Technology "Products:9012\n(PostgreSQL)" as ProductsDB <<technology-service>>
 archimate #Technology "Baskets\n(Java map)" as BasketsDB <<technology-service>>
+archimate #Technology "Orders:9014\n(MongoDB)" as OrdersDB <<technology-service>>
 
 archimate #Application "Zipkin:9411" as Zipkin <<application-service>>
 archimate #Application "Grafana:3000" as Grafana <<application-service>>
@@ -20,6 +22,10 @@ archimate #Technology Loki <<technology-service>>
 Rel_Access_rw(UserAPI, UsersDB)
 Rel_Access_rw(ProductAPI, ProductsDB)
 Rel_Access_rw(BasketAPI, BasketsDB)
+Rel_Access_rw(OrderAPI, OrdersDB)
+
+Rel_Access_r(UserAPI, OrderAPI)
+Rel_Access_r(ProductAPI, OrderAPI)
 
 Rel_Flow(UserAPI, OTC, logs)
 Rel_Flow(UserAPI, OTC, metrics)
