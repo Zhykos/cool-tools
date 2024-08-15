@@ -7,7 +7,6 @@ import (
     "fmt"
     "github.com/gin-gonic/gin"
     "io/ioutil"
-    "log"
     "net/http"
     "os"
     "strings"
@@ -31,8 +30,18 @@ func CreateOrder(c *gin.Context) {
     }
 
     userName := GetUserName(order.UserID)
+    if userName == nil {
+        c.IndentedJSON(http.StatusInternalServerError, "Cannot get user name")
+        return
+    }
+
     product := GetProduct(order.ProductID)
-    order.UserName = userName
+    if product == nil {
+        c.IndentedJSON(http.StatusInternalServerError, "Cannot get product")
+        return
+    }
+
+    order.UserName = *userName
     order.ProductName = product.Name
     order.Price = product.Price
 
@@ -46,40 +55,40 @@ func CreateOrder(c *gin.Context) {
     c.IndentedJSON(http.StatusCreated, result)
 }
 
-func GetUserName(userId string) (string) {
+func GetUserName(userId string) (*string) {
     uri := os.Getenv("USER_API_URI")
     if uri == "" {
         fmt.Print("USER_API_URI is not set")
-        os.Exit(1)
+        return nil
     }
 
     response, err := http.Get(uri + "/user")
 
     if err != nil {
         fmt.Print(err.Error())
-        os.Exit(1)
+        return nil
     }
 
     allUsersRaw, err := ioutil.ReadAll(response.Body)
     if err != nil {
-        log.Fatal(err)
-        os.Exit(1)
+        fmt.Print(err.Error())
+        return nil
     }
 
     var users []models.User
     err2 := json.Unmarshal(allUsersRaw, &users)
     if err2 != nil {
-        log.Fatalf("Error unmarshalling JSON: %v", err2)
-        os.Exit(1)
+        fmt.Print(err2.Error())
+        return nil
     }
 
     user, err3 := searchUserById(users, userId)
     if err3 != nil {
-        log.Fatalf("Cannot find user: %v", err3)
-        os.Exit(1)
+        fmt.Print(err3.Error())
+        return nil
     }
 
-    return user.Name
+    return &user.Name
 }
 
 func searchUserById(users []models.User, id string) (*models.User, error) {
@@ -91,11 +100,11 @@ func searchUserById(users []models.User, id string) (*models.User, error) {
     return nil, errors.New("User not found")
 }
 
-func GetProduct(productId string) (models.Product) {
+func GetProduct(productId string) (*models.Product) {
     uri := os.Getenv("PRODUCT_API_URI")
     if uri == "" {
         fmt.Print("PRODUCT_API_URI is not set")
-        os.Exit(1)
+        return nil
     }
 
     response, err := http.Get(uri + "/product")
@@ -103,13 +112,13 @@ func GetProduct(productId string) (models.Product) {
 
     if err != nil {
         fmt.Print(err.Error())
-        os.Exit(1)
+        return nil
     }
 
     allProductsRaw, err := ioutil.ReadAll(response.Body)
     if err != nil {
-        log.Fatal(err)
-        os.Exit(1)
+        fmt.Print(err.Error())
+        return nil
     }
 
     var products []models.Product
@@ -123,19 +132,19 @@ func GetProduct(productId string) (models.Product) {
         var product models.Product
         err2 := json.Unmarshal([]byte(group), &product)
         if err2 != nil {
-            log.Fatalf("Error unmarshalling JSON: %v", err2)
-            os.Exit(1)
+            fmt.Print(err2.Error())
+            return nil
         }
         products = append(products, product)
     }
 
     product, err3 := searchProductById(products, productId)
     if err3 != nil {
-        log.Fatalf("Cannot find product: %v", err3)
-        os.Exit(1)
+        fmt.Print(err3.Error())
+        return nil
     }
 
-    return *product
+    return product
 }
 
 func searchProductById(products []models.Product, id string) (*models.Product, error) {
