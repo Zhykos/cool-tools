@@ -5,7 +5,7 @@ import (
     "encoding/json"
     "errors"
     "fmt"
-    "github.com/gin-gonic/gin"
+    "go.mongodb.org/mongo-driver/mongo"
     "io/ioutil"
     "net/http"
     "os"
@@ -15,30 +15,21 @@ import (
     "OrderAPI/models"
 )
 
-func CreateOrder(c *gin.Context) {
+func CreateOrder(order models.Order) (*mongo.InsertOneResult, string, *error) {
     client, err := config.ConnectToMongoDB()
     if err != nil {
-        c.IndentedJSON(http.StatusInternalServerError, err.Error())
-        return
+        return nil, "", &err
     }
     defer client.Disconnect(context.Background())
 
-    var order models.Order
-    if err := c.BindJSON(&order); err != nil {
-        c.IndentedJSON(http.StatusBadRequest, err.Error())
-        return
-    }
-
     userName := GetUserName(order.UserID)
     if userName == nil {
-        c.IndentedJSON(http.StatusInternalServerError, "Cannot get user name")
-        return
+        return nil, "Cannot get user name", nil
     }
 
     product := GetProduct(order.ProductID)
     if product == nil {
-        c.IndentedJSON(http.StatusInternalServerError, "Cannot get product")
-        return
+        return nil, "Cannot get product", nil
     }
 
     order.UserName = *userName
@@ -48,11 +39,10 @@ func CreateOrder(c *gin.Context) {
     collection := client.Database("demo-opt-orders").Collection("orders")
     result, err := collection.InsertOne(context.Background(), order)
     if err != nil {
-        c.IndentedJSON(http.StatusInternalServerError, err.Error())
-        return
+        return nil, "", &err
     }
 
-    c.IndentedJSON(http.StatusCreated, result)
+    return result, "", nil
 }
 
 func GetUserName(userId string) (*string) {
