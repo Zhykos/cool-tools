@@ -5,7 +5,9 @@ import (
     "encoding/json"
     "errors"
     "fmt"
+    "go.opentelemetry.io/contrib/bridges/otelslog"
     "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+    "go.opentelemetry.io/otel"
     "log"
     "net"
     "net/http"
@@ -15,6 +17,13 @@ import (
 
     "OrderAPI/models"
     "OrderAPI/services"
+)
+
+const name = "OrderAPI"
+
+var (
+	tracer = otel.Tracer(name)
+	logger = otelslog.NewLogger(name)
 )
 
 func main() {
@@ -82,6 +91,9 @@ func newHTTPHandler() http.Handler {
 
 func createOrderRoute(handleFunc func(pattern string, handlerFunc func(http.ResponseWriter, *http.Request))) {
     handleFunc("/order", func(w http.ResponseWriter, r *http.Request) {
+    	ctx, span := tracer.Start(r.Context(), "createOrder")
+    	defer span.End()
+
         if r.Method != http.MethodPost  {
             http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
             return
@@ -94,6 +106,7 @@ func createOrderRoute(handleFunc func(pattern string, handlerFunc func(http.Resp
             return
         }
 
+        logger.InfoContext(ctx, "create order:", createOrderDTO)
         fmt.Println("create order:", createOrderDTO)
         result, errStr, err2 := services.CreateOrder(*createOrderDTO)
 
