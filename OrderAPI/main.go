@@ -36,7 +36,7 @@ func initTracer(ctx context.Context) (*sdktrace.TracerProvider, error) {
 	tp := sdktrace.NewTracerProvider(
 		sdktrace.WithSampler(sdktrace.AlwaysSample()),
 		sdktrace.WithBatcher(exporter),
-		sdktrace.WithResource(resource.NewWithAttributes(semconv.SchemaURL, semconv.ServiceName("ExampleService"))),
+		sdktrace.WithResource(resource.NewWithAttributes(semconv.SchemaURL, semconv.ServiceName("OrderAPI"))),
 	)
 	otel.SetTracerProvider(tp)
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
@@ -86,7 +86,7 @@ func main() {
         createOrder(w, req)
 	}
 
-	otelHandler := otelhttp.NewHandler(http.HandlerFunc(createOrderHandler), "Create Order")
+	otelHandler := otelhttp.NewHandler(http.HandlerFunc(createOrderHandler), "post /order")
 
 	http.Handle("/order", otelHandler)
 	err = http.ListenAndServe("0.0.0.0:9004", nil)
