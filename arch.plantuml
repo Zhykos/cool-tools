@@ -35,9 +35,11 @@ Rel_Flow(ProductAPI, OTC, logs)
 Rel_Flow(ProductAPI, OTC, metrics)
 Rel_Flow(ProductAPI, OTC, spans)
 
+Rel_Flow(BasketAPI, OTC, logs)
 Rel_Flow(BasketAPI, OTC, metrics)
 Rel_Flow(BasketAPI, OTC, spans)
-Rel_Flow(BasketAPI, OTC, spans)
+
+Rel_Flow(OrderAPI, OTC, spans)
 
 Rel_Flow(Prometheus, UserAPI, "scrape\nmetrics")
 Rel_Flow(Prometheus, ProductAPI, "scrape\nmetrics")
