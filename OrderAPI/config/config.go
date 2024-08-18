@@ -4,6 +4,7 @@ import (
     "context"
     "fmt"
     "os"
+    "go.opentelemetry.io/contrib/instrumentation/go.mongodb.org/mongo-driver/mongo/otelmongo"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -14,7 +15,9 @@ func ConnectToMongoDB() (*mongo.Client, error) {
         return nil, fmt.Errorf("MONGODB_URI is not set")
     }
 
-    clientOptions := options.Client().ApplyURI(uri)
+    mongoClient := options.Client()
+    mongoClient.Monitor = otelmongo.NewMonitor()
+    clientOptions := mongoClient.ApplyURI(uri)
     client, err := mongo.Connect(context.Background(), clientOptions)
     if err != nil {
         return nil, err
