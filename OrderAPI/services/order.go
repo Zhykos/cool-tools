@@ -6,7 +6,14 @@ import (
     "errors"
     "fmt"
     "go.mongodb.org/mongo-driver/mongo"
+    "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+    //"go.opentelemetry.io/otel"
+    //"go.opentelemetry.io/otel/baggage"
+    //semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
+    //"go.opentelemetry.io/otel/trace"
+    "io"
     "io/ioutil"
+    "log"
     "net/http"
     "os"
     "strings"
@@ -54,6 +61,8 @@ func GetUserName(userId string) (*string) {
 
     response, err := http.Get(uri + "/user")
 
+    callAllUsers()
+
     if err != nil {
         fmt.Print(err.Error())
         return nil
@@ -79,6 +88,38 @@ func GetUserName(userId string) (*string) {
     }
 
     return &user.Name
+}
+
+func callAllUsers() {
+    client := http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
+
+    //bag, _ := baggage.Parse("username=donuts")
+    //ctx := baggage.ContextWithBaggage(context.Background(), bag)
+
+    var body []byte
+
+    //tr := otel.Tracer("example/client")
+    err := func(ctx context.Context) error {
+        //ctx, span := tr.Start(ctx, "say hello", trace.WithAttributes(semconv.PeerService("ExampleService")))
+        //defer span.End()
+        req, _ := http.NewRequestWithContext(ctx, "GET", "http://localhost:9001/user", nil)
+
+        fmt.Printf("Sending request...\n")
+        res, err := client.Do(req)
+        if err != nil {
+            panic(err)
+        }
+        body, err = io.ReadAll(res.Body)
+        _ = res.Body.Close()
+
+        return err
+    }(context.Background())
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Printf("Response Received: %s\n\n\n", body)
 }
 
 func searchUserById(users []models.User, id string) (*models.User, error) {
