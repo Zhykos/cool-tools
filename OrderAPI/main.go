@@ -72,13 +72,9 @@ func main() {
 		}
 	}()
 
-	createOrderHandler := func(w http.ResponseWriter, req *http.Request) {
-        createOrder(w, req)
-	}
+	createOrderHandler := otelhttp.NewHandler(http.HandlerFunc(createOrder), "post /order")
+	http.Handle("/order", createOrderHandler)
 
-	otelHandler := otelhttp.NewHandler(http.HandlerFunc(createOrderHandler), "post /order")
-
-	http.Handle("/order", otelHandler)
 	err = http.ListenAndServe("0.0.0.0:9004", nil)
 	if err != nil {
 		log.Fatal(err)
