@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/baggage"
 	"go.opentelemetry.io/otel/exporters/stdout/stdoutmetric"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/propagation"
@@ -15,7 +13,6 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
-	"go.opentelemetry.io/otel/trace"
 	"log"
 	"net/http"
 
@@ -75,14 +72,7 @@ func main() {
 		}
 	}()
 
-	uk := attribute.Key("username")
-
 	createOrderHandler := func(w http.ResponseWriter, req *http.Request) {
-		ctx := req.Context()
-		span := trace.SpanFromContext(ctx)
-		bag := baggage.FromContext(ctx)
-		span.AddEvent("handling this...", trace.WithAttributes(uk.String(bag.Member("username").Value())))
-
         createOrder(w, req)
 	}
 
