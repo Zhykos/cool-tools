@@ -30,7 +30,7 @@ func CreateOrder(order models.Order, ctx context.Context) (*mongo.InsertOneResul
         return nil, "Cannot get user name", nil
     }
 
-    product := GetProduct(order.ProductID)
+    product := GetProduct(order.ProductID, ctx)
     if product == nil {
         return nil, "Cannot get product", nil
     }
@@ -49,35 +49,13 @@ func CreateOrder(order models.Order, ctx context.Context) (*mongo.InsertOneResul
 }
 
 func GetUserName(userId string, ctx context.Context) (*string) {
-    uri := os.Getenv("USER_API_URI")
-    if uri == "" {
-        fmt.Print("USER_API_URI is not set")
+    users := callAllUsers(ctx)
+    if users == nil {
+        fmt.Print("Cannot get users")
         return nil
     }
 
-    response, err := http.Get(uri + "/user")
-
-    callAllUsers(ctx)
-
-    if err != nil {
-        fmt.Print(err.Error())
-        return nil
-    }
-
-    allUsersRaw, err := ioutil.ReadAll(response.Body)
-    if err != nil {
-        fmt.Print(err.Error())
-        return nil
-    }
-
-    var users []models.User
-    err2 := json.Unmarshal(allUsersRaw, &users)
-    if err2 != nil {
-        fmt.Print(err2.Error())
-        return nil
-    }
-
-    user, err3 := searchUserById(users, userId)
+    user, err3 := searchUserById(*users, userId)
     if err3 != nil {
         fmt.Print(err3.Error())
         return nil
@@ -86,12 +64,17 @@ func GetUserName(userId string, ctx context.Context) (*string) {
     return &user.Name
 }
 
-func callAllUsers(ctx context.Context) {
+func callAllUsers(ctx context.Context) (*[]models.User) {
     client := http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
 
     var body []byte
 
     err := func(ctx context.Context) error {
+        uri := os.Getenv("USER_API_URI")
+        if uri == "" {
+            panic("USER_API_URI is not set")
+        }
+
         req, _ := http.NewRequestWithContext(ctx, "GET", "http://localhost:9001/user", nil)
 
         fmt.Printf("Sending request...\n")
@@ -109,7 +92,14 @@ func callAllUsers(ctx context.Context) {
         log.Fatal(err)
     }
 
-    fmt.Printf("Response Received: %s\n\n\n", body)
+    var users []models.User
+    err2 := json.Unmarshal(body, &users)
+    if err2 != nil {
+        fmt.Print(err2.Error())
+        return nil
+    }
+
+    return &users
 }
 
 func searchUserById(users []models.User, id string) (*models.User, error) {
@@ -121,7 +111,7 @@ func searchUserById(users []models.User, id string) (*models.User, error) {
     return nil, errors.New("User not found")
 }
 
-func GetProduct(productId string) (*models.Product) {
+func GetProduct(productId string, ctx context.Context) (*models.Product) {
     uri := os.Getenv("PRODUCT_API_URI")
     if uri == "" {
         fmt.Print("PRODUCT_API_URI is not set")
