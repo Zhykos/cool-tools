@@ -7,10 +7,6 @@ import (
     "fmt"
     "go.mongodb.org/mongo-driver/mongo"
     "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
-    //"go.opentelemetry.io/otel"
-    //"go.opentelemetry.io/otel/baggage"
-    //semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
-    //"go.opentelemetry.io/otel/trace"
     "io"
     "io/ioutil"
     "log"
@@ -93,15 +89,9 @@ func GetUserName(userId string, ctx context.Context) (*string) {
 func callAllUsers(ctx context.Context) {
     client := http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
 
-    //bag, _ := baggage.Parse("username=donuts")
-    //ctx := baggage.ContextWithBaggage(context.Background(), bag)
-
     var body []byte
 
-    //tr := otel.Tracer("example/client")
     err := func(ctx context.Context) error {
-        //ctx, span := tr.Start(ctx, "say hello", trace.WithAttributes(semconv.PeerService("ExampleService")))
-        //defer span.End()
         req, _ := http.NewRequestWithContext(ctx, "GET", "http://localhost:9001/user", nil)
 
         fmt.Printf("Sending request...\n")
