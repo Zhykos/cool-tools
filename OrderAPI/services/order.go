@@ -8,7 +8,6 @@ import (
     "go.mongodb.org/mongo-driver/mongo"
     "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
     "io"
-    "io/ioutil"
     "log"
     "net/http"
     "os"
@@ -75,7 +74,7 @@ func callAllUsers(ctx context.Context) (*[]models.User) {
             panic("USER_API_URI is not set")
         }
 
-        req, _ := http.NewRequestWithContext(ctx, "GET", "http://localhost:9001/user", nil)
+        req, _ := http.NewRequestWithContext(ctx, "GET", uri + "/user", nil)
 
         fmt.Printf("Sending request...\n")
         res, err := client.Do(req)
@@ -112,44 +111,13 @@ func searchUserById(users []models.User, id string) (*models.User, error) {
 }
 
 func GetProduct(productId string, ctx context.Context) (*models.Product) {
-    uri := os.Getenv("PRODUCT_API_URI")
-    if uri == "" {
-        fmt.Print("PRODUCT_API_URI is not set")
+    products := callAllProducts(ctx)
+    if products == nil {
+        fmt.Print("Cannot get products")
         return nil
     }
 
-    response, err := http.Get(uri + "/product")
-    defer response.Body.Close()
-
-    if err != nil {
-        fmt.Print(err.Error())
-        return nil
-    }
-
-    allProductsRaw, err := ioutil.ReadAll(response.Body)
-    if err != nil {
-        fmt.Print(err.Error())
-        return nil
-    }
-
-    var products []models.Product
-    groups := strings.Split(string(allProductsRaw), "\n")
-    for _, group := range groups {
-        group = strings.Trim(group, " ")
-        if group == "" {
-            continue
-        }
-
-        var product models.Product
-        err2 := json.Unmarshal([]byte(group), &product)
-        if err2 != nil {
-            fmt.Print(err2.Error())
-            return nil
-        }
-        products = append(products, product)
-    }
-
-    product, err3 := searchProductById(products, productId)
+    product, err3 := searchProductById(*products, productId)
     if err3 != nil {
         fmt.Print(err3.Error())
         return nil
@@ -165,4 +133,52 @@ func searchProductById(products []models.Product, id string) (*models.Product, e
         }
     }
     return nil, errors.New("Product not found")
+}
+
+func callAllProducts(ctx context.Context) (*[]models.Product) {
+    client := http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
+
+    var body []byte
+
+    err := func(ctx context.Context) error {
+        uri := os.Getenv("PRODUCT_API_URI")
+        if uri == "" {
+            panic("PRODUCT_API_URI is not set")
+        }
+
+        req, _ := http.NewRequestWithContext(ctx, "GET", uri + "/product", nil)
+
+        fmt.Printf("Sending request...\n")
+        res, err := client.Do(req)
+        if err != nil {
+            panic(err)
+        }
+        body, err = io.ReadAll(res.Body)
+        _ = res.Body.Close()
+
+        return err
+    }(ctx)
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    var products []models.Product
+    groups := strings.Split(string(body), "\n")
+    for _, group := range groups {
+        group = strings.Trim(group, " ")
+        if group == "" {
+            continue
+        }
+
+        var product models.Product
+        err2 := json.Unmarshal([]byte(group), &product)
+        if err2 != nil {
+            fmt.Print(err2.Error())
+            return nil
+        }
+        products = append(products, product)
+    }
+
+    return &products
 }
