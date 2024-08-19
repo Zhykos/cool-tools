@@ -22,14 +22,14 @@ import (
     "OrderAPI/models"
 )
 
-func CreateOrder(order models.Order) (*mongo.InsertOneResult, string, *error) {
+func CreateOrder(order models.Order, ctx context.Context) (*mongo.InsertOneResult, string, *error) {
     client, err := config.ConnectToMongoDB()
     if err != nil {
         return nil, "", &err
     }
     defer client.Disconnect(context.Background())
 
-    userName := GetUserName(order.UserID)
+    userName := GetUserName(order.UserID, ctx)
     if userName == nil {
         return nil, "Cannot get user name", nil
     }
@@ -52,7 +52,7 @@ func CreateOrder(order models.Order) (*mongo.InsertOneResult, string, *error) {
     return result, "", nil
 }
 
-func GetUserName(userId string) (*string) {
+func GetUserName(userId string, ctx context.Context) (*string) {
     uri := os.Getenv("USER_API_URI")
     if uri == "" {
         fmt.Print("USER_API_URI is not set")
@@ -61,7 +61,7 @@ func GetUserName(userId string) (*string) {
 
     response, err := http.Get(uri + "/user")
 
-    callAllUsers()
+    callAllUsers(ctx)
 
     if err != nil {
         fmt.Print(err.Error())
@@ -90,7 +90,7 @@ func GetUserName(userId string) (*string) {
     return &user.Name
 }
 
-func callAllUsers() {
+func callAllUsers(ctx context.Context) {
     client := http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
 
     //bag, _ := baggage.Parse("username=donuts")
@@ -113,7 +113,7 @@ func callAllUsers() {
         _ = res.Body.Close()
 
         return err
-    }(context.Background())
+    }(ctx)
 
     if err != nil {
         log.Fatal(err)

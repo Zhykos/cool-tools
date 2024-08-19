@@ -96,7 +96,8 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 
     //logger.InfoContext(ctx, "create order:", createOrderDTO)
     fmt.Println("create order:", createOrderDTO)
-    result, errStr, err2 := services.CreateOrder(*createOrderDTO)
+    ctx := r.Context()
+    result, errStr, err2 := services.CreateOrder(*createOrderDTO, ctx)
 
     if err2 != nil {
         w.WriteHeader(http.StatusInternalServerError)
