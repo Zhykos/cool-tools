@@ -18,11 +18,11 @@ import (
 )
 
 func CreateOrder(order models.Order, ctx context.Context) (*mongo.InsertOneResult, string, *error) {
-    client, err := config.ConnectToMongoDB()
+    client, err := config.ConnectToMongoDB(ctx)
     if err != nil {
         return nil, "", &err
     }
-    defer client.Disconnect(context.Background())
+    defer client.Disconnect(ctx)
 
     userName := GetUserName(order.UserID, ctx)
     if userName == nil {
@@ -39,7 +39,7 @@ func CreateOrder(order models.Order, ctx context.Context) (*mongo.InsertOneResul
     order.Price = product.Price
 
     collection := client.Database("demo-opt-orders").Collection("orders")
-    result, err := collection.InsertOne(context.Background(), order)
+    result, err := collection.InsertOne(ctx, order)
     if err != nil {
         return nil, "", &err
     }

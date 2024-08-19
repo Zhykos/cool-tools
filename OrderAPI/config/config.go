@@ -9,7 +9,7 @@ import (
     "go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func ConnectToMongoDB() (*mongo.Client, error) {
+func ConnectToMongoDB(ctx context.Context) (*mongo.Client, error) {
     uri := os.Getenv("MONGODB_URI")
     if uri == "" {
         return nil, fmt.Errorf("MONGODB_URI is not set")
@@ -18,12 +18,12 @@ func ConnectToMongoDB() (*mongo.Client, error) {
     mongoClient := options.Client()
     mongoClient.Monitor = otelmongo.NewMonitor()
     clientOptions := mongoClient.ApplyURI(uri)
-    client, err := mongo.Connect(context.Background(), clientOptions)
+    client, err := mongo.Connect(ctx, clientOptions)
     if err != nil {
         return nil, err
     }
 
-    err = client.Ping(context.Background(), nil)
+    err = client.Ping(ctx, nil)
     if err != nil {
         return nil, err
     }
