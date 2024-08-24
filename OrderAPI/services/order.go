@@ -5,7 +5,7 @@ import (
     "encoding/json"
     "errors"
     "fmt"
-    "github.com/segmentio/kafka-go"
+    "github.com/twmb/franz-go/pkg/kgo"
     "go.mongodb.org/mongo-driver/bson/primitive"
     "go.mongodb.org/mongo-driver/mongo"
     "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
@@ -14,6 +14,7 @@ import (
     "net/http"
     "os"
     "strings"
+    "sync"
 
     "OrderAPI/config"
     "OrderAPI/models"
@@ -193,12 +194,6 @@ func sendOrderToKafka(order models.Order, result mongo.InsertOneResult, ctx cont
         panic("KAFKA_URI is not set")
     }
 
-    w := &kafka.Writer{
-        Addr:     kafka.TCP(uri),
-        Topic:   "orders",
-        Balancer: &kafka.LeastBytes{},
-    }
-
     orderId := result.InsertedID.(primitive.ObjectID).Hex()
 
     orderKafka := models.OrderKafka{
@@ -215,17 +210,24 @@ func sendOrderToKafka(order models.Order, result mongo.InsertOneResult, ctx cont
         log.Fatal("failed to marshal order:", errMarshal)
     }
 
-    err := w.WriteMessages(ctx,
-        kafka.Message{
-            Key:   []byte("order-" + orderId),
-            Value: json,
-        },
+    seeds := []string{uri}
+    cl, errNewClient := kgo.NewClient(
+        kgo.SeedBrokers(seeds...),
     )
-    if err != nil {
-        log.Fatal("failed to write messages:", err)
+    if errNewClient != nil {
+        panic(errNewClient)
     }
+    defer cl.Close()
 
-    if err := w.Close(); err != nil {
-        log.Fatal("failed to close writer:", err)
-    }
+    var wg sync.WaitGroup
+    wg.Add(1)
+    record := &kgo.Record{Topic: "orders", Key: []byte(orderId), Value: json}
+    cl.Produce(ctx, record, func(_ *kgo.Record, err error) {
+        defer wg.Done()
+        if err != nil {
+            fmt.Printf("record had a produce error: %v\n", err)
+        }
+
+    })
+    wg.Wait()
 }
