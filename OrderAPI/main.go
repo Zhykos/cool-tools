@@ -13,12 +13,15 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
+	"go.opentelemetry.io/otel/trace"
 	"log"
 	"net/http"
 
 	"OrderAPI/models"
     "OrderAPI/services"
 )
+
+var tracerProvider trace.TracerProvider
 
 func initTracer(ctx context.Context) (*sdktrace.TracerProvider, error) {
 	// Create stdout exporter to be able to retrieve
@@ -53,6 +56,8 @@ func initMeter() (*sdkmetric.MeterProvider, error) {
 
 func main() {
 	tp, err := initTracer(context.Background())
+	tracerProvider = tp
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -97,7 +102,7 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
     //logger.InfoContext(ctx, "create order:", createOrderDTO)
     fmt.Println("create order:", createOrderDTO)
     ctx := r.Context()
-    result, errStr, err2 := services.CreateOrder(*createOrderDTO, ctx)
+    result, errStr, err2 := services.CreateOrder(*createOrderDTO, ctx, tracerProvider)
 
     if err2 != nil {
         w.WriteHeader(http.StatusInternalServerError)

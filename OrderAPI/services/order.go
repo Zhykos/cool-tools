@@ -6,9 +6,12 @@ import (
     "errors"
     "fmt"
     "github.com/twmb/franz-go/pkg/kgo"
+    "github.com/twmb/franz-go/plugin/kotel"
     "go.mongodb.org/mongo-driver/bson/primitive"
     "go.mongodb.org/mongo-driver/mongo"
     "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+    "go.opentelemetry.io/otel/propagation"
+    "go.opentelemetry.io/otel/trace"
     "io"
     "log"
     "net/http"
@@ -20,7 +23,7 @@ import (
     "OrderAPI/models"
 )
 
-func CreateOrder(order models.Order, ctx context.Context) (*mongo.InsertOneResult, string, *error) {
+func CreateOrder(order models.Order, ctx context.Context, tracerProvider trace.TracerProvider) (*mongo.InsertOneResult, string, *error) {
     client, err := config.ConnectToMongoDB(ctx)
     if err != nil {
         return nil, "", &err
@@ -47,7 +50,7 @@ func CreateOrder(order models.Order, ctx context.Context) (*mongo.InsertOneResul
         return nil, "", &err
     }
 
-    sendOrderToKafka(order, *result, ctx)
+    sendOrderToKafka(order, *result, ctx, tracerProvider)
 
     return result, "", nil
 }
@@ -188,11 +191,8 @@ func callAllProducts(ctx context.Context) (*[]models.Product) {
     return &products
 }
 
-func sendOrderToKafka(order models.Order, result mongo.InsertOneResult, ctx context.Context) {
-    uri := os.Getenv("KAFKA_URI")
-    if uri == "" {
-        panic("KAFKA_URI is not set")
-    }
+func sendOrderToKafka(order models.Order, result mongo.InsertOneResult, ctx context.Context, tracerProvider trace.TracerProvider) {
+    // Objects to send to Kafka
 
     orderId := result.InsertedID.(primitive.ObjectID).Hex()
 
@@ -210,9 +210,28 @@ func sendOrderToKafka(order models.Order, result mongo.InsertOneResult, ctx cont
         log.Fatal("failed to marshal order:", errMarshal)
     }
 
+    // Send to Kafka
+
+    uri := os.Getenv("KAFKA_URI")
+    if uri == "" {
+        panic("KAFKA_URI is not set")
+    }
+
+    tracerOpts := []kotel.TracerOpt{
+        kotel.TracerProvider(tracerProvider),
+        kotel.TracerPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{})),
+    }
+    tracer := kotel.NewTracer(tracerOpts...)
+
+    kotelOps := []kotel.Opt{
+        kotel.WithTracer(tracer),
+    }
+    kotelService := kotel.NewKotel(kotelOps...)
+
     seeds := []string{uri}
     cl, errNewClient := kgo.NewClient(
         kgo.SeedBrokers(seeds...),
+        kgo.WithHooks(kotelService.Hooks()...),
     )
     if errNewClient != nil {
         panic(errNewClient)

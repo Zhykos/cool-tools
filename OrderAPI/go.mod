@@ -29,6 +29,7 @@ require (
 	github.com/segmentio/kafka-go v0.4.47 // indirect
 	github.com/twmb/franz-go v1.17.1 // indirect
 	github.com/twmb/franz-go/pkg/kmsg v1.8.0 // indirect
+	github.com/twmb/franz-go/plugin/kotel v1.5.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
