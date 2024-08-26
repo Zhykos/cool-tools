@@ -1,4 +1,4 @@
-FROM golang:1.22.4-alpine AS build
+FROM golang:1.22.4-alpine
 
 COPY go.mod /build/
 COPY go.sum /build/
