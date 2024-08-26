@@ -6,8 +6,8 @@ services:
     image: prom/prometheus:v2.53.0
     restart: unless-stopped
     volumes:
-      - ./volumes/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./volumes/prometheus/targets/otel_targets.yml:/etc/prometheus/targets/otel_targets.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/targets/otel_targets.yml:/etc/prometheus/targets/otel_targets.yml
       - prometheus_data:/prometheus
     ports:
       - "9090:9090"
@@ -24,7 +24,7 @@ services:
       - --config=/etc/otel/exporters.yml
       - --config=/etc/otel/service.yml
     volumes:
-      - ./volumes/opentelemetry:/etc/otel:ro
+      - ./opentelemetry:/etc/otel:ro
       - ../UserAPI/logs:/logs
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:13133/healthz || exit 1
@@ -51,7 +51,7 @@ services:
       - -config.file=/etc/loki/local-config.yaml
       - -config.expand-env=true
     volumes:
-      - ./volumes/loki/local-config.yaml:/etc/loki/local-config.yaml
+      - ./loki/local-config.yaml:/etc/loki/local-config.yaml
       - loki_data:/loki
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1
