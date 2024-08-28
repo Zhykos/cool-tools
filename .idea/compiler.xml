@@ -10,6 +10,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="invoice-api" />
       </profile>
       <profile name="Annotation profile for ProductAPI" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -32,6 +33,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ProductAPI" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="invoice-api" options="-parameters" />
       <module name="product-api" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="user" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="user-api" options="-parameters -Amapstruct.defaultComponentModel=spring" />
