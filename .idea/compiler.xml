@@ -33,6 +33,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ProductAPI" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="basket-api" options="-encoding utf8 -g" />
       <module name="invoice-api" options="-parameters" />
       <module name="product-api" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="user" options="-parameters -Amapstruct.defaultComponentModel=spring" />
