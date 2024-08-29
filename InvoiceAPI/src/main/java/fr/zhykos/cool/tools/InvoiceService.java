@@ -14,7 +14,11 @@ public class InvoiceService {
     @Inject
     private InvoiceRepository repository;
 
-    public void saveInvoice() {
+    public void saveInvoice(Invoice invoice) {
+        repository.createInvoice(invoice);
+    }
+
+    public void saveFakeInvoice() {
         InvoiceMQ mq = InvoiceMQ.builder()
                 .orderId("123")
                 .userUUID("123")

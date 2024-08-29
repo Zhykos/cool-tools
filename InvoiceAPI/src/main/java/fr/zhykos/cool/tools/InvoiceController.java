@@ -32,6 +32,6 @@ public class InvoiceController {
     @POST
     @ResponseStatus(201)
     public void saveInvoice() {
-        service.saveInvoice();
+        service.saveFakeInvoice();
     }
 }
