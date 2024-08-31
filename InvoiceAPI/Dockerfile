@@ -77,16 +77,25 @@
 #   accessed directly. (example: "foo.example.com,bar.example.com")
 #
 ###
+
+FROM maven:3.9.8-eclipse-temurin-21-alpine AS maven_build
+
+COPY pom.xml /build/
+COPY src /build/src/
+
+WORKDIR /build/
+RUN mvn clean package -DskipTests
+
 FROM registry.access.redhat.com/ubi8/openjdk-21:1.19
 
 ENV LANGUAGE='en_US:en'
 
 
 # We make four distinct layers so if there are application changes the library layers can be re-used
-COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
-COPY --chown=185 target/quarkus-app/*.jar /deployments/
-COPY --chown=185 target/quarkus-app/app/ /deployments/app/
-COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
+COPY --from=maven_build --chown=185 /build/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=maven_build --chown=185 /build/target/quarkus-app/*.jar /deployments/
+COPY --from=maven_build --chown=185 /build/target/quarkus-app/app/ /deployments/app/
+COPY --from=maven_build --chown=185 /build/target/quarkus-app/quarkus/ /deployments/quarkus/
 
 EXPOSE 8080
 USER 185
