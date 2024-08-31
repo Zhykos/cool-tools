@@ -2,27 +2,42 @@
 skinparam nodesep 4
 !include <archimate/Archimate>
 
-archimate #Application "UserAPI:9001\n(Java/SpringBoot)" as UserAPI <<application-service>>
-archimate #Application "ProductAPI:9002\n(Java/SpringBoot)" as ProductAPI <<application-service>>
-archimate #Application "BasketAPI:9003\n(Java/PlayFramework)" as BasketAPI <<application-service>>
-archimate #Application "OrderAPI:9004\n(Go)" as OrderAPI <<application-service>>
-archimate #Application "InvoiceAPI:9005\n(Java/Quarkus)" as InvoiceAPI <<application-service>>
+title "Cool Tools Architecture"
 
-archimate #Technology "Users\n(mem:H2)" as UsersDB <<technology-service>>
-archimate #Technology "Products:9012\n(PostgreSQL)" as ProductsDB <<technology-service>>
-archimate #Technology "Baskets\n(Java map)" as BasketsDB <<technology-service>>
-archimate #Technology "Orders:9014\n(MongoDB)" as OrdersDB <<technology-service>>
-archimate #Technology "Kafka:9092" as Kafka <<technology-service>>
-archimate #Technology "Zookeeper:2181" as Zookeeper <<technology-service>>
-archimate #Technology "Invoices\n(mem:H2)" as InvoicesDB <<technology-service>>
+rectangle "Microservices" <<$archimate/business-function>> #Business{
+    rectangle "APIs" <<$archimate/business-function>> #Business{
+        archimate #Application "UserAPI:9001\n(Java/SpringBoot)" as UserAPI <<application-service>>
+        archimate #Application "ProductAPI:9002\n(Java/SpringBoot)" as ProductAPI <<application-service>>
+        archimate #Application "BasketAPI:9003\n(Java/PlayFramework)" as BasketAPI <<application-service>>
+        archimate #Application "OrderAPI:9004\n(Go)" as OrderAPI <<application-service>>
+        archimate #Application "InvoiceAPI:9005\n(Java/Quarkus)" as InvoiceAPI <<application-service>>
+    }
 
-archimate #Application "Zipkin:9411" as Zipkin <<application-service>>
-archimate #Application "Grafana:3000" as Grafana <<application-service>>
-archimate #Application "Prometheus:9090" as Prometheus <<application-service>>
-archimate #Application "Kafka UI:8085" as KafkaUI <<application-service>>
+    rectangle "Databases" <<$archimate/business-function>> #Business{
+        archimate #Technology "Users\n(mem:H2)" as UsersDB <<technology-service>>
+        archimate #Technology "Products:9012\n(PostgreSQL)" as ProductsDB <<technology-service>>
+        archimate #Technology "Baskets\n(Java map)" as BasketsDB <<technology-service>>
+        archimate #Technology "Orders:9014\n(MongoDB)" as OrdersDB <<technology-service>>
+        archimate #Technology "Invoices\n(mem:H2)" as InvoicesDB <<technology-service>>
+    }
+}
 
-archimate #Technology "OpenTelemetry Collector" as OTC <<technology-service>>
-archimate #Technology Loki <<technology-service>>
+rectangle "Infrastructure" <<$archimate/business-function>> #Business{
+    archimate #Technology "Kafka:9092" as Kafka <<technology-service>>
+    archimate #Technology "Zookeeper:2181" as Zookeeper <<technology-service>>
+
+    archimate #Application "Zipkin:9411" as Zipkin <<application-service>>
+    archimate #Application "Grafana:3000" as Grafana <<application-service>>
+    archimate #Application "Prometheus:9090" as Prometheus <<application-service>>
+    archimate #Application "Kafka UI:8085" as KafkaUI <<application-service>>
+
+    archimate #Technology "OpenTelemetry Collector" as OTC <<technology-service>>
+    archimate #Technology Loki <<technology-service>>
+}
+
+rectangle "Outer World" <<$archimate/technology-service>> #Technology{
+    archimate #Technology "https://api.vatcomply.com" as vatcomply <<technology-service>>
+}
 
 Rel_Access_rw(UserAPI, UsersDB, CRUD)
 Rel_Access_rw(ProductAPI, ProductsDB, CRUD)
@@ -37,6 +52,8 @@ Rel_Access_r(KafkaUI, Kafka)
 Rel_Access_r(Kafka, Zookeeper)
 Rel_Flow(OrderAPI, Kafka, topic:orders)
 Rel_Flow(Kafka, InvoiceAPI, topic:orders)
+
+Rel_Flow(InvoiceAPI, vatcomply, geolocate)
 
 Rel_Flow(UserAPI, OTC, logs)
 Rel_Flow(UserAPI, OTC, metrics)
