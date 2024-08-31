@@ -1,5 +1,7 @@
 https://quarkus.io/quarkus-workshops/super-heroes/variants/os-mac-ai-false-azure-false-cli-false-container-true-contract-testing-false-extension-false-kubernetes-false-messaging-true-native-true-observability-false/spine.html
 
+install native image macos: https://www.graalvm.org/latest/docs/getting-started/macos/
+
 # code-with-quarkus
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.

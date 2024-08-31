@@ -43,3 +43,11 @@ services:
       - PRODUCT_API_URI=http://product-api:9002
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
       - KAFKA_URI=kafka:9092
+
+  invoice-api:
+    build: InvoiceAPI
+    ports:
+      - "9005:9005"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+      - KAFKA_URI=kafka:9092

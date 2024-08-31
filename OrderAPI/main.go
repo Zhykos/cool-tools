@@ -59,8 +59,10 @@ func main() {
 	tracerProvider = tp
 
 	if err != nil {
-		log.Fatal(err)
+	    log.Printf("Cannot initTracer: %v", err)
+		return
 	}
+
 	defer func() {
 		if err := tp.Shutdown(context.Background()); err != nil {
 			log.Printf("Error shutting down tracer provider: %v", err)
@@ -69,8 +71,10 @@ func main() {
 
 	mp, err := initMeter()
 	if err != nil {
-		log.Fatal(err)
+	    log.Printf("Cannot initMeter: %v", err)
+		return
 	}
+
 	defer func() {
 		if err := mp.Shutdown(context.Background()); err != nil {
 			log.Printf("Error shutting down meter provider: %v", err)
@@ -82,7 +86,7 @@ func main() {
 
 	err = http.ListenAndServe("0.0.0.0:9004", nil)
 	if err != nil {
-		log.Fatal(err)
+	    log.Printf("Cannot listen and serve: %v", err)
 	}
 }
 
@@ -106,13 +110,13 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 
     if err2 != nil {
         w.WriteHeader(http.StatusInternalServerError)
-        log.Fatalf("oops", err2)
+        log.Printf("Cannot create order: %v", &err2)
         return
     }
 
     if errStr != "" {
         w.WriteHeader(http.StatusInternalServerError)
-        log.Fatalf(errStr)
+        log.Printf("Cannot create order with message: %v", &errStr)
         return
     }
 
