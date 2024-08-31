@@ -11,6 +11,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="invoice-api" />
+        <module name="InvoiceAPI" />
       </profile>
       <profile name="Annotation profile for ProductAPI" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -32,6 +33,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="InvoiceAPI" options="-parameters" />
       <module name="ProductAPI" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="basket-api" options="-encoding utf8 -g" />
       <module name="invoice-api" options="-parameters" />
