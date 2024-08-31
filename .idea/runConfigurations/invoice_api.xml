@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="user-api: build then run" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="invoice-api" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -11,9 +11,8 @@
           </option>
           <option name="goals">
             <list>
-              <option value="clean" />
               <option value="compile" />
-              <option value="spring-boot:run" />
+              <option value="quarkus:dev" />
             </list>
           </option>
           <option name="multimoduleDir" />
@@ -25,7 +24,7 @@
             <list />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/UserAPI" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/InvoiceAPI" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
