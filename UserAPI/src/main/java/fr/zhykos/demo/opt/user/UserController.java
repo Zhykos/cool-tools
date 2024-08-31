@@ -31,7 +31,7 @@ public class UserController {
 	@ApiResponse(responseCode = "201", description = "User created")
 	public ResponseEntity<UserDTO> createUser(@RequestBody final UserCreationDTO dto) {
 		final var createdUser = userService.createUser(dto.name());
-		return ResponseEntity.created(URI.create("http://localhost:8080/user/" + createdUser.getUuid()))
+		return ResponseEntity.created(URI.create("http://localhost:9001/user/" + createdUser.uuid()))
 				.body(mapper.domainToDto(createdUser));
 	}
 

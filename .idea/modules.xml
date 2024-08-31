@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/opentelemetry-demo-microservices.iml" filepath="$PROJECT_DIR$/.idea/opentelemetry-demo-microservices.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OrderAPI/OrderAPI.iml" filepath="$PROJECT_DIR$/OrderAPI/OrderAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/microservices-cool-tools.iml" filepath="$PROJECT_DIR$/.idea/microservices-cool-tools.iml" />
     </modules>
   </component>
 </project>

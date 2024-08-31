@@ -1,4 +1,4 @@
-/volumes/prometheus/hostname
-/volumes/prometheus/hosts
-/volumes/prometheus/resolv.conf
-/volumes/user/logs/
+/postgres/
+/prometheus/hostname
+/prometheus/hosts
+/prometheus/resolv.conf

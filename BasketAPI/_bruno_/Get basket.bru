@@ -1,0 +1,15 @@
+meta {
+  name: Get basket
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://{{url}}/basket/:userId
+  body: none
+  auth: none
+}
+
+params:path {
+  userId: 0
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "[cool-tools] Invoice API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,0 +1,5 @@
+---
+
+- targets:
+    - 'opentelemetry-collector:9091'
+    - 'localhost:9091'

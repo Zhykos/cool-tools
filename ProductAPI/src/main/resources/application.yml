@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: ProductAPI
+  profiles:
+    active: json-logging
+  r2dbc:
+    url: r2dbc:postgresql://localhost:9012/db
+    username: user
+    password: password
+    initialization-mode: always
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 20000
+
+server:
+  port: 9002
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        all: true
+      http:
+        server:
+          requests: true
+
+otel:
+  instrumentation:
+    http:
+      server:
+        emit-experimental-telemetry: true
+    micrometer:
+      enabled: true
+  service:
+    name: ${spring.application.name}
+  propagators:
+    - tracecontext
+  resource:
+    attributes:
+      service:
+        name: ${spring.application.name}
+        namespace: fr.zhykos.demo.opt
