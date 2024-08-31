@@ -17,10 +17,14 @@ public class InvoiceService {
     @Inject
     private GeolocationService geolocationService;
 
+    @Inject
+    private PdfService pdfService;
+
     public void saveInvoice(Invoice invoice) {
         var location = geolocationService.getLocation();
         invoice.setUserAddress(location.getName());
-        repository.createInvoice(invoice);
+        var savedInvoice = repository.createInvoice(invoice);
+        pdfService.generatePdf(savedInvoice);
     }
 
     public void saveFakeInvoice() {

@@ -83,6 +83,13 @@
             <artifactId>opentelemetry-jdbc</artifactId>
         </dependency>
 
+        <!-- Generate PDF -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>io.quarkus</groupId>
