@@ -14,7 +14,12 @@ public class InvoiceService {
     @Inject
     private InvoiceRepository repository;
 
+    @Inject
+    private GeolocationService geolocationService;
+
     public void saveInvoice(Invoice invoice) {
+        var location = geolocationService.getLocation();
+        invoice.setUserAddress(location.getName());
         repository.createInvoice(invoice);
     }
 
@@ -30,7 +35,7 @@ public class InvoiceService {
 
         Invoice invoice = mapper.mqToDomain(mq);
 
-        repository.createInvoice(invoice);
+        saveInvoice(invoice);
     }
 
     public List<Invoice> getAllInvoices() {
