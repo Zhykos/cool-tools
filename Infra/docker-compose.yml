@@ -1,5 +1,17 @@
 name: fr-zhykos-demo-opt-infra
 
+x-backend: &papermerge-common
+  image: papermerge/papermerge:3.0.3
+  environment:
+    PAPERMERGE__SECURITY__SECRET_KEY: 12345
+    PAPERMERGE__AUTH__USERNAME: admin
+    PAPERMERGE__AUTH__PASSWORD: admin
+    PAPERMERGE__REDIS__URL: redis://redis:6379/0
+  volumes:
+    - papermerge-data:/db
+    - papermerge-index_db:/core_app/index_db
+    - papermerge-media:/core_app/media
+
 services:
 
   prometheus:
@@ -140,7 +152,24 @@ services:
       KAFKA_CLUSTERS_0_NAME: orders
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
 
+  papermerge-web:
+    <<: *papermerge-common
+    ports:
+      - "12000:80"
+    depends_on:
+      - redis
+
+  papermerge-worker:
+    <<: *papermerge-common
+    command: worker
+
+  redis:
+    image: redis:6
+
 volumes:
   prometheus_data: { }
   loki_data: {}
   grafana_data: {}
+  papermerge-data:
+  papermerge-index_db:
+  papermerge-media:
