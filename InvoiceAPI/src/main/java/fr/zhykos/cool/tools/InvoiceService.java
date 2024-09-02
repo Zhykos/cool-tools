@@ -36,10 +36,10 @@ public class InvoiceService {
     }
 
     private void onInvoiceSaved(File file, Invoice invoice) {
-//        log.info("Invoice saved: {}", invoice);
-//        var fileGedId = sendInvoiceToGed(file);
-//        invoice.setPdfId(fileGedId);
-//        repository.saveInvoice(invoice);
+        System.out.println("Invoice saved: " + invoice);
+        var fileGedId = sendInvoiceToGed(file);
+        invoice.setPdfId(fileGedId);
+        repository.saveInvoice(invoice);
     }
 
     private String sendInvoiceToGed(File file) {
