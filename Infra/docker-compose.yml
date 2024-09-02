@@ -1,12 +1,13 @@
 name: fr-zhykos-demo-opt-infra
 
 x-backend: &papermerge-common
-  image: papermerge/papermerge:3.0.3
+  image: papermerge/papermerge:3.1
   environment:
     PAPERMERGE__SECURITY__SECRET_KEY: 12345
     PAPERMERGE__AUTH__USERNAME: admin
     PAPERMERGE__AUTH__PASSWORD: admin
     PAPERMERGE__REDIS__URL: redis://redis:6379/0
+    PAPERMERGE__SECURITY__TOKEN_EXPIRE_MINUTES: 518400 # 1 year
   volumes:
     - papermerge-data:/db
     - papermerge-index_db:/core_app/index_db

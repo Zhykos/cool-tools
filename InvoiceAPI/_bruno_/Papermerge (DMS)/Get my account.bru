@@ -1,0 +1,15 @@
+meta {
+  name: Get my account
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:12000/api/users/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{papermerge-token}}
+}

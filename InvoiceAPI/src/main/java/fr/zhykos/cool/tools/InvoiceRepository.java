@@ -21,6 +21,16 @@ public class InvoiceRepository {
     public Invoice createInvoice(Invoice invoice) {
         InvoiceEntity entity = mapper.domainToEntity(invoice);
         entity.setUuid(UUID.randomUUID().toString());
+        return saveInvoice(entity);
+    }
+
+    @Transactional
+    public Invoice saveInvoice(Invoice invoice) {
+        InvoiceEntity entity = mapper.domainToEntity(invoice);
+        return saveInvoice(entity);
+    }
+
+    private Invoice saveInvoice(InvoiceEntity entity) {
         entityManager.persist(entity);
         return mapper.entityToDomain(entity);
     }

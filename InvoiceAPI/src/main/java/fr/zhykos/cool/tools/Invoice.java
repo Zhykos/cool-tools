@@ -24,4 +24,6 @@ public class Invoice {
     private String productName;
 
     private float price;
+
+    private String pdfId;
 }

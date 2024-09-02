@@ -3,6 +3,7 @@ package fr.zhykos.cool.tools;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.io.File;
 import java.util.List;
 
 @ApplicationScoped
@@ -20,11 +21,30 @@ public class InvoiceService {
     @Inject
     private PdfService pdfService;
 
+    @Inject
+    private GedService gedService;
+
     public void saveInvoice(Invoice invoice) {
         var location = geolocationService.getLocation();
         invoice.setUserAddress(location.getName());
         var savedInvoice = repository.createInvoice(invoice);
-        pdfService.generatePdf(savedInvoice);
+        var generatedFile = pdfService.generatePdf(savedInvoice);
+        generatedFile.ifPresentOrElse(
+                file -> onInvoiceSaved(file, savedInvoice),
+                () -> System.err.println("Error while generating PDF")
+        );
+    }
+
+    private void onInvoiceSaved(File file, Invoice invoice) {
+//        log.info("Invoice saved: {}", invoice);
+//        var fileGedId = sendInvoiceToGed(file);
+//        invoice.setPdfId(fileGedId);
+//        repository.saveInvoice(invoice);
+    }
+
+    private String sendInvoiceToGed(File file) {
+        var uploadedFile = gedService.sendToGed(file);
+        return uploadedFile.getId();
     }
 
     public void saveFakeInvoice() {
