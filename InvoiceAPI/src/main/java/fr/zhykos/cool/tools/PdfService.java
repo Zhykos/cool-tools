@@ -20,6 +20,7 @@ public class PdfService {
             document.add(new Paragraph(invoice.getUserAddress()));
             document.add(new Paragraph("Product: " + invoice.getProductName()));
             document.add(new Paragraph("Price: " + invoice.getPrice()));
+            document.flush();
             return Optional.of(new File(filename));
         } catch (Exception e) {
             System.err.println("Error while generating PDF");

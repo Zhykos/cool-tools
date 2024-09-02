@@ -4,9 +4,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-import org.jboss.resteasy.reactive.RestForm;
-
-import java.io.File;
+import org.jboss.resteasy.reactive.client.api.ClientMultipartForm;
 
 @ClientHeaderParam(name = "Authorization", value = "Bearer " + "${ged.token}")
 @RegisterRestClient(baseUri = "http://localhost:12000/api")
@@ -22,7 +20,7 @@ public interface GedClient {
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Path("/documents/{document_id}/upload/")
-    GedDTO uploadFile(@PathParam("document_id") String documentId, @RestForm File file);
-
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/documents/{document_id}/upload")
+    GedDTO uploadFile(@PathParam("document_id") String documentId, ClientMultipartForm form);
 }

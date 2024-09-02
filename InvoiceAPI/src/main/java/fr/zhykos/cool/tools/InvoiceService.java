@@ -37,14 +37,15 @@ public class InvoiceService {
 
     private void onInvoiceSaved(File file, Invoice invoice) {
         System.out.println("Invoice saved: " + invoice);
-        var fileGedId = sendInvoiceToGed(file);
-        invoice.setPdfId(fileGedId);
-        repository.saveInvoice(invoice);
-    }
-
-    private String sendInvoiceToGed(File file) {
         var uploadedFile = gedService.sendToGed(file);
-        return uploadedFile.getId();
+        uploadedFile.ifPresentOrElse(
+                fileGed -> {
+                    System.out.println("File uploaded to GED: " + fileGed);
+                    invoice.setPdfId(fileGed.getId());
+                    repository.saveInvoice(invoice);
+                },
+                () -> System.err.println("Error while sending file to GED")
+        );
     }
 
     public void saveFakeInvoice() {
