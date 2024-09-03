@@ -1,0 +1,27 @@
+meta {
+  name: Get folder
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:12000/api/folders/:folderId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  folderId: 6f813045-5934-487f-9e41-72c93858baec
+}
+
+auth:bearer {
+  token: {{papermerge-token}}
+}
+
+body:json {
+  {
+    "ctype": "folder",
+    "parent_id": null,
+    "title": "dir1"
+  }
+}

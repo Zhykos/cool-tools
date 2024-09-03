@@ -25,14 +25,19 @@ rectangle "Microservices" <<$archimate/business-function>> #Business{
 rectangle "Infrastructure" <<$archimate/business-function>> #Business{
     archimate #Technology "Kafka:9092" as Kafka <<technology-service>>
     archimate #Technology "Zookeeper:2181" as Zookeeper <<technology-service>>
+    archimate #Technology "Inbucket:2500" as InbucketSMTP <<technology-service>>
+    archimate #Technology "Papermerge Worker" as PapermergeWorker <<technology-service>>
 
     archimate #Application "Zipkin:9411" as Zipkin <<application-service>>
     archimate #Application "Grafana:3000" as Grafana <<application-service>>
     archimate #Application "Prometheus:9090" as Prometheus <<application-service>>
     archimate #Application "Kafka UI:8085" as KafkaUI <<application-service>>
+    archimate #Application "Papermerge UI:12000" as PapermergeWeb <<application-service>>
+    archimate #Application "Inbucket UI:9000" as InbucketUI <<application-service>>
 
     archimate #Technology "OpenTelemetry Collector" as OTC <<technology-service>>
     archimate #Technology Loki <<technology-service>>
+    archimate #Technology Redis <<technology-service>>
 }
 
 rectangle "Outer World" <<$archimate/technology-service>> #Technology{
@@ -54,6 +59,14 @@ Rel_Flow(OrderAPI, Kafka, topic:orders)
 Rel_Flow(Kafka, InvoiceAPI, topic:orders)
 
 Rel_Flow(InvoiceAPI, vatcomply, geolocate)
+
+Rel_Flow(PapermergeWeb, PapermergeWorker)
+Rel_Flow(PapermergeWeb, Redis)
+Rel_Flow(PapermergeWorker, Redis)
+Rel_Flow(InvoiceAPI, PapermergeWeb, "invoice.pdf")
+
+Rel_Flow(InbucketUI, InbucketSMTP)
+Rel_Flow(InvoiceAPI, InbucketSMTP, "Email w/ invoice.pdf")
 
 Rel_Flow(UserAPI, OTC, logs)
 Rel_Flow(UserAPI, OTC, metrics)
