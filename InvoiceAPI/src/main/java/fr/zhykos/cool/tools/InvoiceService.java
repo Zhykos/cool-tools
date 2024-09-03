@@ -24,6 +24,9 @@ public class InvoiceService {
     @Inject
     private GedService gedService;
 
+    @Inject
+    private SendEmailService sendEmailService;
+
     public void saveInvoice(Invoice invoice) {
         var location = geolocationService.getLocation();
         invoice.setUserAddress(location.getName());
@@ -43,6 +46,7 @@ public class InvoiceService {
                     System.out.println("File uploaded to GED: " + fileGed);
                     invoice.setPdfId(fileGed.getId());
                     repository.saveInvoice(invoice);
+                    sendEmailService.sendEmail(file, invoice);
                 },
                 () -> System.err.println("Error while sending file to GED")
         );
