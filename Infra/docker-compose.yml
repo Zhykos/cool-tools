@@ -126,12 +126,12 @@ services:
       - "9014:27017"
 
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: zookeeper:3.9.2-jre-17
     ports:
       - "2181:2181"
 
   kafka:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:2.13-2.8.1
     ports:
       - "9092:9092"
     environment:
@@ -143,7 +143,7 @@ services:
       KAFKA_CREATE_TOPICS: "orders:1:1"
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:v0.7.2
     ports:
       - 8085:8080
     depends_on:
@@ -168,7 +168,7 @@ services:
     image: redis:6
 
   fake-smtp:
-    image: phamhieu/inbucket:latest
+    image: inbucket/inbucket:sha-504a79a
     ports:
       - '2500:2500' # SMTP
       - '9000:9000' # web interface
