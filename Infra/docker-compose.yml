@@ -168,7 +168,7 @@ services:
     image: redis:6
 
   fake-smtp:
-    image: phamhieu/inbucket:latest
+    image: inbucket/inbucket:sha-504a79a
     ports:
       - '2500:2500' # SMTP
       - '9000:9000' # web interface
