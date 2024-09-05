@@ -31,20 +31,3 @@ management:
       http:
         server:
           requests: true
-
-otel:
-  instrumentation:
-    http:
-      server:
-        emit-experimental-telemetry: true
-    micrometer:
-      enabled: true
-  service:
-    name: ${spring.application.name}
-  propagators:
-    - tracecontext
-  resource:
-    attributes:
-      service:
-        name: ${spring.application.name}
-        namespace: fr.zhykos.demo.opt
