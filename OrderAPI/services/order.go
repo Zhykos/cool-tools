@@ -44,7 +44,7 @@ func CreateOrder(order models.Order, ctx context.Context, tracerProvider trace.T
     order.ProductName = product.Name
     order.Price = product.Price
 
-    collection := client.Database("demo-opt-orders").Collection("orders")
+    collection := client.Database("cool-tools-orders").Collection("orders")
     result, err := collection.InsertOne(ctx, order)
     if err != nil {
         return nil, "", &err

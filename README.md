@@ -1,4 +1,4 @@
-# opentelemetry-demo-microservices
+# Cool Tools
 
 ## Run the demo
 

@@ -1,4 +1,4 @@
-name: fr-zhykos-demo-opt-infra
+name: fr-zhykos-cool-tools-infra
 
 x-backend: &papermerge-common
   image: papermerge/papermerge:3.1

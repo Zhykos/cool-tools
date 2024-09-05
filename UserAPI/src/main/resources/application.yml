@@ -47,4 +47,4 @@ otel:
     attributes:
       service:
         name: ${spring.application.name}
-        namespace: fr.zhykos.demo.opt
+        namespace: fr.zhykos.cool.tools

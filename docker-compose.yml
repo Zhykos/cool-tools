@@ -1,4 +1,4 @@
-name: fr-zhykos-demo-opt-all
+name: fr-zhykos-cool-tools-all
 
 include:
   - path: Infra/docker-compose.yml
@@ -29,7 +29,7 @@ services:
     ports:
       - "9003:9000"
     environment:
-      - OTEL_SERVICE_NAME=fr.zhykos.demo.otp/BasketAPI
+      - OTEL_SERVICE_NAME=fr.zhykos.cool.tools/BasketAPI
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
       - JAVA_OPTS=-DOTEL_SERVICE_NAME=basket -DOTEL_TRACES_EXPORTER=otlp -DOTEL_METRICS_EXPORTER=otlp -DOTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4317 -Xms512m -Xmx2048m -javaagent:/opt/docker/opentelemetry-javaagent/opentelemetry-javaagent-1.11.0.jar -server
 
