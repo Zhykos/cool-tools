@@ -1,24 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { UserDTO } from "@/dto/UserDTO";
+import type { ProductDTO } from "@/dto/ProductDTO";
 import CreateUser from "./CreateUser.vue";
 import SelectedUser from "./SelectedUser.vue";
 import ShopItem from "./ShopItem.vue";
 import UsersList from "./UsersList.vue";
+import { createUser, getUsers, getProducts } from "@/services/ShopService";
+import ProductsList from "./ProductsList.vue";
 
 const users = ref<UserDTO[]>([]);
+const products = ref<ProductDTO[]>([]);
 
 const userCreated = async (username: string) => {
     try {
-        const res = await fetch("http://localhost:9001/user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name: username }),
-        });
-
-        const data = await res.json();
+        const data = await createUser(username);
         users.value.push(data);
         console.log("Created user:", data);
     } catch (err) {
@@ -29,8 +25,7 @@ const userCreated = async (username: string) => {
 
 const initUsers = async () => {
     try {
-        const res = await fetch("http://localhost:9001/user");
-        const data = await res.json();
+        const data = await getUsers();
         users.value = data;
     } catch (err) {
         alert("Failed to get users");
@@ -38,7 +33,18 @@ const initUsers = async () => {
     }
 };
 
+const initProducts = async () => {
+    try {
+        const data = await getProducts();
+        products.value = data;
+    } catch (err) {
+        alert("Failed to get products");
+        console.error(err);
+    }
+};
+
 initUsers();
+initProducts();
 </script>
 
 <template>
@@ -53,5 +59,9 @@ initUsers();
     <ShopItem>
         <template #heading>Users list</template>
         <UsersList :users="users" />
+    </ShopItem>
+    <ShopItem>
+        <template #heading>Product list</template>
+        <ProductsList :products="products" />
     </ShopItem>
 </template>

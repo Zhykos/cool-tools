@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, defineProps } from "vue";
+import { defineProps } from "vue";
 import { UserDTO } from "@/dto/UserDTO";
 import { useUserStore } from "@/stores/shopStore";
 
 const props = defineProps<{ users: UserDTO[] }>();
-const users = ref<UserDTO[]>([]);
 const userWhoIsShopping = useUserStore();
 
 function selectUser(user: UserDTO) {
@@ -14,6 +13,7 @@ function selectUser(user: UserDTO) {
 
 <template>
     <p v-if="props.users.length === 0">No user: create a new one above</p>
+    <p v-else>Click on a user to select it</p>
     <ul>
         <li v-for="user in props.users" :key="user.uuid">
             <p>
