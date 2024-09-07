@@ -7,8 +7,7 @@ const userWhoIsShopping = useUserStore();
 <template>
     <p>
         {{
-            userWhoIsShopping.user ||
-            "User not selected yet (select one below or create a new one)"
+            userWhoIsShopping.user || "User not selected yet (select one below)"
         }}
     </p>
 </template>

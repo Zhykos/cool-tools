@@ -11,9 +11,8 @@ const props = defineProps<{ products: ProductDTO[] }>();
     <ul>
         <li v-for="product in props.products" :key="product.uuid">
             <p>
-                <a href="#">{{ product.name }}</a>
-                {{ product.description }}
-                <b>{{ product.price }}</b>
+                <a href="#">{{ product.name }}</a> :
+                <b>{{ product.price }}</b> / {{ product.description }} /
                 <i>({{ product.uuid }})</i>
             </p>
         </li>
