@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { BasketDTO } from "@/dto/BasketDTO";
+import type { OrderDTO } from "@/dto/OrderDTO";
 import { useBasketStore } from "@/stores/shopStore";
 import { createOrder as createOrderService } from "@/services/ShopService";
+import { ref } from "vue";
 
 const basketStore = useBasketStore();
+const orderDone = ref<OrderDTO>();
 
 async function createOrder() {
     const basket: BasketDTO | null = await basketStore.getBasket();
     if (basket) {
-        createOrderService(basket);
+        orderDone.value = await createOrderService(basket);
     } else {
         alert("Basket is empty");
     }
@@ -16,5 +19,8 @@ async function createOrder() {
 </script>
 
 <template>
-    <button @click="createOrder">Create order</button>
+    <div>
+        <button @click="createOrder">Create order</button>
+    </div>
+    <div>{{ orderDone }}</div>
 </template>
