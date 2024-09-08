@@ -9,6 +9,7 @@ import UsersList from "./UsersList.vue";
 import { createUser, getUsers, getProducts } from "@/services/ShopService";
 import ProductsList from "./ProductsList.vue";
 import Basket from "./Basket.vue";
+import Order from "./Order.vue";
 
 const users = ref<UserDTO[]>([]);
 const products = ref<ProductDTO[]>([]);
@@ -68,5 +69,9 @@ initProducts();
     <ShopItem>
         <template #heading>Basket</template>
         <Basket />
+    </ShopItem>
+    <ShopItem>
+        <template #heading>Order</template>
+        <Order />
     </ShopItem>
 </template>
