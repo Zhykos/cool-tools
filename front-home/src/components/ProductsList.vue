@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import type { ProductDTO } from "@/dto/ProductDTO";
+import { useProductStore } from "@/stores/shopStore";
 
 const props = defineProps<{ products: ProductDTO[] }>();
+const selectedProduct = useProductStore();
+
+async function selectProduct(product: ProductDTO) {
+    try {
+        await selectedProduct.selectProduct(product);
+    } catch (error) {
+        alert(`Error selecting product: ${error}`);
+        console.error(error);
+    }
+}
 </script>
 
 <template>
@@ -11,8 +22,10 @@ const props = defineProps<{ products: ProductDTO[] }>();
     <ul>
         <li v-for="product in props.products" :key="product.uuid">
             <p>
-                <a href="#">{{ product.name }}</a> :
-                <b>{{ product.price }}</b> / {{ product.description }} /
+                <a href="javascript:void(0)" @click="selectProduct(product)">{{
+                    product.name
+                }}</a>
+                : <b>{{ product.price }}</b> / {{ product.description }} /
                 <i>({{ product.uuid }})</i>
             </p>
         </li>

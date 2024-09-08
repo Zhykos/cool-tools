@@ -1,3 +1,4 @@
+import type { BasketDTO } from "@/dto/BasketDTO";
 import type { ProductDTO } from "@/dto/ProductDTO";
 import type { UserDTO } from "@/dto/UserDTO";
 
@@ -27,4 +28,18 @@ export const getProducts = async (): Promise<ProductDTO[]> => {
     .filter((line) => line.length > 0)
     .map((line) => JSON.parse(line) as ProductDTO)
     .slice(0, 10);
+};
+
+export const createBasket = async (
+  user: UserDTO,
+  product: ProductDTO,
+): Promise<BasketDTO> => {
+  const res = await fetch("http://localhost:9003/basket/" + user.uuid, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ productId: product.uuid }),
+  });
+  return await res.json();
 };
