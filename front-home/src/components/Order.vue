@@ -5,8 +5,8 @@ import { createOrder as createOrderService } from "@/services/ShopService";
 
 const basketStore = useBasketStore();
 
-function createOrder() {
-    const basket: BasketDTO | null = basketStore.getBasket();
+async function createOrder() {
+    const basket: BasketDTO | null = await basketStore.getBasket();
     if (basket) {
         createOrderService(basket);
     } else {
