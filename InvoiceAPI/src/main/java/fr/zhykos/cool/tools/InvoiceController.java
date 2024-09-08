@@ -35,7 +35,8 @@ public class InvoiceController {
     @GET
     @Path("/{order_id}/download")
     @ResponseStatus(200)
-    public void downloadInvoice(@PathParam("order_id") String orderId) {
-        service.downloadInvoice(orderId);
+    @Produces("application/pdf")
+    public byte[] downloadInvoice(@PathParam("order_id") String orderId) {
+        return service.downloadInvoice(orderId);
     }
 }

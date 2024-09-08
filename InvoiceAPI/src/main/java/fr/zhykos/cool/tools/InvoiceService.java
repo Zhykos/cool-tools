@@ -72,8 +72,8 @@ public class InvoiceService {
                 .toList();
     }
 
-    public void downloadInvoice(String orderId) {
+    public byte[] downloadInvoice(String orderId) {
         var invoice = repository.getInvoiceFromOrderId(orderId);
-        gedService.downloadFromGed(invoice.getUuid());
+        return gedService.downloadFromGed(invoice.getUuid());
     }
 }

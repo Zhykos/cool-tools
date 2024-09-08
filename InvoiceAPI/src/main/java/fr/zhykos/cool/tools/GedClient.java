@@ -33,7 +33,8 @@ public interface GedClient {
     GedDocumentsDTO getDocuments(@PathParam("document_id") String documentId);
 
     @GET
+    @Produces("application/pdf")
     @Path("/document-versions/{document_version_id}/download")
-    String download(@PathParam("document_version_id") String documentVersionId);
+    byte[] download(@PathParam("document_version_id") String documentVersionId);
 
 }

@@ -37,7 +37,7 @@ public class GedService {
         }
     }
 
-    public void downloadFromGed(String invoiceId) {
+    public byte[] downloadFromGed(String invoiceId) {
         System.out.println("Downloading invoice from GED: " + invoiceId);
         var myAccountDTO = gedClient.getMyAccount();
         System.out.println("My account: " + myAccountDTO);
@@ -51,6 +51,6 @@ public class GedService {
                 .filter(document -> "Original".equalsIgnoreCase(document.short_description()))
                 .findFirst().orElseThrow();
         System.out.println("Found document: " + documentDTO);
-        gedClient.download(documentDTO.id());
+        return gedClient.download(documentDTO.id());
     }
 }
