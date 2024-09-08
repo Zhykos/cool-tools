@@ -8,6 +8,5 @@ public record InvoiceDTO(
         String userAddress,
         String productUUID,
         String productName,
-        float price,
-        String pdfId
+        float price
 ) {}

@@ -43,9 +43,7 @@ public class InvoiceService {
         var uploadedFile = gedService.sendToGed(file);
         uploadedFile.ifPresentOrElse(
                 fileGed -> {
-                    System.out.println("File uploaded to GED: " + fileGed);
-                    invoice.setPdfId(fileGed.getId());
-                    repository.saveInvoice(invoice);
+                    System.out.println("File uploaded to GED, send it by email: " + fileGed);
                     sendEmailService.sendEmail(file, invoice);
                 },
                 () -> System.err.println("Error while sending file to GED")
