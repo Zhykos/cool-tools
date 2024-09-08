@@ -17,7 +17,9 @@ function selectUser(user: UserDTO) {
     <ul>
         <li v-for="user in props.users" :key="user.uuid">
             <p>
-                <a href="#" @click="selectUser(user)">{{ user.name }}</a>
+                <a href="javascript:void(0)" @click="selectUser(user)">{{
+                    user.name
+                }}</a>
                 <i>({{ user.uuid }})</i>
             </p>
         </li>
