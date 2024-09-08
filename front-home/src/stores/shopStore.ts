@@ -35,4 +35,9 @@ export const useBasketStore = defineStore("basket", {
   state: () => ({
     basket: null as BasketDTO | null,
   }),
+  actions: {
+    getBasket() {
+      return this.basket;
+    },
+  },
 });

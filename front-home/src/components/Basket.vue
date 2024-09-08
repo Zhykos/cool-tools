@@ -7,7 +7,8 @@ const basketStore = useBasketStore();
 <template>
     <p>
         {{
-            basketStore.basket || "Product not selected yet (select one above)"
+            basketStore.getBasket() ||
+            "Product not selected yet (select one above)"
         }}
     </p>
 </template>
