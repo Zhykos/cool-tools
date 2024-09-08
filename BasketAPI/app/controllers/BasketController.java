@@ -1,7 +1,7 @@
 package controllers;
 
 import java.util.*;
-import play.api.libs.json.*;
+import play.libs.Json;
 import play.mvc.*;
 import play.mvc.Http.*;
 
@@ -14,7 +14,12 @@ public class BasketController extends Controller {
             .filter(basket -> basket.userId.equals(userId))
             .findFirst();
         if (basketOpt.isPresent()) {
-            return ok("ProductID = " + basketOpt.get().productId);
+            BasketEntity basket = basketOpt.get();
+            var dto = new BasketDTO();
+            dto.productId = basket.productId;
+            dto.userId = basket.userId;
+            dto.basketId = basket.hashCode();
+            return ok(Json.toJson(dto));
         }
         return notFound();
     }
@@ -23,12 +28,31 @@ public class BasketController extends Controller {
         var body = request.body().parseJson(CreateBasketDTO.class);
         if (body.isPresent()) {
             var basket = new BasketEntity();
+            Json.toJson(basket);
             basket.userId = userId;
             basket.productId = body.get().productId;
             fakeDatabase.add(basket);
-            return created();
+            var dto = new BasketDTO();
+            dto.productId = basket.productId;
+            dto.userId = basket.userId;
+            dto.basketId = basket.hashCode();
+            return created(Json.toJson(dto))
+                    .withHeader("Access-Control-Allow-Origin", "*")
+                    .withHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+                    .withHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With, X-authentication, X-client")
+                    .withHeader("Access-Control-Allow-Credentials", "true")
+                    .withHeader("Access-Control-Max-Age", "3600");
         }
         return badRequest();
+    }
+
+    public Result preflightCreateBasket(Request request, String userId) {
+        return ok()
+                .withHeader("Access-Control-Allow-Origin", "*")
+                .withHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+                .withHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With, X-authentication, X-client")
+                .withHeader("Access-Control-Allow-Credentials", "true")
+                .withHeader("Access-Control-Max-Age", "3600");
     }
 
 }

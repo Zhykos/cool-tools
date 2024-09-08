@@ -3,5 +3,6 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /basket/:userId              controllers.BasketController.getBasket(userId: String)
-POST    /basket/:userId              controllers.BasketController.createBasket(request: Request, userId: String)
+GET       /basket/:userId           controllers.BasketController.getBasket(userId: String)
+OPTIONS   /basket/:userId           controllers.BasketController.preflightCreateBasket(request: Request, userId: String)
+POST      /basket/:userId           controllers.BasketController.createBasket(request: Request, userId: String)
