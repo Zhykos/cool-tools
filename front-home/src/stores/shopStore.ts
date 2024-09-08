@@ -1,7 +1,10 @@
 import { defineStore } from "pinia";
 import type { UserDTO } from "@/dto/UserDTO";
 import type { ProductDTO } from "@/dto/ProductDTO";
-import { createBasket } from "@/services/ShopService";
+import {
+  createBasket,
+  getBasket as getBasketService,
+} from "@/services/ShopService";
 import type { BasketDTO } from "@/dto/BasketDTO";
 
 export const useUserStore = defineStore("user", {
@@ -37,7 +40,16 @@ export const useBasketStore = defineStore("basket", {
   }),
   actions: {
     getBasket() {
-      return this.basket;
+      if (this.basket) {
+        return this.basket;
+      }
+
+      const userStore = useUserStore();
+      if (!userStore.user) {
+        return null;
+      }
+
+      return getBasketService(userStore.user);
     },
   },
 });

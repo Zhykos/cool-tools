@@ -35,13 +35,18 @@ export const createBasket = async (
   user: UserDTO,
   product: ProductDTO,
 ): Promise<BasketDTO> => {
-  const res = await fetch("http://localhost:9003/basket/" + user.uuid, {
+  const res = await fetch(`http://localhost:9003/basket/${user.uuid}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ productId: product.uuid }),
   });
+  return await res.json();
+};
+
+export const getBasket = async (user: UserDTO): Promise<BasketDTO> => {
+  const res = await fetch(`http://localhost:9003/basket/${user.uuid}`);
   return await res.json();
 };
 
