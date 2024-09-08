@@ -3,10 +3,14 @@ import type { BasketDTO } from "@/dto/BasketDTO";
 import type { OrderDTO } from "@/dto/OrderDTO";
 import { useBasketStore } from "@/stores/shopStore";
 import { createOrder as createOrderService } from "@/services/ShopService";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const basketStore = useBasketStore();
 const orderDone = ref<OrderDTO>();
+
+const invoicePdfUrl = computed(() => {
+    return `http://localhost:9005/invoice/${orderDone.value?.OrderID}/download`;
+});
 
 async function createOrder() {
     const basket: BasketDTO | null = await basketStore.getBasket();
@@ -22,5 +26,8 @@ async function createOrder() {
     <div>
         <button @click="createOrder">Create order</button>
     </div>
-    <div>{{ orderDone }}</div>
+    <div v-if="orderDone?.OrderID">
+        Download PDF:
+        <a :href="invoicePdfUrl" target="_blank">{{ invoicePdfUrl }}</a>
+    </div>
 </template>

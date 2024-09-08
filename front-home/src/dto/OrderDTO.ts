@@ -1,3 +1,3 @@
 export interface OrderDTO {
-  InsertedID: string;
+  OrderID: string;
 }
