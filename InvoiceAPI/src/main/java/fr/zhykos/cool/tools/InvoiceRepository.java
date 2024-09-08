@@ -25,6 +25,12 @@ public class InvoiceRepository {
         return mapper.entityToDomain(entity);
     }
 
+    public InvoiceEntity getInvoiceFromOrderId(String orderId) {
+        return entityManager.createQuery("SELECT i FROM InvoiceEntity i WHERE i.orderId = :orderId", InvoiceEntity.class)
+                .setParameter("orderId", orderId)
+                .getSingleResult();
+    }
+
     public List<InvoiceEntity> getAllInvoices() {
         return entityManager.createQuery("SELECT i FROM InvoiceEntity i", InvoiceEntity.class)
                 .getResultList();

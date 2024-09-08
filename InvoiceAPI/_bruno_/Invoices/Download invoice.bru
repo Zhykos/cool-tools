@@ -1,0 +1,15 @@
+meta {
+  name: Download invoice
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:9005/invoice/:orderId/download
+  body: none
+  auth: none
+}
+
+params:path {
+  orderId: 66de02a16e5bda332bbea7c9
+}

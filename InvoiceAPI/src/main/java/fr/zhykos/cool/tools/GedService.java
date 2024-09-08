@@ -37,4 +37,20 @@ public class GedService {
         }
     }
 
+    public void downloadFromGed(String invoiceId) {
+        System.out.println("Downloading invoice from GED: " + invoiceId);
+        var myAccountDTO = gedClient.getMyAccount();
+        System.out.println("My account: " + myAccountDTO);
+        var nodesDTO = gedClient.getNodes(myAccountDTO.home_folder_id());
+        var nodeDTO = nodesDTO.items().stream()
+                .filter(node -> node.title().contains(invoiceId))
+                .findFirst().orElseThrow();
+        System.out.println("Found node: " + nodeDTO);
+        var documentsDTO = gedClient.getDocuments(nodeDTO.id());
+        var documentDTO = documentsDTO.versions().stream()
+                .filter(document -> "Original".equalsIgnoreCase(document.short_description()))
+                .findFirst().orElseThrow();
+        System.out.println("Found document: " + documentDTO);
+        gedClient.download(documentDTO.id());
+    }
 }

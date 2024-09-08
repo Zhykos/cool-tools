@@ -1,17 +1,17 @@
 meta {
-  name: Get folder
+  name: Get document
   type: http
-  seq: 5
+  seq: 6
 }
 
 get {
-  url: http://localhost:12000/api/folders/:folderId
+  url: http://localhost:12000/api/documents/:documentId
   body: json
   auth: bearer
 }
 
 params:path {
-  folderId: fc426f75-e0ea-4386-9015-56a90967431c
+  documentId: 8a80c3e4-a697-49b8-b7ad-7fe8e01d0835
 }
 
 auth:bearer {

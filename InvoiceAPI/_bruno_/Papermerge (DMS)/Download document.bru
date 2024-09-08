@@ -1,17 +1,17 @@
 meta {
-  name: Get folder
+  name: Download document
   type: http
-  seq: 5
+  seq: 8
 }
 
 get {
-  url: http://localhost:12000/api/folders/:folderId
+  url: http://localhost:12000/api/document-versions/:documentVersionId/download
   body: json
   auth: bearer
 }
 
 params:path {
-  folderId: fc426f75-e0ea-4386-9015-56a90967431c
+  documentVersionId: 28bd5b7f-fb01-4784-b90a-fc96373c8e58
 }
 
 auth:bearer {

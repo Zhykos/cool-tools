@@ -71,4 +71,9 @@ public class InvoiceService {
                 .map(mapper::entityToDomain)
                 .toList();
     }
+
+    public void downloadInvoice(String orderId) {
+        var invoice = repository.getInvoiceFromOrderId(orderId);
+        gedService.downloadFromGed(invoice.getUuid());
+    }
 }
