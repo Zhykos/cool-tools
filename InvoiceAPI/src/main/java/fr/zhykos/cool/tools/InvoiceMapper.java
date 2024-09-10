@@ -14,6 +14,5 @@ public interface InvoiceMapper {
 
 	@Mapping(target = "uuid", ignore = true)
 	@Mapping(target = "userAddress", ignore = true)
-	@Mapping(target = "pdfId", ignore = true)
 	Invoice mqToDomain(InvoiceMQ mq);
 }

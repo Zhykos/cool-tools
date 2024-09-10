@@ -8,7 +8,6 @@ import (
     "github.com/twmb/franz-go/pkg/kgo"
     "github.com/twmb/franz-go/plugin/kotel"
     "go.mongodb.org/mongo-driver/bson/primitive"
-    "go.mongodb.org/mongo-driver/mongo"
     "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
     "go.opentelemetry.io/otel/propagation"
     "go.opentelemetry.io/otel/trace"
@@ -23,7 +22,7 @@ import (
     "OrderAPI/models"
 )
 
-func CreateOrder(order models.Order, ctx context.Context, tracerProvider trace.TracerProvider) (*mongo.InsertOneResult, string, *error) {
+func CreateOrder(order models.Order, ctx context.Context, tracerProvider trace.TracerProvider) (*models.OrderDTO, string, *error) {
     client, err := config.ConnectToMongoDB(ctx)
     if err != nil {
         return nil, "", &err
@@ -50,9 +49,18 @@ func CreateOrder(order models.Order, ctx context.Context, tracerProvider trace.T
         return nil, "", &err
     }
 
-    sendOrderToKafka(order, *result, ctx, tracerProvider)
+    orderDTO := models.OrderDTO{
+        OrderID: result.InsertedID.(primitive.ObjectID).Hex(),
+        UserID: order.UserID,
+        UserName: order.UserName,
+        ProductID: order.ProductID,
+        ProductName: order.ProductName,
+        Price: order.Price,
+    }
 
-    return result, "", nil
+    sendOrderToKafka(orderDTO, ctx, tracerProvider)
+
+    return &orderDTO, "", nil
 }
 
 func GetUserName(userId string, ctx context.Context) (*string) {
@@ -191,13 +199,11 @@ func callAllProducts(ctx context.Context) (*[]models.Product) {
     return &products
 }
 
-func sendOrderToKafka(order models.Order, result mongo.InsertOneResult, ctx context.Context, tracerProvider trace.TracerProvider) {
+func sendOrderToKafka(order models.OrderDTO, ctx context.Context, tracerProvider trace.TracerProvider) {
     // Objects to send to Kafka
 
-    orderId := result.InsertedID.(primitive.ObjectID).Hex()
-
     orderKafka := models.OrderKafka{
-        OrderID: orderId,
+        OrderID: order.OrderID,
         UserID: order.UserID,
         UserName: order.UserName,
         ProductID: order.ProductID,
@@ -240,7 +246,7 @@ func sendOrderToKafka(order models.Order, result mongo.InsertOneResult, ctx cont
 
     var wg sync.WaitGroup
     wg.Add(1)
-    record := &kgo.Record{Topic: "orders", Key: []byte(orderId), Value: json}
+    record := &kgo.Record{Topic: "orders", Key: []byte(order.OrderID), Value: json}
     cl.Produce(ctx, record, func(_ *kgo.Record, err error) {
         defer wg.Done()
         if err != nil {

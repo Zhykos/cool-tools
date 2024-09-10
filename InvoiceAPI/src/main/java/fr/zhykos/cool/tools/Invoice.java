@@ -25,5 +25,4 @@ public class Invoice {
 
     private float price;
 
-    private String pdfId;
 }

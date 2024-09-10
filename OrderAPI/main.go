@@ -91,7 +91,19 @@ func main() {
 }
 
 func createOrder(w http.ResponseWriter, r *http.Request) {
-    if r.Method != http.MethodPost  {
+    fmt.Println("create order", r.Method)
+
+    if r.Method == http.MethodOptions {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        w.Header().Set("Access-Control-Allow-Headers", "*")
+        w.Header().Set("Access-Control-Allow-Credentials", "true")
+        w.Header().Set("Access-Control-Max-Age", "3600")
+        w.WriteHeader(http.StatusOK)
+        return
+    }
+
+    if r.Method != http.MethodPost && r.Method != http.MethodOptions {
         http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
         return
     }
@@ -122,4 +134,5 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 
     json.NewEncoder(w).Encode(result)
     w.WriteHeader(http.StatusCreated)
+    w.Header().Set("Access-Control-Allow-Origin", "*")
 }

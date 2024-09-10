@@ -25,16 +25,9 @@ public class InvoiceRepository {
         return mapper.entityToDomain(entity);
     }
 
-    @Transactional
-    public void saveInvoice(Invoice invoice) {
-        var entity = getInvoice(invoice.getUuid());
-        entity.setPdfId(invoice.getPdfId());
-        entityManager.refresh(entity);
-    }
-
-    private InvoiceEntity getInvoice(String uuid) {
-        return entityManager.createQuery("SELECT i FROM InvoiceEntity i WHERE i.uuid = :uuid", InvoiceEntity.class)
-                .setParameter("uuid", uuid)
+    public InvoiceEntity getInvoiceFromOrderId(String orderId) {
+        return entityManager.createQuery("SELECT i FROM InvoiceEntity i WHERE i.orderId = :orderId", InvoiceEntity.class)
+                .setParameter("orderId", orderId)
                 .getSingleResult();
     }
 

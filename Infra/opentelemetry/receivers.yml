@@ -36,3 +36,5 @@ receivers:
         include_metadata: true
         cors:
           allowed_origins:
+            - http://*
+            - https://*
