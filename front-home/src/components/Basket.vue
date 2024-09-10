@@ -2,13 +2,12 @@
 import { useBasketStore } from "@/stores/shopStore";
 
 const basketStore = useBasketStore();
+basketStore.initBasket();
 </script>
 
 <template>
-    <p>
-        {{
-            basketStore.getBasket() ||
-            "Select user and product (select them above)"
-        }}
+    <p v-if="basketStore.basket">
+        {{ JSON.stringify(basketStore.basket) }}
     </p>
+    <p v-else>Select user and product (select them above)</p>
 </template>

@@ -96,7 +96,7 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
     if r.Method == http.MethodOptions {
         w.Header().Set("Access-Control-Allow-Origin", "*")
         w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, X-Requested-With, X-authentication, X-client")
+        w.Header().Set("Access-Control-Allow-Headers", "*")
         w.Header().Set("Access-Control-Allow-Credentials", "true")
         w.Header().Set("Access-Control-Max-Age", "3600")
         w.WriteHeader(http.StatusOK)

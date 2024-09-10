@@ -28,7 +28,6 @@ export const useProductStore = defineStore("product", {
 
       this.product = product;
       const basket: BasketDTO = await createBasket(userStore.user, product);
-      console.log("Basket created", basket);
       basketStore.$patch({ basket });
     },
   },
@@ -39,17 +38,15 @@ export const useBasketStore = defineStore("basket", {
     basket: null as BasketDTO | null,
   }),
   actions: {
-    getBasket() {
-      if (this.basket) {
-        return this.basket;
+    initBasket() {
+      if (!this.basket) {
+        const userStore = useUserStore();
+        if (userStore.user) {
+          getBasketService(userStore.user).then((basket) => {
+            this.basket = basket;
+          });
+        }
       }
-
-      const userStore = useUserStore();
-      if (!userStore.user) {
-        return null;
-      }
-
-      return getBasketService(userStore.user);
     },
   },
 });

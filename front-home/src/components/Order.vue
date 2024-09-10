@@ -6,6 +6,7 @@ import { createOrder as createOrderService } from "@/services/ShopService";
 import { computed, ref } from "vue";
 
 const basketStore = useBasketStore();
+basketStore.initBasket();
 const orderDone = ref<OrderDTO>();
 
 const invoicePdfUrl = computed(() => {
@@ -13,7 +14,8 @@ const invoicePdfUrl = computed(() => {
 });
 
 async function createOrder() {
-    const basket: BasketDTO | null = await basketStore.getBasket();
+    const basket: BasketDTO | null = basketStore.basket;
+    orderDone.value = undefined;
     if (basket) {
         orderDone.value = await createOrderService(basket);
     } else {
