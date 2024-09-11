@@ -20,6 +20,10 @@ rectangle "Microservices" <<$archimate/business-function>> #Business{
         archimate #Technology "Orders:9014\n(MongoDB)" as OrdersDB <<technology-service>>
         archimate #Technology "Invoices\n(mem:H2)" as InvoicesDB <<technology-service>>
     }
+
+    rectangle "Fronts" <<$archimate/business-function>> #Business{
+        archimate #Application "Shop:5173\n(Vue 3)" as ShopFront <<application-service>>
+    }
 }
 
 rectangle "Infrastructure" <<$archimate/business-function>> #Business{
@@ -49,6 +53,12 @@ Rel_Access_rw(ProductAPI, ProductsDB, CRUD)
 Rel_Access_rw(BasketAPI, BasketsDB, CRUD)
 Rel_Access_rw(OrderAPI, OrdersDB, CRUD)
 Rel_Access_rw(InvoiceAPI, InvoicesDB, CRUD)
+
+Rel_Access_r(ShopFront, UserAPI)
+Rel_Access_r(ShopFront, ProductAPI)
+Rel_Access_r(ShopFront, BasketAPI)
+Rel_Access_r(ShopFront, OrderAPI)
+Rel_Access_r(ShopFront, InvoiceAPI)
 
 Rel_Access_r(UserAPI, OrderAPI, getAllUsers)
 Rel_Access_r(ProductAPI, OrderAPI, getAllProducts)
