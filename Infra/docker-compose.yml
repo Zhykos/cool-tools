@@ -213,6 +213,8 @@ services:
       KONG_PROXY_LISTEN: "${KONG_PROXY_LISTEN:-0.0.0.0:8000}"
       KONG_ADMIN_LISTEN: "${KONG_ADMIN_LISTEN:-0.0.0.0:8001}"
       KONG_ADMIN_GUI_LISTEN: "${KONG_ADMIN_GUI_LISTEN:-0.0.0.0:8002}"
+      KONG_ADMIN_GUI_URL: "${KONG_ADMIN_GUI_URL:-http://localhost:8002}"
+      KONG_ADMIN_GUI_API_URL: "${KONG_ADMIN_GUI_API_URL:-http://localhost:8001}"
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_PREFIX: ${KONG_PREFIX:-/var/run/kong}
@@ -231,13 +233,13 @@ services:
 
       - "8001:8001/tcp"
       - "8444:8444/tcp"
-      - "8002:8002/tcp"
+      - "8002:8002"
     healthcheck:
       test: [ "CMD", "kong", "health" ]
       interval: 10s
       timeout: 10s
       retries: 10
-    restart: on-failure:5
+    restart: on-failure
     read_only: true
     volumes:
       - kong_prefix_vol:${KONG_PREFIX:-/var/run/kong}

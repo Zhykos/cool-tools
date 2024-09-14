@@ -4,7 +4,7 @@ import type { ProductDTO } from "@/dto/ProductDTO";
 import type { UserDTO } from "@/dto/UserDTO";
 
 export const createUser = async (username: string): Promise<UserDTO> => {
-  const res = await fetch("http://localhost:9001/user", {
+  const res = await fetch("http://localhost:8000/users-api/user", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ export const createUser = async (username: string): Promise<UserDTO> => {
 };
 
 export const getUsers = async (): Promise<UserDTO[]> => {
-  const res = await fetch("http://localhost:9001/user");
+  const res = await fetch("http://localhost:8000/users-api/user");
   return await res.json();
 };
 
