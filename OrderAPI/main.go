@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/exporters/stdout/stdoutmetric"
+	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/propagation"
 	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
@@ -43,8 +43,8 @@ func initTracer(ctx context.Context) (*sdktrace.TracerProvider, error) {
 	return tp, err
 }
 
-func initMeter() (*sdkmetric.MeterProvider, error) {
-	exp, err := stdoutmetric.New()
+func initMeter(ctx context.Context) (*sdkmetric.MeterProvider, error) {
+	exp, err := otlpmetrichttp.New(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,8 @@ func initMeter() (*sdkmetric.MeterProvider, error) {
 }
 
 func main() {
-	tp, err := initTracer(context.Background())
+    ctx := context.Background()
+	tp, err := initTracer(ctx)
 	tracerProvider = tp
 
 	if err != nil {
@@ -64,19 +65,19 @@ func main() {
 	}
 
 	defer func() {
-		if err := tp.Shutdown(context.Background()); err != nil {
+		if err := tp.Shutdown(ctx); err != nil {
 			log.Printf("Error shutting down tracer provider: %v", err)
 		}
 	}()
 
-	mp, err := initMeter()
+	mp, err := initMeter(ctx)
 	if err != nil {
 	    log.Printf("Cannot initMeter: %v", err)
 		return
 	}
 
 	defer func() {
-		if err := mp.Shutdown(context.Background()); err != nil {
+		if err := mp.Shutdown(ctx); err != nil {
 			log.Printf("Error shutting down meter provider: %v", err)
 		}
 	}()
