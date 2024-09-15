@@ -275,6 +275,13 @@ services:
     volumes:
       - kong_data:/var/lib/postgresql/data
 
+  excalidraw:
+    container_name: excalidraw
+    image: excalidraw/excalidraw:latest
+    ports:
+      - "3030:80"
+    restart: on-failure
+
 secrets:
   kong_postgres_password:
     file: ./POSTGRES_PASSWORD

@@ -49,6 +49,8 @@ rectangle "Infrastructure" <<$archimate/business-function>> #Business{
 
     Rel_Access_rw(Kong, KongDB)
     Rel_Access_rw(KongUI, Kong)
+
+    archimate #Application "Excalidraw:3030" <<application-service>>
 }
 
 rectangle "Outer World" <<$archimate/technology-service>> #Technology{
