@@ -1,4 +1,4 @@
 package fr.zhykos.cool.tools.benchmark;
 
-public record BenchmarkDTO(String uuid) {
+public record BenchmarkDTO(String value) {
 }
