@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: BenchmarkAPI
+  profiles:
+    active: json-logging
+  datasource:
+    url: jdbc:h2:mem:bench;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+
+server:
+  port: 8999
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        all: true
+      http:
+        server:
+          requests: true
+
+otel:
+  instrumentation:
+    http:
+      server:
+        emit-experimental-telemetry: true
+    micrometer:
+      enabled: true
+  service:
+    name: ${spring.application.name}
+  propagators:
+    - tracecontext
+  resource:
+    attributes:
+      service:
+        name: ${spring.application.name}
+        namespace: fr.zhykos.cool.tools
