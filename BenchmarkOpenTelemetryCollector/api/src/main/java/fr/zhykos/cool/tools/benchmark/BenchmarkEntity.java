@@ -1,4 +1,4 @@
-package fr.zhykos.cool.tools.user;
+package fr.zhykos.cool.tools.benchmark;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-public class UserEntity {
+public class BenchmarkEntity {
 	@Id
 	@GeneratedValue
 	private Long id;

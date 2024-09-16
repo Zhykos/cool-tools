@@ -13,7 +13,7 @@
         <module name="invoice-api" />
         <module name="InvoiceAPI" />
       </profile>
-      <profile name="Annotation profile for UserAPI" enabled="true">
+      <profile name="Annotation profile for BenchmarkAPI" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -26,19 +26,6 @@
         <module name="benchmark-api" />
         <module name="ProductAPI" />
         <module name="user" />
-      </profile>
-      <profile name="Annotation profile for benchmark-api" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
-        </processorPath>
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -54,6 +41,7 @@
       <module name="invoice-api" options="-parameters" />
       <module name="product-api" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="user" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="user-api" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

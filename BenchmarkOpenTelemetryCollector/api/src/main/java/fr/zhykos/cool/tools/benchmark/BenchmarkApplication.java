@@ -1,13 +1,13 @@
-package fr.zhykos.cool.tools.user;
+package fr.zhykos.cool.tools.benchmark;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserApplication {
+public class BenchmarkApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserApplication.class, args);
+		SpringApplication.run(BenchmarkApplication.class, args);
 	}
 
 }
