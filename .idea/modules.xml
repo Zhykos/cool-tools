@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OrderAPI/OrderAPI.iml" filepath="$PROJECT_DIR$/OrderAPI/OrderAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BenchmarkOpenTelemetryCollector/bench-locust/bench-locust.iml" filepath="$PROJECT_DIR$/BenchmarkOpenTelemetryCollector/bench-locust/bench-locust.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/microservices-cool-tools.iml" filepath="$PROJECT_DIR$/.idea/microservices-cool-tools.iml" />
     </modules>
   </component>

@@ -12,6 +12,7 @@ receivers:
             - targets:
               - localhost:9001
               - localhost:9002
+              - localhost:8999
 
   filelog:
     include: ["/logs/*.log"]
