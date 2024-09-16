@@ -30,6 +30,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ProductAPI" target="21" />
+      <module name="user-api" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
