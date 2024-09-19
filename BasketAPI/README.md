@@ -65,6 +65,10 @@ Well, that's what the Play Framework website says via CoPilot. I chose it becaus
 
 However, I am not using Scala in this project. I am using Java because I am more familiar with it. Also, I think Play is too complex, that's why I am not using a database to store the basket data.
 
+## Improvements
+
+- Better code quality
+
 ## Notes
 
 - The OpenTelemetry service name is set to `basket` to identify the service in the traces, but it does not work.
