@@ -75,7 +75,7 @@ However, I am not using Scala in this project. I am using Java because I am more
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](..CONTRIBUTING.md) for details on our code
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code
 of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
