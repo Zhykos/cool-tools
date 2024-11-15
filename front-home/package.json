@@ -20,7 +20,7 @@
     "@opentelemetry/propagator-b3": "^1.26.0",
     "@opentelemetry/sdk-trace-web": "^1.26.0",
     "pinia": "^2.1.7",
-    "vue": "^3.5.6",
+    "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
