@@ -1,0 +1,23 @@
+meta {
+  name: Create node
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:12000/api/nodes/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{papermerge-token}}
+}
+
+body:json {
+  {
+    "ctype": "document",
+    "parent_id": "b934f824-bf57-400f-ad8d-6c1dbb30e0e8",
+    "title": "My file"
+  }
+}

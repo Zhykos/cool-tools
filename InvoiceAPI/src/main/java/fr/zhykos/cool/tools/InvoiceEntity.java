@@ -28,4 +28,5 @@ public class InvoiceEntity {
     private String productName;
 
     private float price;
+
 }

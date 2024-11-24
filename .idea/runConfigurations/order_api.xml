@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="order-api" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value="MONGODB_URI=&quot;mongodb://root:password@localhost:9014&quot; USER_API_URI=&quot;http://localhost:9001&quot; PRODUCT_API_URI=&quot;http://localhost:9002&quot; OTEL_EXPORTER_OTLP_ENDPOINT=&quot;http://localhost:4318&quot; KAFKA_URI=&quot;kafka:9092&quot; ./OrderAPI" />
+    <option name="SCRIPT_TEXT" value="MONGODB_URI=&quot;mongodb://root:password@localhost:9014&quot; USER_API_URI=&quot;http://localhost:8000/users-api&quot; PRODUCT_API_URI=&quot;http://localhost:9002&quot; OTEL_EXPORTER_OTLP_ENDPOINT=&quot;http://localhost:4318&quot; KAFKA_URI=&quot;kafka:9092&quot; ./OrderAPI" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="$PROJECT_DIR$/OrderAPI/OrderAPI" />
     <option name="SCRIPT_OPTIONS" value="" />

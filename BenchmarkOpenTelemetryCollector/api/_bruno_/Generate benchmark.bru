@@ -1,0 +1,17 @@
+meta {
+  name: Generate benchmark
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8999/benchmark
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Toto"
+  }
+}

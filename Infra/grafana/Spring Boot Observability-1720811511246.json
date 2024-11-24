@@ -1063,8 +1063,8 @@
       {
         "current": {
           "selected": true,
-          "text": "fr.zhykos.demo.opt/UserAPI",
-          "value": "fr.zhykos.demo.opt/UserAPI"
+          "text": "fr.zhykos.cool.tools/UserAPI",
+          "value": "fr.zhykos.cool.tools/UserAPI"
         },
         "datasource": {
           "type": "prometheus",

@@ -1,5 +1,5 @@
 name := """basket-api"""
-organization := "fr.zhykos.demo.opt"
+organization := "fr.zhykos.cool.tools"
 
 version := "1.0.0-SNAPSHOT"
 

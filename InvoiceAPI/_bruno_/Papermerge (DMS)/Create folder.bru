@@ -1,0 +1,23 @@
+meta {
+  name: Create folder
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:12000/api/nodes/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{papermerge-token}}
+}
+
+body:json {
+  {
+    "ctype": "folder",
+    "parent_id": "72d0c72f-1abf-40d5-ad57-27ee23657eb4",
+    "title": "dir2"
+  }
+}
