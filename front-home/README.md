@@ -1,3 +1,53 @@
+# Cool tool - A frontend application made with Vue 3 and Vite
+
+This project is a frontend application made with Vue 3 and Vite.
+It is a simple application that represents a shop with users, products and a shopping cart.
+
+This project is also configured with OpenTelemetry to send traces to the OpenTelemetry Collector.
+
+## Getting Started
+
+Be sure to start the [Docker Compose](../Infra/docker-compose.yml) environment in the main project, "Infra" directory, before running the application.
+
+To run this project, you need to have Node.js installed on your machine (minimum version: 21).
+
+Run the following commands to install the dependencies and start the application:
+
+```bash
+npm install
+npm run dev
+```
+
+A local server will start on port 3000, and you can access the application at [http://localhost:3000](http://localhost:3000).
+
+## Contributing
+
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [Semantic Versioning](http://semver.org/) for versioning.
+
+## Authors
+
+- **Thomas Cicognani** - *First version of the benchmark* -
+  [Zhykos](https://github.com/Zhykos)
+
+## Acknowledgments
+
+- PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
+- Hat tip to anyone whose code is used
+- The world because I'm a bad person who uses CoPilot
+
+
+
+
+
+
+
+
+
 # front-home
 
 This template should help get you started developing with Vue 3 in Vite.
