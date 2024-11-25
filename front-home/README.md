@@ -20,61 +20,7 @@ npm run dev
 
 A local server will start on port 3000, and you can access the application at [http://localhost:3000](http://localhost:3000).
 
-## Contributing
-
-Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code
-of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [Semantic Versioning](http://semver.org/) for versioning.
-
-## Authors
-
-- **Thomas Cicognani** - *First version of the benchmark* -
-  [Zhykos](https://github.com/Zhykos)
-
-## Acknowledgments
-
-- PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
-- Hat tip to anyone whose code is used
-- The world because I'm a bad person who uses CoPilot
-
-
-
-
-
-
-
-
-
-# front-home
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
+## Other commands (from official README)
 
 ### Type-Check, Compile and Minify for Production
 
@@ -106,3 +52,23 @@ npm run test:e2e -- tests/example.spec.ts
 # Runs the tests in debug mode
 npm run test:e2e -- --debug
 ```
+
+## Contributing
+
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [Semantic Versioning](http://semver.org/) for versioning.
+
+## Authors
+
+- **Thomas Cicognani** - *First version of the benchmark* -
+  [Zhykos](https://github.com/Zhykos)
+
+## Acknowledgments
+
+- PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
+- Hat tip to anyone whose code is used
+- The world because I'm a bad person who uses CoPilot
