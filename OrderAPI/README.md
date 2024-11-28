@@ -24,7 +24,7 @@ your local machine for development and testing purposes.
 ### Prerequisites
 
 Requirements for the software and other tools to build and run the API
-- Java 21
+- Go: https://go.dev/dl/
 
 ### Running the API
 
