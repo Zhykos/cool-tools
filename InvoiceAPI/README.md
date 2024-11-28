@@ -39,19 +39,19 @@ Be sure to start the [Docker Compose](../Infra/docker-compose.yml) environment i
 
 Before launching the API, you need to get a token from the GED. To do so, run the following command:
 
-```shell
+```bash
 docker ps
 ```
 
 Then, copy the container ID of the GED and run the following command:
 
-```shell
+```bash
 docker exec <DOCKER CONTAINER> create_token.sh admin
 ```
 
 To run the API, use the following command:
 
-```shell
+```bash
 ./mvnw quarkus:dev -Dged.token=<TOKEN>
 ```
 

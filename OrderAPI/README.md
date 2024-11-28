@@ -34,13 +34,13 @@ Somehow you need to edit the /etc/hosts file and add the following line: `127.0.
 
 Before running the API, you need to build the project. To build the project, use the following command:
 
-```shell
+```bash
 go build
 ```
 
 To run the API, use the following command:
 
-```shell
+```bash
 MONGODB_URI="mongodb://root:password@localhost:9014" USER_API_URI="http://localhost:9001" PRODUCT_API_URI="http://localhost:9002" OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318" KAFKA_URI="kafka:9092" ./OrderAPI
 ```
 

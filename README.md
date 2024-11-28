@@ -6,7 +6,7 @@
 
 For MacOS *(tested on M1 and Sonoma 14.5)*:
 
-```shell
+```bash
 export EXTERNAL_IP=$(ipconfig getifaddr en0) && docker compose up -d --build
 ```
 

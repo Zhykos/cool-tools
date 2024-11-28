@@ -26,13 +26,13 @@ Requirements for the software and other tools to build and run the API:
 
 Compile the project with the following command:
 
-```shell
+```bash
 mvn clean compile
 ```
 
 Then, run the API with the following command:
 
-```shell
+```bash
 mvn spring-boot:run
 ```
 
@@ -41,7 +41,7 @@ This will start the API on the port `8080`.
 However, OpenTelemetry is not configured to send traces to the OpenTelemetry Collector.
 To do so, you need to set the following environment variables:
 
-```shell
+```bash
 mvn spring-boot:run -P otpc
 ```
 

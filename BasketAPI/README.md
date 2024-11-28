@@ -5,7 +5,7 @@ This is a simple microservice that simulates a basket API of a shop. It uses the
 A basket is a collection of items. Each item has a user id and a product id.
 
 The API has the following endpoints:
-    
+
 - `GET /basket/:userId` - Get the basket for a user
 - `POST /basket/:userId` - Add an item to the basket for a user
 - `OPTIONS /basket/:userId` - Preflight request for [CORS](https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request)
@@ -36,7 +36,7 @@ The project does not need to be compiled before running the API. The Play Framew
 
 To run the API, use the following command:
 
-```shell
+```bash
 sbt "run 9003" -DOTEL_SERVICE_NAME=basket -DOTEL_TRACES_EXPORTER=otlp -DOTEL_METRICS_EXPORTER=otlp -DOTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 -J-Xms512m -J-Xmx2048m -J-javaagent:opentelemetry-javaagent.jar -J-server
 ```
 
@@ -46,7 +46,7 @@ It will start the API on port 9003 and connect to the OpenTelemetry Collector on
 
 To run the API in Docker, use the following command:
 
-```shell
+```bash
 sbt reload
 sbt docker:publishLocal
 ```
