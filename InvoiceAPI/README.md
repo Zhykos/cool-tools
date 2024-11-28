@@ -3,8 +3,7 @@
 This is a simple microservice that simulates an invoice API of a shop.
 It uses the [Quarkus Framework](https://quarkus.io/) and is written in Java.
 
-An invoice is a collection of items.
-Each item represents a product, a user, a price, and an address.
+An invoice represents a product, a user, a price, and an address.
 
 The API has the following endpoints:
 
