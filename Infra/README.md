@@ -19,7 +19,7 @@ The infrastructure consists of the following services:
 - Kafka: distributed event streaming platform
 - Kafka UI: web interface for Kafka
 - Papermerge: document management system
-- Fake SMTP: fake SMTP server for testing
+- Inbucket: fake SMTP server for testing
 - Kong: API gateway
 - Excalidraw: whiteboard tool
 
@@ -29,59 +29,137 @@ Here are the details of the services.
 
 #### Prometheus
 
-// ============ TODO
+Prometheus is an open-source monitoring and alerting toolkit.
+It collects metrics from configured targets at given intervals, evaluates rule expressions, displays the results, and can trigger alerts if some condition is observed to be true.
+
+Website: https://prometheus.io/
+
+Open the Prometheus web interface at http://localhost:9090/
 
 #### OpenTelemetry Collector
 
-// ============ TODO
+OpenTelemetry Collector is a vendor-agnostic agent for observability data collection and processing.
+It is part of the OpenTelemetry project, which provides a single set of APIs, libraries, agents, and instrumentation to capture distributed traces and metrics from your application.
+
+Website: https://opentelemetry.io/
+Collector: https://opentelemetry.io/docs/collector/
+
+Collectors are configured with a configuration file in YAML format.
+Ports are exposed for the following ports:
+- 4317 for HTTP
+- 4318 for gRPC
 
 #### Loki
 
-// ============ TODO
+Loki is a horizontally-scalable, highly-available, multi-tenant log aggregation system inspired by Prometheus.
+
+Website: https://grafana.com/oss/loki/
+
+Ports are exposed for the following port: 3100.
 
 #### Grafana
 
-// ============ TODO
+Grafana is a multi-platform open-source analytics and interactive visualization web application.
+
+Website: https://grafana.com/
+
+Open the Grafana web interface at http://localhost:3000/
 
 #### Zipkin
 
-// ============ TODO
+Zipkin is a distributed tracing system.
+
+Website: https://zipkin.io/
+
+Open the Zipkin web interface at http://localhost:9411/
 
 #### Postgres
 
-// ============ TODO
+PostgreSQL is a powerful, open-source object-relational database system.
+
+Website: https://www.postgresql.org/
+
+Connect to the database with the following credentials:
+- Host: localhost
+- Port: 9012
+- Database: db
+- User: user
+- Password: password
 
 #### MongoDB
 
-// ============ TODO
+MongoDB is a general-purpose, document-based, distributed database built for modern application developers and for the cloud era.
+
+Website: https://www.mongodb.com/
+
+Connect to the database with the following credentials:
+- Host: localhost
+- Port: 9014
+- User: root
+- Password: password
 
 #### Zookeeper
 
-// ============ TODO
+Zookeeper is a distributed coordination service.
+
+Website: https://zookeeper.apache.org/
+
+Ports are exposed for the following port: 2181 for client connections
 
 #### Kafka
 
-// ============ TODO
+Kafka is a distributed event streaming platform.
+
+Website: https://kafka.apache.org/
+
+Connect to the Kafka broker with the following port: 9092.
 
 #### Kafka UI
 
-// ============ TODO
+Kafka UI is a web interface for Kafka.
+
+Website: https://docs.kafka-ui.provectus.io/
+
+Open the Kafka UI web interface at http://localhost:8085/
 
 #### Papermerge
 
-// ============ TODO
+Papermerge is an open-source document management system (DMS).
 
-#### Fake SMTP
+Website: https://papermerge.com/
 
-// ============ TODO
+Open the Papermerge web interface at http://localhost:12000/
+
+Connect to the DMS with the following credentials:
+* User: admin
+* Password: admin
+* Security token: 12345
+
+#### Inbucket
+
+Inbucket is an email testing service.
+
+Website: https://www.inbucket.org/
+
+Open the Inbucket web interface at http://localhost:9000/
+
+Send emails to the SMTP server at localhost:2500.
 
 #### Kong
 
-// ============ TODO
+Kong is an open-source API Gateway and Microservices Management Layer, delivering high performance and reliability.
+
+Website: https://konghq.com/
+
+Connect to the Kong Admin API with the following port: 8001.
 
 #### Excalidraw
 
-// ============ TODO
+Excalidraw is a whiteboard tool.
+
+Website: https://excalidraw.com/
+
+Open the Excalidraw web interface at http://localhost:3030/
 
 ## Getting Started
 
@@ -99,6 +177,27 @@ Start the infrastructure with the following command:
 
 ```bash
 export EXTERNAL_IP=$(ipconfig getifaddr en0) && docker compose up -d --build
+```
+
+### To backup and restore Kong configuration
+
+Install deck: https://docs.konghq.com/deck/latest/installation/
+
+Then: https://docs.konghq.com/deck/latest/guides/backup-restore/
+
+Export configuration:
+
+```bash
+cd kong
+deck gateway dump -o kong.yaml
+```
+
+Import configuration:
+
+```bash
+cd kong
+deck gateway diff kong.yaml
+deck gateway sync kong.yaml
 ```
 
 ## Improvements
@@ -124,38 +223,3 @@ We use [Semantic Versioning](http://semver.org/) for versioning.
 - PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
 - Hat tip to anyone whose code is used
 - The world because I'm a bad person who uses CoPilot
-
-
-
-
-
-# Infrastructure documentation
-
-```bash
-export EXTERNAL_IP=$(ipconfig getifaddr en0) && docker compose up -d --build
-```
-
-## Kong
-
-"Kong is an open-source API Gateway and Microservices Management Layer, delivering high performance and reliability."
-
-### To backup and restore Kong configuration
-
-Install deck: https://docs.konghq.com/deck/latest/installation/
-
-Then: https://docs.konghq.com/deck/latest/guides/backup-restore/
-
-Export configuration:
-
-```bash
-cd kong
-deck gateway dump -o kong.yaml
-```
-
-Import configuration:
-
-```bash
-cd kong
-deck gateway diff kong.yaml
-deck gateway sync kong.yaml
-```
