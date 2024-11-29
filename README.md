@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  TODO<a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" alt="Markdownify" width="200"></a>
+  TODO<img src="https://TODO.png" alt="Markdownify" width="200">
   <br>
   Cool tools
   <br>
@@ -12,12 +12,12 @@
   <a href="#description">Description</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a> •
-  <a href="#related">Kudos</a> •
+  <a href="#kudos">Kudos</a> •
   <a href="#license">License</a>
 </p>
 
 TODO
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+![screenshot](https://TODO.gif)
 
 ## Description
 
