@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  TODO<img src="https://TODO.png" alt="Markdownify" width="200">
+  TODO<img src="https://TODO.png" alt="cool tools by Zhykos" width="200">
   <br>
   Cool tools
   <br>
@@ -37,7 +37,7 @@ And then it become bigger and bigger, a real project to try and learn new things
 
 Here are all the tools I used in this project:
 
-<p align="center">
+<p align="center">TODO
   <img alt="GitHub Release for Prometheus" src="https://img.shields.io/github/v/release/prometheus/prometheus?filter=v2.53.0&label=Prometheus">
 </p>
 
