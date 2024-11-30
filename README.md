@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  TODO<img src="https://TODO.png" alt="cool tools by Zhykos" width="200">
+  <img src="./doc/growtika-yGQmjh2uOTg-unsplash.jpg" alt="cool tools by Zhykos" width="200" />
   <br>
   Cool tools
   <br>
@@ -35,10 +35,23 @@ So I made a project with a simple architecture and a little online shop.
 I wrote some microservices, and I wanted to add the OpenTelemetry project to it.
 And then it become bigger and bigger, a real project to try and learn new things.
 
-Here are all the tools I used in this project:
+Here are all the tools I used in this project with their versions released on Docker Hub:
 
-<p align="center">TODO
-  <img alt="GitHub Release for Prometheus" src="https://img.shields.io/github/v/release/prometheus/prometheus?filter=v2.53.0&label=Prometheus">
+<p align="center">
+  <img alt="Docker Image Version for Prometheus" src="https://img.shields.io/docker/v/prom/prometheus/v2.53.0&label=Prometheus" /> •
+  <img alt="Docker Image Version for Loki" src="https://img.shields.io/docker/v/grafana/loki/3.1.0&label=Loki" /> •
+  <img alt="Docker Image Version for Zipkin" src="https://img.shields.io/docker/v/openzipkin/zipkin/3.4.0&label=Zipkin" /> •
+  <img alt="Docker Image Version for Grafana" src="https://img.shields.io/docker/v/grafana/grafana/10.0.3&label=Grafana" /> •
+  <img alt="Docker Image Version for OpenTelemetry Collector" src="https://img.shields.io/docker/v/otel/opentelemetry-collector-contrib/0.104.0&label=OpenTelemetry%20Collector" /> •
+  <img alt="Docker Image Version for Postgres" src="https://img.shields.io/docker/v/postgres/16.3-alpine&label=Postgres" /> •
+  <img alt="Docker Image Version for MongoDB" src="https://img.shields.io/docker/v/mongo/7-jammy&label=MongoDB" /> •
+  <img alt="Docker Image Version for Zookeeper" src="https://img.shields.io/docker/v/zookeeper/3.9.2-jre-17&label=Zookeeper" /> •
+  <img alt="Docker Image Version for Kafka" src="https://img.shields.io/docker/v/wurstmeister/kafka/2.13-2.8.1?label=Kafka" /> •
+  <img alt="Docker Image Version for Kafka UI" src="https://img.shields.io/docker/v/provectuslabs/kafka-ui/v0.7.2?label=Kafka UI" /> •
+  <img alt="Docker Image Version for Papermerge" src="https://img.shields.io/docker/v/papermerge/papermerge/3.1?label=Papermerge" /> •
+  <img alt="Docker Image Version for Inbucket" src="https://img.shields.io/docker/v/inbucket/inbucket/sha-504a79a?label=Inbucket" /> •
+  <img alt="Docker Image Version for Kong" src="https://img.shields.io/docker/v/kong/kong/release-3.7.1-ubuntu?label=Kong" /> •
+  <img alt="Docker Image Version for Excalidraw" src="https://img.shields.io/docker/v/excalidraw/excalidraw/latest?label=Excalidraw" />
 </p>
 
 * [Prometheus](https://prometheus.io/)
@@ -71,6 +84,10 @@ The project contains several directories (a README.md file is present in each di
 * [ProductAPI](./ProductAPI/README.md): a simple API to manage products, made with Java and Spring Boot (WebFlux)
 * [UserAPI](./UserAPI/README.md): a simple API to manage users, made with Java and Spring Boot.
 
+You'll find a complete architecture documentation with the file [arch.plantuml](./arch.plantuml).
+It uses the [PlantUML](https://plantuml.com/) language and [Archimate](https://www.archimatetool.com/) to describe the architecture.
+Careful, I'm not an expert in Archimate, so the file may contain errors.
+
 ## How To Use
 
 You will need Docker and Docker Compose to run this project.
@@ -97,6 +114,10 @@ $ docker-compose up -d
 ## Credits
 
 Check credits in each directory.
+
+- [README template](https://github.com/amitmerchant1990) by Amit Merchant
+- I wish to not generate a header with IA so I used an image by <a href="https://unsplash.com/fr/@growtika">Growtika</a> on <a href="https://unsplash.com/fr/photos/un-ordinateur-avec-un-clavier-et-une-souris-yGQmjh2uOTg">Unsplash</a>
+- Everyone, somehow, because I used Copilot to help me write the code
 
 ## Kudos
 
