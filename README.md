@@ -16,8 +16,7 @@
   <a href="#license">License</a>
 </p>
 
-TODO
-![screenshot](https://TODO.gif)
+![Simplified architecture](./doc/simplified-arch.svg)
 
 ## Description
 
