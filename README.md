@@ -38,14 +38,14 @@ And then it become bigger and bigger, a real project to try and learn new things
 Here are all the tools I used in this project with their versions released on Docker Hub:
 
 <p align="center">
-  <img alt="Docker Image Version for Prometheus" src="https://img.shields.io/docker/v/prom/prometheus/v2.53.0&label=Prometheus" /> •
-  <img alt="Docker Image Version for Loki" src="https://img.shields.io/docker/v/grafana/loki/3.1.0&label=Loki" /> •
-  <img alt="Docker Image Version for Zipkin" src="https://img.shields.io/docker/v/openzipkin/zipkin/3.4.0&label=Zipkin" /> •
-  <img alt="Docker Image Version for Grafana" src="https://img.shields.io/docker/v/grafana/grafana/10.0.3&label=Grafana" /> •
-  <img alt="Docker Image Version for OpenTelemetry Collector" src="https://img.shields.io/docker/v/otel/opentelemetry-collector-contrib/0.104.0&label=OpenTelemetry%20Collector" /> •
-  <img alt="Docker Image Version for Postgres" src="https://img.shields.io/docker/v/postgres/16.3-alpine&label=Postgres" /> •
-  <img alt="Docker Image Version for MongoDB" src="https://img.shields.io/docker/v/mongo/7-jammy&label=MongoDB" /> •
-  <img alt="Docker Image Version for Zookeeper" src="https://img.shields.io/docker/v/zookeeper/3.9.2-jre-17&label=Zookeeper" /> •
+  <img alt="Docker Image Version for Prometheus" src="https://img.shields.io/docker/v/prom/prometheus/v2.53.0?label=Prometheus" /> •
+  <img alt="Docker Image Version for Loki" src="https://img.shields.io/docker/v/grafana/loki/3.1.0?label=Loki" /> •
+  <img alt="Docker Image Version for Zipkin" src="https://img.shields.io/docker/v/openzipkin/zipkin/3.4.0?label=Zipkin" /> •
+  <img alt="Docker Image Version for Grafana" src="https://img.shields.io/docker/v/grafana/grafana/10.0.3?label=Grafana" /> •
+  <img alt="Docker Image Version for OpenTelemetry Collector" src="https://img.shields.io/docker/v/otel/opentelemetry-collector-contrib/0.104.0?label=OpenTelemetry%20Collector" /> •
+  <img alt="Docker Image Version for Postgres" src="https://img.shields.io/docker/v/postgres/16.3-alpine?label=Postgres" /> •
+  <img alt="Docker Image Version for MongoDB" src="https://img.shields.io/docker/v/mongo/7-jammy?label=MongoDB" /> •
+  <img alt="Docker Image Version for Zookeeper" src="https://img.shields.io/docker/v/zookeeper/3.9.2-jre-17?label=Zookeeper" /> •
   <img alt="Docker Image Version for Kafka" src="https://img.shields.io/docker/v/wurstmeister/kafka/2.13-2.8.1?label=Kafka" /> •
   <img alt="Docker Image Version for Kafka UI" src="https://img.shields.io/docker/v/provectuslabs/kafka-ui/v0.7.2?label=Kafka UI" /> •
   <img alt="Docker Image Version for Papermerge" src="https://img.shields.io/docker/v/papermerge/papermerge/3.1?label=Papermerge" /> •
