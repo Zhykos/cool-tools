@@ -1,5 +1,9 @@
 # ⚠️ TODO: copy from https://github.com/PurpleBooth/a-good-readme-template/blob/main/CONTRIBUTING.md
 
+- gitflow
+- semantic versioning
+
+
 # Contributing
 
 ## Issues
