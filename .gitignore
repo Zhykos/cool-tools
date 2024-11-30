@@ -1,2 +1,8 @@
 /.metadata/
+.classpath
 .DS_Store
+.factorypath
+.project
+org.eclipse.core.resources.prefs
+org.eclipse.jdt.apt.core.prefs
+org.eclipse.jdt.core.prefs

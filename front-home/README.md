@@ -1,30 +1,26 @@
-# front-home
+# Cool tool - A frontend application made with Vue 3 and Vite
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is a frontend application made with Vue 3 and Vite.
+It is a simple application that represents a shop with users, products and a shopping cart.
 
-## Recommended IDE Setup
+This project is also configured with OpenTelemetry to send traces to the OpenTelemetry Collector.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Getting Started
 
-## Type Support for `.vue` Imports in TS
+Be sure to start the [Docker Compose](../Infra/docker-compose.yml) environment in the main project, "Infra" directory, before running the application.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+To run this project, you need to have Node.js installed on your machine (minimum version: 21).
 
-## Customize configuration
+Run the following commands to install the dependencies and start the application:
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
+
+A local server will start on port 3000, and you can access the application at [http://localhost:3000](http://localhost:3000).
+
+## Other commands (from official README)
 
 ### Type-Check, Compile and Minify for Production
 
@@ -56,3 +52,23 @@ npm run test:e2e -- tests/example.spec.ts
 # Runs the tests in debug mode
 npm run test:e2e -- --debug
 ```
+
+## Contributing
+
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [Semantic Versioning](http://semver.org/) for versioning.
+
+## Authors
+
+- **Thomas Cicognani** - *First version of the benchmark* -
+  [Zhykos](https://github.com/Zhykos)
+
+## Acknowledgments
+
+- PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
+- Hat tip to anyone whose code is used
+- The world because I'm a bad person who uses CoPilot

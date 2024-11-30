@@ -19,7 +19,7 @@ import TheWelcome from "@/components/TheWelcome.vue";
 
             <nav>
                 <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/shop">Fake shop</RouterLink>
+                <RouterLink to="/shop">Shop</RouterLink>
             </nav>
         </div>
     </header>
