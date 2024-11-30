@@ -97,10 +97,10 @@ Then, to get the project, clone it with [Git](https://git-scm.com). From your co
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/zhykos/microservices-cool-tools
+$ git clone https://github.com/zhykos/cool-tools
 
 # Go into the repository
-$ cd microservices-cool-tools
+$ cd cool-tools
 
 # Start the Docker Compose: for more information, see the README.md file in the Infra directory
 $ cd Infra
