@@ -138,4 +138,4 @@ MIT: [LICENSE](LICENSE) for more information.
 
 > [zhykos.fr](https://www.zhykos.fr) &nbsp;&middot;&nbsp;
 > GitHub [@zhykos](https://github.com/Zhykos) &nbsp;&middot;&nbsp;
-> Bluesky [@zhykos](https://bsky.app/profile/zhykos.bsky.social)
+> Bluesky [@zhykos](https://bsky.app/profile/zhykos.fr)
