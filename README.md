@@ -11,6 +11,7 @@
 <p align="center">
   <a href="#description">Description</a> •
   <a href="#how-to-use">How To Use</a> •
+  <a href="#contributing">Contributing</a> •
   <a href="#credits">Credits</a> •
   <a href="#kudos">Kudos</a> •
   <a href="#license">License</a>
@@ -110,6 +111,11 @@ $ docker-compose up -d
 # For more information, see the README.md file in each directory
 ```
 
+## Contributing
+
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
+
 ## Credits
 
 Check credits in each directory.
@@ -132,7 +138,7 @@ Documentation and articles I used and help me a lot to create this project:
 
 ## License
 
-MIT: [LICENSE](LICENSE) for more information.
+MIT: [LICENSE](./LICENSE) for more information.
 
 ---
 
