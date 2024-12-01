@@ -61,6 +61,7 @@ Here are all the tools I used in this project with their versions released on Do
 * [Grafana](https://grafana.com/)
 * [OpenTelemetry](https://opentelemetry.io/)
 * [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/)
+* [H2](https://www.h2database.com/)
 * [Postgres](https://www.postgresql.org/)
 * [MongoDB](https://www.mongodb.com/)
 * [Zookeeper](https://zookeeper.apache.org/)
@@ -72,8 +73,9 @@ Here are all the tools I used in this project with their versions released on Do
 * [Excalidraw](https://excalidraw.com/)
 
 Thus we will use the following tools:
-* [Docker](https://www.docker.com/)
-* [Docker Compose](https://docs.docker.com/compose/)
+* [Docker](https://www.docker.com/): Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
+* [Docker Compose](https://docs.docker.com/compose/): Compose is a tool for defining and running multi-container Docker applications.
+* [Bruno](https://www.usebruno.com/): Bruno is a Git-integrated, fully offline, and open-source API client.
 
 The project contains several directories (a README.md file is present in each directory):
 * [BasketAPI](./BasketAPI/README.md): a simple API to manage a basket made with Play Framework
@@ -99,18 +101,138 @@ Then, to get the project, clone it with [Git](https://git-scm.com). From your co
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/zhykos/cool-tools
+git clone https://github.com/zhykos/cool-tools
 
 # Go into the repository
-$ cd cool-tools
-
-# Start the Docker Compose: for more information, see the README.md file in the Infra directory
-$ cd Infra
-$ docker-compose up -d
-
-# Run all applications
-# For more information, see the README.md file in each directory
+cd cool-tools
 ```
+
+### Run the complete shop example
+
+To run the complete shop example and check if everything is working, run the following commands:
+
+```bash
+# (1) Start the Docker Compose: for more information, see the README.md file in the Infra directory
+cd Infra
+docker compose up -d
+
+# Check if containers are running
+docker ps
+
+# ---
+# (2) Run the UserAPI
+# Open a new terminal
+# See the README.md file in the UserAPI directory for more information
+# Requires Maven and Java 21
+cd UserAPI
+mvn clean test
+mvn spring-boot:run
+
+# Check if the UserAPI is running
+# Open the URL: http://localhost:9001/actuator/health (status should be "UP")
+
+# ---
+# (3) Run the ProductAPI
+# Open a new terminal
+# See the README.md file in the ProductAPI directory for more information
+# Requires Maven and Java 21
+cd ProductAPI
+mvn clean test
+mvn spring-boot:run
+
+# Check if the ProductAPI is running
+# Open the URL: http://localhost:9002/actuator/health (status should be "UP")
+
+# ---
+# (4) Run the BasketAPI
+# Open a new terminal
+# See the README.md file in the BasketAPI directory for more information
+# Requires sbt and Java 21
+cd BasketAPI
+sbt clean
+sbt compile
+sbt "run 9003" -DOTEL_SERVICE_NAME=basket -DOTEL_TRACES_EXPORTER=otlp -DOTEL_METRICS_EXPORTER=otlp -DOTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 -J-Xms512m -J-Xmx2048m -J-javaagent:opentelemetry-javaagent.jar -J-server
+
+# Check if the BasketAPI is running
+# Open the URL: http://localhost:9003 (should display the available routes)
+
+# ---
+# (5) Run the OrderAPI
+# Open a new terminal
+# See the README.md file in the OrderAPI directory for more information
+# Requires Go
+cd OrderAPI
+go build
+MONGODB_URI="mongodb://root:password@localhost:9014" USER_API_URI="http://localhost:9001" PRODUCT_API_URI="http://localhost:9002" OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318" KAFKA_URI="kafka:9092" ./OrderAPI
+
+# Check if the OrderAPI is running
+# Open the URL: http://localhost:9004 (should display a 404 Not Found error)
+
+# ---
+# (6) Run the InvoiceAPI
+# Open a new terminal
+# See the README.md file in the InvoiceAPI directory for more information
+# Requires Maven and Java 21
+cd InvoiceAPI
+
+# But first, you need to get a Papermerge token
+# Get the Papermerge container ID
+docker ps -aqf "name=papermerge-worker"
+
+# Get the Papermerge token
+docker exec <DOCKER CONTAINER> create_token.sh admin
+
+# Run the InvoiceAPI
+./mvnw clean compile
+./mvnw quarkus:dev -Dged.token=<TOKEN>
+
+# Check if the InvoiceAPI is running
+# Open the URL: http://localhost:9005 (Quarkus UI should be displayed)
+
+# ---
+# (7) Run the front-home
+# Open a new terminal
+# See the README.md file in the front-home directory for more information
+# Requires Node.js 21
+cd front-home
+npm install
+npm run dev
+
+# Click on displayed URL or open the URL: http://localhost:5173/ (should display the project home page).
+# Then you can navigate through the website and go to the shop page: http://localhost:5173/shop
+```
+
+> **Note**: I was not able to run the tests on Firefox. Somehow, the `fetch` function always returns an error due to CORS and may be blocked by an extension (though it's ok on private mode).
+
+You also can request APIs with [Bruno](https://www.usebruno.com/).
+You'll find collections in `_bruno` directories.
+
+### Use the Shop
+
+You can use the shop to add products to your basket, create an order, and generate an invoice.
+
+> Sorry the UI and UX of the shop are not perfect, it's just a simple example.
+
+To do so, you need to:
+* Go to the shop page: [http://localhost:5173/shop](http://localhost:5173/shop)
+* Create a user
+  * Fill the form with a username and click on the "Create user" button
+* Select a user by clicking on a username in the list
+  * The user is selected when the username is displayed in top of the page
+* Select a product by clicking on a product in the list
+  * The product is added to the basket: you can see the basket below the product list
+* Create an order by clicking on the "Create order" button
+* Download the invoice by clicking on the link presenting a PDF path.
+
+### Check the applications
+
+You can check the applications, if everything works correctly, with the following URLs:
+* [Prometheus](http://localhost:9090/): it's a bit complicated to use, I won't explain how to use it here (because it's easier with Grafana), but you can check the metrics
+* [Graphana](http://localhost:3000/): you can log in with the default credentials (admin/password) and check the dashboards (see the README.md file in the Infra directory for more information)
+* [Zipkin](http://localhost:9411/): you can check the traces, click on "Find Traces" and you should see traces, click on one to see the details with the button "SHOW". For instance, display the traces of *"shop-frontend: click"* (21 sections) and you should see the traces of the front-end
+* [Kafka UI](http://localhost:8085/): you can check the Kafka topics and messages
+* [Papermerge](http://localhost:12000/): you can check the generated invoices (PDF files)
+* [Inbucket](http://localhost:9000/): you can check the emails sent by the applications
 
 ## Contributing
 
