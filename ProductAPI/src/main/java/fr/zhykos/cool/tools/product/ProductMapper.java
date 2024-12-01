@@ -1,14 +1,25 @@
 package fr.zhykos.cool.tools.product;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ProductMapper {
+@Component
+public class ProductMapper {
 
-	Product entityToDomain(ProductEntity entity);
+    public Product entityToDomain(final ProductEntity entity) {
+        return new Product(
+            entity.getUuid(),
+            entity.getName(),
+            entity.getDescription(),
+            entity.getPrice()
+        );
+    }
 
-	ProductDTO domainToDto(Product product);
-
+    public ProductDTO domainToDto(final Product product) {
+        return new ProductDTO(
+            product.uuid(),
+            product.name(),
+            product.description(),
+            product.price()
+        );
+    }
 }
