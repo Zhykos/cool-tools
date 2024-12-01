@@ -114,10 +114,22 @@ To run the complete shop example and check if everything is working, run the fol
 ```bash
 # (1) Start the Docker Compose: for more information, see the README.md file in the Infra directory
 cd Infra
+# But first, you need to get you IP address to configure Kong
+ipconfig getifaddr en0
+# Use the IP address to configure Kong in the "kong/kong.yaml" file at line 36
+-> "host: 192.168.1.140" for instance
+# Then start the infrastructure
 docker compose up -d
 
 # Check if containers are running
 docker ps
+
+# Kong automatic configuration may not work, so you need to configure it manually
+# But first, check if you have to configure it
+# Open the URL: http://localhost:8002/ (should display the Kong Admin) and check the gateway services
+# If you don't see the services, you need to configure it manually
+# See the README.md file in the Infra directory for more information, at "Software infrastructure and tools / Details / Kong / Import configuration"
+# Then check again Kong Admin if the gateway is displayed
 
 # ---
 # (2) Run the UserAPI
@@ -205,13 +217,13 @@ npm run dev
 > **Note**: I was not able to run the tests on Firefox. Somehow, the `fetch` function always returns an error due to CORS and may be blocked by an extension (though it's ok on private mode).
 
 You also can request APIs with [Bruno](https://www.usebruno.com/).
-You'll find collections in `_bruno` directories.
+You'll find collections in `_bruno_` directories in each API directory and the `Infra` directory.
 
 ### Use the Shop
 
 You can use the shop to add products to your basket, create an order, and generate an invoice.
 
-> Sorry the UI and UX of the shop are not perfect, it's just a simple example.
+> Sorry, the UI and UX of the shop are not perfect, it's just a simple example.
 
 To do so, you need to:
 * Go to the shop page: [http://localhost:5173/shop](http://localhost:5173/shop)
@@ -233,6 +245,7 @@ You can check the applications, if everything works correctly, with the followin
 * [Kafka UI](http://localhost:8085/): you can check the Kafka topics and messages
 * [Papermerge](http://localhost:12000/): you can check the generated invoices (PDF files)
 * [Inbucket](http://localhost:9000/): you can check the emails sent by the applications
+* [Kong](http://localhost:8002/): you can check the API gateway
 
 ## Contributing
 
