@@ -1,13 +1,15 @@
 package fr.zhykos.cool.tools.user;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
+@Component
+public class UserMapper {
 
-	User entityToDomain(UserEntity entity);
+	public User entityToDomain(final UserEntity entity) {
+		return new User(entity.getUuid(), entity.getName());
+	}
 
-	UserDTO domainToDto(User user);
+	public UserDTO domainToDto(final User user) {
+		return new UserDTO(user.uuid(), user.name());
+	}
 }
