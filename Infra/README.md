@@ -65,6 +65,10 @@ Website: https://grafana.com/
 
 Open the Grafana web interface at http://localhost:3000/
 
+Some dashboards are available in the project, in the `grafana` directory.
+Go to the Grafana web interface and import the dashboards from the JSON files.
+Check the official documentation for more information: https://grafana.com/docs/grafana/latest/reference/export_import/.
+
 #### Zipkin
 
 Zipkin is a distributed tracing system.
