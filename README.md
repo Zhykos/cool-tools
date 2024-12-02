@@ -36,46 +36,11 @@ So I made a project with a simple architecture and a little online shop.
 I wrote some microservices, and I wanted to add the OpenTelemetry project to it.
 And then it become bigger and bigger, a real project to try and learn new things.
 
-Here are all the tools I used in this project with their versions released on Docker Hub:
+Here are all the tools I used in this project:
 
 <p align="center">
-  <img alt="Docker Image Version for Prometheus" src="https://img.shields.io/docker/v/prom/prometheus/v2.53.0?label=Prometheus" /> •
-  <img alt="Docker Image Version for Loki" src="https://img.shields.io/docker/v/grafana/loki/3.1.0?label=Loki" /> •
-  <img alt="Docker Image Version for Zipkin" src="https://img.shields.io/docker/v/openzipkin/zipkin/3.4.0?label=Zipkin" /> •
-  <img alt="Docker Image Version for Grafana" src="https://img.shields.io/docker/v/grafana/grafana/10.0.3?label=Grafana" /> •
-  <img alt="Docker Image Version for OpenTelemetry Collector" src="https://img.shields.io/docker/v/otel/opentelemetry-collector-contrib/0.104.0?label=OpenTelemetry%20Collector" /> •
-  <img alt="Docker Image Version for Postgres" src="https://img.shields.io/docker/v/library/postgres/16.3-alpine?label=Postgres" /> •
-  <img alt="Docker Image Version for MongoDB" src="https://img.shields.io/docker/v/library/mongo/7-jammy?label=MongoDB" /> •
-  <img alt="Docker Image Version for Zookeeper" src="https://img.shields.io/docker/v/library/zookeeper/3.9.2-jre-17?label=Zookeeper" /> •
-  <img alt="Docker Image Version for Kafka" src="https://img.shields.io/docker/v/wurstmeister/kafka/2.13-2.8.1?label=Kafka" /> •
-  <img alt="Docker Image Version for Kafka UI" src="https://img.shields.io/docker/v/provectuslabs/kafka-ui/v0.7.2?label=Kafka UI" /> •
-  <img alt="Docker Image Version for Papermerge" src="https://img.shields.io/docker/v/papermerge/papermerge/3.1?label=Papermerge" /> •
-  <img alt="Docker Image Version for Inbucket" src="https://img.shields.io/docker/v/inbucket/inbucket/sha-504a79a?label=Inbucket" /> •
-  <img alt="Docker Image Version for Kong" src="https://img.shields.io/docker/v/kong/kong/release-3.7.1-ubuntu?label=Kong" /> •
-  <img alt="Docker Image Version for Excalidraw" src="https://img.shields.io/docker/v/excalidraw/excalidraw/latest?label=Excalidraw" />
+    [Prometheus](https://prometheus.io/) • [Loki](https://grafana.com/oss/loki/) • [Zipkin](https://zipkin.io/) • [Grafana](https://grafana.com/) • [OpenTelemetry](https://opentelemetry.io/) • [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) • [H2](https://www.h2database.com/) • [Postgres](https://www.postgresql.org/) • [MongoDB](https://www.mongodb.com/) • [Zookeeper](https://zookeeper.apache.org/) • [Kafka](https://kafka.apache.org/) • [Kafka UI](https://docs.kafka-ui.provectus.io/) •  [Papermerge](https://www.papermerge.com/) • [Inbucket](https://www.inbucket.org/) • [Kong](https://konghq.com/) • [Excalidraw](https://excalidraw.com/) • [Vue.js](https://vuejs.org/) • [Play Framework](https://www.playframework.com/) • [Quarkus](https://quarkus.io/) • [Spring Boot](https://spring.io/projects/spring-boot) • [Go](https://golang.org/) • [Docker](https://www.docker.com/) • [Docker Compose](https://docs.docker.com/compose/) • [Bruno](https://www.usebruno.com/) • [PlantUML](https://plantuml.com/) • [Archimate](https://www.archimatetool.com/) • [Locust](https://locust.io/) • [Node.js](https://nodejs.org/) • [Maven](https://maven.apache.org/) • [Java](https://www.java.com/)
 </p>
-
-* [Prometheus](https://prometheus.io/)
-* [Loki](https://grafana.com/oss/loki/)
-* [Zipkin](https://zipkin.io/)
-* [Grafana](https://grafana.com/)
-* [OpenTelemetry](https://opentelemetry.io/)
-* [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/)
-* [H2](https://www.h2database.com/)
-* [Postgres](https://www.postgresql.org/)
-* [MongoDB](https://www.mongodb.com/)
-* [Zookeeper](https://zookeeper.apache.org/)
-* [Kafka](https://kafka.apache.org/)
-* [Kafka UI](https://docs.kafka-ui.provectus.io/)
-* [Papermerge](https://www.papermerge.com/)
-* [Inbucket](https://www.inbucket.org/)
-* [Kong](https://konghq.com/)
-* [Excalidraw](https://excalidraw.com/)
-
-Thus we will use the following tools:
-* [Docker](https://www.docker.com/): Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
-* [Docker Compose](https://docs.docker.com/compose/): Compose is a tool for defining and running multi-container Docker applications.
-* [Bruno](https://www.usebruno.com/): Bruno is a Git-integrated, fully offline, and open-source API client.
 
 The project contains several directories (a README.md file is present in each directory):
 * [BasketAPI](./BasketAPI/README.md): a simple API to manage a basket made with Play Framework
@@ -114,8 +79,8 @@ To run the complete shop example and check if everything is working, run the fol
 ```bash
 # (1) Start the Docker Compose: for more information, see the README.md file in the Infra directory
 cd Infra
-# But first, you need to get you IP address to configure Kong
-ipconfig getifaddr en0
+# But first, you need to get your IP address to configure Kong (the one where the Docker containers will be accessible)
+ipconfig getifaddr en0 # Unix
 # Use the IP address to configure Kong in the "kong/kong.yaml" file at line 36
 -> "host: 192.168.1.140" for instance
 # Then start the infrastructure
