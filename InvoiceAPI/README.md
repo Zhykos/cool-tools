@@ -41,6 +41,8 @@ Before launching the API, you need to get a token from the GED. To do so, run th
 
 ```bash
 docker ps
+# OR
+docker ps -aqf "name=papermerge-worker"
 ```
 
 Then, copy the container ID of the GED and run the following command:

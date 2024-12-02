@@ -10,7 +10,7 @@ The API has the following endpoints:
 - `GET /user` - List all users
 - `POST /user` - Create a new user
 
-Users are stored in a PostgreSQL database.
+Users are stored in a H2 database in memory.
 
 The API is instrumented with [OpenTelemetry](https://opentelemetry.io/) to collect traces and metrics. The traces are sent to the OpenTelemetry Collector and the metrics are sent to Prometheus via the OpenTelemetry Collector.
 

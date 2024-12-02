@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
+
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
@@ -14,11 +17,9 @@ import (
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
 	"go.opentelemetry.io/otel/trace"
-	"log"
-	"net/http"
 
 	"OrderAPI/models"
-    "OrderAPI/services"
+	"OrderAPI/services"
 )
 
 var tracerProvider trace.TracerProvider
@@ -133,7 +134,7 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    json.NewEncoder(w).Encode(result)
-    w.WriteHeader(http.StatusCreated)
     w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(result)
 }
