@@ -1,0 +1,16 @@
+name: fr-zhykos-cool-tools-shop-e2e
+
+include:
+  - ../../../../Infra/docker-compose.yml # Include the docker-compose file from the Infra module
+
+services:
+  
+  user-api:
+    build: ../../../../UserAPI
+    ports:
+      - "9001:9001"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+    depends_on:
+      grafana:
+        condition: service_started
