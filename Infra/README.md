@@ -200,7 +200,7 @@ Requirements for the software and other tools to build and run the API
 Start the infrastructure with the following command:
 
 ```bash
-export EXTERNAL_IP=$(ipconfig getifaddr en0) && docker compose up -d --build
+docker compose up -d --build
 ```
 
 ## Improvements
