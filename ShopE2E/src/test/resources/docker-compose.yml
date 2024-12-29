@@ -14,6 +14,19 @@ services:
     depends_on:
       grafana:
         condition: service_started
+
+  product-api:
+    build: ../../../../ProductAPI
+    ports:
+      - "9002:9002"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+      - SPRING_R2DBC_URL=r2dbc:postgresql://${EXTERNAL_IP}:9012/db
+    depends_on:
+      grafana:
+        condition: service_started
+      postgres-products:
+        condition: service_started
   
   user-api:
     build: ../../../../UserAPI
