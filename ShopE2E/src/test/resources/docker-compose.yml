@@ -4,6 +4,16 @@ include:
   - ../../../../Infra/docker-compose.yml # Include the docker-compose file from the Infra module
 
 services:
+
+  basket-api:
+    build: ../../../../BasketAPI-SpringBoot
+    ports:
+      - "9003:9003"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+    depends_on:
+      grafana:
+        condition: service_started
   
   user-api:
     build: ../../../../UserAPI
