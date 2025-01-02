@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
-import { UserDTO } from "@/dto/UserDTO";
+import type { UserDTO } from "@/dto/UserDTO";
 import { useUserStore } from "@/stores/shopStore";
 
 const props = defineProps<{ users: UserDTO[] }>();

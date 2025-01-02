@@ -11,7 +11,7 @@ import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 
-const FrontendTracer = async () => {
+export const FrontendTracer = async () => {
     const { ZoneContextManager } = await import("@opentelemetry/context-zone");
     const provider = new WebTracerProvider({
         resource: new Resource({
@@ -41,4 +41,3 @@ const FrontendTracer = async () => {
         ],
     });
 };
-export default FrontendTracer;

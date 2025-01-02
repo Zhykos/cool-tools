@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import { defineEmits } from "vue";
+import { defineEmits, ref } from "vue";
 
 const emit = defineEmits<{
     (e: "userCreated", username: string): void;
 }>();
 
-const createUser = (event: Event) => {
-    event.preventDefault();
-    const username: string = event.target.username.value;
-    if (username.length === 0) {
+const username = ref("");
+
+const createUser = () => {
+    if (username.value.length === 0) {
         alert("Please enter a username");
         return;
     }
 
-    emit("userCreated", username);
+    emit("userCreated", username.value);
 };
 </script>
 
 <template>
     <div>
-        <form @submit="createUser">
-            <label for="username">Username</label>
-            <input type="text" id="username" maxlength="255" />
-            <button type="submit">Create user</button>
-        </form>
+        <label for="username">Username</label>
+        <input type="text" id="username" maxlength="255" v-model="username" />
+        <button type="submit" @click="createUser">Create user</button>
     </div>
 </template>
 
