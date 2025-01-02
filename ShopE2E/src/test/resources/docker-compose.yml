@@ -15,41 +15,63 @@ services:
   #     grafana:
   #       condition: service_started
 
-  invoice-api:
-    build: ../../../../InvoiceAPI
+  # invoice-api:
+  #   build: ../../../../InvoiceAPI
+  #   ports:
+  #     - "9005:9005"
+  #   environment:
+  #     - QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4317
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   depends_on:
+  #     grafana:
+  #       condition: service_started
+  #     kafka:
+  #       condition: service_started
+  #     papermerge-web:
+  #       condition: service_started
+
+  order-api:
+    build: ../../../../OrderAPI
     ports:
-      - "9005:9005"
+      - "9004:9004"
     environment:
-      - QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4317
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - MONGODB_URI=mongodb://root:password@${EXTERNAL_IP}:9014
+      - USER_API_URI=http://user-api:9001
+      - PRODUCT_API_URI=http://product-api:9002
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+      - KAFKA_URI=kafka:9092
     depends_on:
       grafana:
         condition: service_started
       kafka:
         condition: service_started
-      papermerge-web:
+      mongo-orders:
+        condition: service_started
+      user-api:
+        condition: service_started
+      product-api:
         condition: service_started
 
-  # product-api:
-  #   build: ../../../../ProductAPI
-  #   ports:
-  #     - "9002:9002"
-  #   environment:
-  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
-  #     - SPRING_R2DBC_URL=r2dbc:postgresql://${EXTERNAL_IP}:9012/db
-  #   depends_on:
-  #     grafana:
-  #       condition: service_started
-  #     postgres-products:
-  #       condition: service_started
+  product-api:
+    build: ../../../../ProductAPI
+    ports:
+      - "9002:9002"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+      - SPRING_R2DBC_URL=r2dbc:postgresql://${EXTERNAL_IP}:9012/db
+    depends_on:
+      grafana:
+        condition: service_started
+      postgres-products:
+        condition: service_started
   
-  # user-api:
-  #   build: ../../../../UserAPI
-  #   ports:
-  #     - "9001:9001"
-  #   environment:
-  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
-  #   depends_on:
-  #     grafana:
-  #       condition: service_started
+  user-api:
+    build: ../../../../UserAPI
+    ports:
+      - "9001:9001"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
+    depends_on:
+      grafana:
+        condition: service_started
