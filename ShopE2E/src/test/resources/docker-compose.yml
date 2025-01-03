@@ -18,12 +18,13 @@ services:
   front-shop:
     build: ../../../../front-home
     ports:
-      - "9999:80"
+      - "5173:80"
     environment:
-      - BASKET_API_URI=http://basket-api:9003
-      - ORDER_API_URI=http://order-api:9004
-      - PRODUCT_API_URI=http://product-api:9002
-      - USER_API_URI=http://user-api:9001
+      - VITE_BASKET_API_URI=http://basket-api:9003/basket
+      - VITE_ORDER_API_URI=http://order-api:9004/order
+      - VITE_PRODUCT_API_URI=http://product-api:9002/product
+      - VITE_USER_API_URI=http://user-api:9001/user
+      - VITE_OPENTELEMETRY_COLLECTOR_URI=http://opentelemetry-collector:4318/v1/traces
     depends_on:
       basket-api:
         condition: service_started
