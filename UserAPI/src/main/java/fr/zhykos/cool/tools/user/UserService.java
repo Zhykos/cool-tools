@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -29,9 +30,12 @@ public class UserService {
 		return StreamSupport.stream(entities.spliterator(), true).map(mapper::entityToDomain).toList();
 	}
 
-	public void fail() {
-		final var noUser = usersRepository.findById(-1L);
-		mapper.entityToDomain(noUser.orElseThrow());
+	@Transactional
+	public List<User> deleteUser(final String uuid) {
+		log.info("Deleting user with UUID: {}", uuid);
+		final var deleteUsers = usersRepository.deleteByUuid(uuid);
+		log.info("Deleted users: {}", deleteUsers);
+		return deleteUsers.stream().map(mapper::entityToDomain).toList();
 	}
 
 }

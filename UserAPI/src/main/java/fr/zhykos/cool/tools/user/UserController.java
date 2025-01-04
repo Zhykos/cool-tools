@@ -45,4 +45,16 @@ public class UserController {
                 users.parallelStream().map(mapper::domainToDto).toList()
         );
     }
+
+    @DeleteMapping("/{uuid}")
+    @CrossOrigin
+    @Operation(summary = "Delete a user", description = "Delete a user")
+    @Parameter(name = "uuid", description = "User UUID", required = true)
+    @ApiResponse(responseCode = "200", description = "List of deleted users")
+    public ResponseEntity<List<UserDTO>> deleteUser(@PathVariable final String uuid) {
+        final var deletedUsers = userService.deleteUser(uuid);
+        return ResponseEntity.ok(
+                deletedUsers.parallelStream().map(mapper::domainToDto).toList()
+        );
+    }
 }

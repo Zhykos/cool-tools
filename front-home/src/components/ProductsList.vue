@@ -17,8 +17,8 @@ async function selectProduct(product: ProductDTO) {
 </script>
 
 <template>
-    <p v-if="props.products.length === 0" data-testid="product-list">No product</p>
-    <p v-else data-testid="product-list">Select a product to put it on your basket</p>
+    <p v-if="props.products.length === 0" data-testid="product-list-title">No product</p>
+    <p v-else data-testid="product-list-title">Select a product to put it on your basket</p>
     <ul>
         <li v-for="product in props.products" :key="product.uuid">
             <p>

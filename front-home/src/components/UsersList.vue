@@ -12,11 +12,11 @@ function selectUser(user: UserDTO) {
 </script>
 
 <template>
-    <p v-if="props.users.length === 0">No user: create a new one above</p>
-    <p v-else>Click on a user to select it</p>
-    <ul>
+    <p v-if="props.users.length === 0" data-testid="user-list-title">No user: create a new one above</p>
+    <p v-else data-testid="user-list-title">Click on a user to select it</p>
+    <ul data-testid="user-list" role="list">
         <li v-for="user in props.users" :key="user.uuid">
-            <p>
+            <p :data-testid="'user-' + user.uuid" role="listitem">
                 <a href="javascript:void(0)" @click="selectUser(user)">{{
                     user.name
                 }}</a>
