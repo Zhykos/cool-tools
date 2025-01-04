@@ -10,6 +10,7 @@ import { getWebAutoInstrumentations } from "@opentelemetry/auto-instrumentations
 import { Resource } from "@opentelemetry/resources";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import type { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
 
 export const FrontendTracer = async () => {
     const { ZoneContextManager } = await import("@opentelemetry/context-zone");
@@ -18,9 +19,13 @@ export const FrontendTracer = async () => {
             [ATTR_SERVICE_NAME]: "shop-frontend",
         }),
     });
-    provider.addSpanProcessor(new SimpleSpanProcessor(new OTLPTraceExporter({
-        url: import.meta.env.VITE_OPENTELEMETRY_COLLECTOR_URI as string,
-    })));
+
+    const exporterOpts: OTLPExporterNodeConfigBase = {};
+    if (import.meta.env.VITE_OPENTELEMETRY_COLLECTOR_URI) {
+        exporterOpts.url = import.meta.env.VITE_OPENTELEMETRY_COLLECTOR_URI;
+    }
+
+    provider.addSpanProcessor(new SimpleSpanProcessor(new OTLPTraceExporter(exporterOpts)));
     const contextManager = new ZoneContextManager();
     provider.register({
         contextManager,
