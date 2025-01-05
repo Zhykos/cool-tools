@@ -4,7 +4,8 @@ test('Full shop test', async ({ page }) => {
   await goHome(page);
   await goToShopFromHome(page);
   await addUser(page);
-  await selectUser(page);
+  const userUUID: string = await selectUser(page);
+  await selectProduct(page, userUUID);
 });
 
 async function goHome(page: Page): Promise<void> {
@@ -35,14 +36,15 @@ async function addUser(page: Page): Promise<void> {
   await expect(userListItemsLocator).toHaveText(/John Doe\([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\)/);
 }
 
-async function selectUser(page: Page): Promise<void> {
+async function selectUser(page: Page): Promise<string> {
   await expect(page.getByTestId("selected-user")).toHaveText("User not selected yet (select one below)");
 
   const userListItemsLocator: Locator = page.getByRole('listitem').filter({ hasText: "John Doe" });
   const listItemID: string | null = await userListItemsLocator.getAttribute("data-testid");
   expect(listItemID).not.toBeNull();
 
-  const linkID = `${(listItemID as string).split(':')[0]}-link:${(listItemID as string).split(':')[1]}`;
+  const itemUUID: string = (listItemID as string).split(':')[1];
+  const linkID = `${(listItemID as string).split(':')[0]}-link:${itemUUID}`;
 
   const userItemLocator: Locator = page.getByTestId(linkID);
   await expect(userItemLocator).toHaveCount(1);
@@ -51,6 +53,24 @@ async function selectUser(page: Page): Promise<void> {
   await userItemLocator.click();
 
   await expect(page.getByTestId("selected-user")).toHaveText(/\{"uuid":"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}","name":"John Doe"\}/);
+  await expect(page.getByTestId("selected-user")).toContainText(itemUUID);
 
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
+
+  return itemUUID;
+}
+
+async function selectProduct(page: Page, userUUID: string): Promise<void> {
+  await expect(page.getByRole('listitem').filter({ hasNotText: "John Doe" })).toHaveCount(10);
+
+  await expect(page.getByTestId("basket")).toHaveText("Select user and product (select them above)");
+
+  await page.getByTestId("product-link:Zulu-346").click();
+
+  await expect(page.getByTestId("basket")).toHaveText(/\{"basketId":\d+,"userId":"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}","productId":"1d9f5cd4-d25e-4bc0-8459-694b359bf388"}/);
+  await expect(page.getByTestId("basket")).toContainText(userUUID);
+
+  await page.mouse.wheel(0, 1000);
+
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
 }

@@ -22,7 +22,7 @@ async function selectProduct(product: ProductDTO) {
     <ul>
         <li v-for="product in props.products" :key="product.uuid">
             <p>
-                <a href="javascript:void(0)" @click="selectProduct(product)">{{
+                <a href="javascript:void(0)" @click="selectProduct(product)" :data-testid="'product-link:' + product.name.replace(' ','-')">{{
                     product.name
                 }}</a>
                 : <b>{{ product.price }}</b> / {{ product.description }} /
