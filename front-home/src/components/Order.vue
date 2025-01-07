@@ -26,10 +26,10 @@ async function createOrder() {
 
 <template>
     <div>
-        <button @click="createOrder">Create order</button>
+        <button @click="createOrder" data-testid="create-order">Create order</button>
     </div>
-    <div v-if="orderDone?.OrderID">
+    <div v-if="orderDone?.OrderID" data-testid="pdf-div">
         Download PDF:
-        <a :href="invoicePdfUrl" target="_blank">{{ invoicePdfUrl }}</a>
+        <a :href="invoicePdfUrl" target="_blank" data-testid="pdf-link">{{ invoicePdfUrl }}</a>
     </div>
 </template>

@@ -6,6 +6,16 @@ test('Full shop test', async ({ page }) => {
   await addUser(page);
   const userUUID: string = await selectUser(page);
   await selectProduct(page, userUUID);
+  const pdfURL: string = await createOrder(page);
+  await openPDF(page, pdfURL);
+
+  // TODO
+  // Check zipkin traces
+  // Check prometheus metrics
+  // Check grafana dashboards
+  // Check papermerge
+  // Check email
+  // Check excalidraw
 });
 
 async function goHome(page: Page): Promise<void> {
@@ -73,4 +83,23 @@ async function selectProduct(page: Page, userUUID: string): Promise<void> {
   await page.mouse.wheel(0, 1000);
 
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
+}
+
+async function createOrder(page: Page): Promise<string> {
+  await expect(page.getByTestId("pdf-link")).toHaveCount(0);
+
+  await page.getByTestId("create-order").click();
+
+  await expect(page.getByTestId("pdf-div")).toHaveText(/Download PDF: http:\/\/localhost:9005\/invoice\/[0-9a-f]+\/download/, { timeout: 10_000 });
+
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
+
+  return await page.getByTestId("pdf-link").innerText();
+}
+
+async function openPDF(page: Page, pdfURL: string): Promise<void> {
+  await page.goto(pdfURL);
+
+  await expect(page).toHaveTitle("Invoice");
+  await expect(page).toHaveScreenshot();
 }

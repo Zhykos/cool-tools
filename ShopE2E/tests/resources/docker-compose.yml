@@ -43,8 +43,7 @@ services:
       - "9005:9005"
     environment:
       - QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4317
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - QUARKUS_REST-CLIENT_PAPERMERGE-API_URL=http://${EXTERNAL_IP}:12000/api
     depends_on:
       grafana:
         condition: service_started
