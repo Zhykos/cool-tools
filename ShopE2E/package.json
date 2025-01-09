@@ -9,5 +9,8 @@
   "devDependencies": {
     "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.5"
+  },
+  "dependencies": {
+    "pdf-visual-diff": "^0.14.0"
   }
 }

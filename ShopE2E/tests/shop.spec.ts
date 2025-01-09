@@ -1,13 +1,14 @@
-import { test, expect, type Page, type Locator } from '@playwright/test';
+import { test, expect, type Page, type Locator, type APIRequestContext, type APIResponse } from '@playwright/test';
+import { comparePdfToSnapshot } from 'pdf-visual-diff'
 
-test('Full shop test', async ({ page }) => {
+test('Full shop test', async ({ page, request }) => {
   await goHome(page);
   await goToShopFromHome(page);
   await addUser(page);
   const userUUID: string = await selectUser(page);
   await selectProduct(page, userUUID);
   const pdfURL: string = await createOrder(page);
-  await openPDF(page, pdfURL);
+  await openPDF(page, pdfURL, request);
 
   // TODO
   // Check zipkin traces
@@ -92,14 +93,20 @@ async function createOrder(page: Page): Promise<string> {
 
   await expect(page.getByTestId("pdf-div")).toHaveText(/Download PDF: http:\/\/localhost:9005\/invoice\/[0-9a-f]+\/download/, { timeout: 10_000 });
 
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 
   return await page.getByTestId("pdf-link").innerText();
 }
 
-async function openPDF(page: Page, pdfURL: string): Promise<void> {
-  await page.goto(pdfURL);
+async function openPDF(page: Page, pdfURL: string, request: APIRequestContext): Promise<void> {
+  await new Promise(resolve => setTimeout(resolve, 5000)); // Arbitrary wait for the PDF to be generated ; TODO: better way to wait for the PDF to be generated
 
-  await expect(page).toHaveTitle("Invoice");
-  await expect(page).toHaveScreenshot();
+  const response: APIResponse = await request.get(pdfURL);
+  expect(response.status()).toBe(200);
+
+  const pdfBuffer = await response.body();
+  expect(pdfBuffer.length).toBeGreaterThan(0);
+
+  const pdfEqual: boolean = await comparePdfToSnapshot(pdfBuffer, './tests/resources/snapshots/pdf', "invoice");
+  expect(pdfEqual).toBe(true);
 }

@@ -44,6 +44,7 @@ services:
     environment:
       - QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4317
       - QUARKUS_REST-CLIENT_PAPERMERGE-API_URL=http://${EXTERNAL_IP}:12000/api
+      - QUARKUS_MAILER_HOST=${EXTERNAL_IP}
     depends_on:
       grafana:
         condition: service_started
