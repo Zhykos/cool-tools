@@ -220,18 +220,17 @@ async function retry(page: Page): Promise<boolean> {
 }
 
 async function checkPrometheus(page: Page): Promise<void> {
-  // await page.goto('http://localhost:9090/');
-  // await expect(page).toHaveTitle("Prometheus");
+  await page.goto('http://localhost:9090/');
+  await expect(page).toHaveTitle("Prometheus Time Series Collection and Processing Server");
+  await expect(page).toHaveScreenshot();
 
-  // await page.getByTestId("graph").click();
-  // await expect(page).toHaveScreenshot();
+  await page.getByTitle("Open metrics explorer").click();
+  await expect(page.getByText("Metrics Explorer")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.5});
 
-  // await page.getByTestId("expression").fill("rate(http_server_requests_seconds_count{uri=\"/basket\"}[5m])");
-  // await expect(page).toHaveScreenshot();
+  await page.getByLabel("Close").click();
 
-  // await page.getByTestId("execute").click();
-  // await expect(page).toHaveScreenshot();
-
-  // await page.getByTestId("graph").click();
-  // await expect(page).toHaveScreenshot();
+  await page.getByRole("textbox").first().fill("http_server_active_requests");
+  await page.getByText("Execute").click();
+  await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.04});
 }
