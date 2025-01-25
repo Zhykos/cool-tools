@@ -19,10 +19,11 @@ test('Full shop test', async ({ page, request }) => {
   await checkPapermerge(page);
   const emailPdfURL: string = await checkEmails(page);
   await openAndCheckPDF(emailPdfURL, request);
+  await checkExcalidraw(page);
 
   // TODO
   // Check grafana dashboards
-  // Check excalidraw
+  // Check Kong
 });
 
 async function goHome(page: Page): Promise<void> {
@@ -271,4 +272,10 @@ async function checkEmails(page: Page): Promise<string> {
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 
   return `http://localhost:9000${await page.getByText("invoice.pdf").getAttribute("href")}`;
+}
+
+async function checkExcalidraw(page: Page): Promise<void> {
+  await page.goto('http://localhost:3030/');
+  await expect(page).toHaveTitle("Excalidraw | Hand-drawn look & feel • Collaborative • Secure");
+  await expect(page).toHaveScreenshot();
 }
