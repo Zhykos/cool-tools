@@ -9,18 +9,19 @@ test('Full shop test', async ({ page, request }) => {
   await addUser(page);
   const userUUID: string = await selectUser(page);
   await selectProduct(page, userUUID);
-  const pdfURL: string = await createOrder(page);
-  await openPDF(pdfURL, request);
+  const shopPdfURL: string = await createOrder(page);
+  await openAndCheckPDF(shopPdfURL, request);
 
   // Check external tools
 
   await checkZipkin(page);
   await checkPrometheus(page);
   await checkPapermerge(page);
+  const emailPdfURL: string = await checkEmails(page);
+  await openAndCheckPDF(emailPdfURL, request);
 
   // TODO
   // Check grafana dashboards
-  // Check email
   // Check excalidraw
 });
 
@@ -103,7 +104,7 @@ async function createOrder(page: Page): Promise<string> {
   return await page.getByTestId("pdf-link").innerText();
 }
 
-async function openPDF(pdfURL: string, request: APIRequestContext): Promise<void> {
+async function openAndCheckPDF(pdfURL: string, request: APIRequestContext): Promise<void> {
   await new Promise(resolve => setTimeout(resolve, 5000)); // Arbitrary wait for the PDF to be generated ; XXX better way to wait for the PDF to be generated
 
   const response: APIResponse = await request.get(pdfURL);
@@ -252,4 +253,22 @@ async function checkPapermerge(page: Page): Promise<void> {
 
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+}
+
+async function checkEmails(page: Page): Promise<string> {
+  await page.goto('http://localhost:9000/');
+  await expect(page).toHaveTitle("Inbucket");
+  await expect(page).toHaveScreenshot();
+
+  await page.goto('http://localhost:9000/monitor');
+  await expect(page).toHaveTitle("Inbucket Monitor");
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+
+  await expect(page.getByText("<noreply@zhykos.fr>")).toHaveCount(1);
+  await page.getByText("<noreply@zhykos.fr>").click();
+
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+
+  return `http://localhost:9000${await page.getByText("invoice.pdf").getAttribute("href")}`;
 }
