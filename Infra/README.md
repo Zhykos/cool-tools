@@ -197,10 +197,22 @@ Requirements for the software and other tools to build and run the API
 
 ### Running the infrastructure
 
+Before starting the infrastructure, you must set your current IP address in these files:
+- `./kong/dockerfile`
+- `./kong/kong.yaml`
+
+Replace `<<IP_TO_REPLACE>>` with your current IP address: `ipconfig getifaddr en0`.
+
 Start the infrastructure with the following command:
 
 ```bash
 docker compose up -d --build
+```
+
+To stop the infrastructure, use the following command:
+
+```bash
+docker compose down -v
 ```
 
 ## Improvements

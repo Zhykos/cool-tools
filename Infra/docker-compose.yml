@@ -205,6 +205,12 @@ services:
       - kong_postgres_password
     restart: on-failure
 
+  kong-config:
+    build: ./kong
+    depends_on:
+      - kong
+    restart: on-failure
+
   kong:
     image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
     user: "${KONG_USER:-kong}"

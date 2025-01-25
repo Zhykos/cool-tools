@@ -20,10 +20,10 @@ test('Full shop test', async ({ page, request }) => {
   const emailPdfURL: string = await checkEmails(page);
   await openAndCheckPDF(emailPdfURL, request);
   await checkExcalidraw(page);
+  await checkKong(page);
 
   // TODO
   // Check grafana dashboards
-  // Check Kong
 });
 
 async function goHome(page: Page): Promise<void> {
@@ -278,4 +278,28 @@ async function checkExcalidraw(page: Page): Promise<void> {
   await page.goto('http://localhost:3030/');
   await expect(page).toHaveTitle("Excalidraw | Hand-drawn look & feel • Collaborative • Secure");
   await expect(page).toHaveScreenshot();
+}
+
+async function checkKong(page: Page): Promise<void> {
+  await page.goto('http://localhost:8002/');
+  await expect(page).toHaveTitle("Kong Manager OSS");
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+
+  await page.getByText("Gateway Services").click();
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+  await expect(page.getByTestId("users")).toHaveCount(2);
+
+  await page.getByTestId("users").first().click();
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02, fullPage: true });
+  
+  await page.getByRole('link', { name: 'Routes' }).click();
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+  await expect(page.getByTestId("users")).toHaveCount(2);
+
+  await page.getByTestId("users").first().click();
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02, fullPage: true });
 }
