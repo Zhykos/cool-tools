@@ -16,10 +16,10 @@ test('Full shop test', async ({ page, request }) => {
 
   await checkZipkin(page);
   await checkPrometheus(page);
+  await checkPapermerge(page);
 
   // TODO
   // Check grafana dashboards
-  // Check papermerge
   // Check email
   // Check excalidraw
 });
@@ -233,4 +233,23 @@ async function checkPrometheus(page: Page): Promise<void> {
   await page.getByRole("textbox").first().fill("http_server_active_requests");
   await page.getByText("Execute").click();
   await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.04});
+}
+
+async function checkPapermerge(page: Page): Promise<void> {
+  await page.goto('http://localhost:12000/');
+  await expect(page).toHaveTitle("Papermerge DMS");
+  await expect(page).toHaveScreenshot();
+
+  await page.getByPlaceholder("Username or email").fill("admin");
+  await page.locator("input").nth(1).fill("admin");
+  await page.getByRole('button', { name: 'Sign In' }).click();
+
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+
+  await expect(page.getByText(/invoice-[a-f0-9]+/)).toHaveCount(1);
+  await page.getByText(/invoice-[a-f0-9]+/).click();
+
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 }
