@@ -1,8 +1,26 @@
 import { test, expect, type Page, type Locator, type APIRequestContext, type APIResponse } from '@playwright/test';
-import { comparePdfToSnapshot } from 'pdf-visual-diff'
 import { readFileSync } from 'fs';
+import { comparePdfToSnapshot } from 'pdf-visual-diff'
+// import { DockerComposeEnvironment, Wait, type StartedDockerComposeEnvironment } from 'testcontainers';
+
+// let testContainer: StartedDockerComposeEnvironment | null = null;
+
+// test.beforeAll(async () => {
+//   testContainer = await new DockerComposeEnvironment("./tests/resources", "docker-compose.yml")
+//       .withWaitStrategy("front-shop-1", Wait.forListeningPorts())
+//       //.withStartupTimeout(300_000)
+//       .up();
+// });
+
+// test.afterAll(async () => {
+//   if (testContainer) {
+//     await testContainer.down({ removeVolumes: true });
+//   }
+// });
 
 test('Full shop test', async ({ page, request }) => {
+  console.log("Starting test");
+
   // Shop scenario
 
   await goHome(page);
