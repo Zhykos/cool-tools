@@ -1,0 +1,23 @@
+meta {
+  name: Send file
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:12000/api/documents/:documentID/upload
+  body: multipartForm
+  auth: bearer
+}
+
+params:path {
+  documentID: 47206326-7ce4-4d9f-b895-066a98439d03
+}
+
+auth:bearer {
+  token: {{papermerge-token}}
+}
+
+body:multipart-form {
+  file: @file(/Users/zhykos/dev/cool-tools/InvoiceAPI/invoice-bf309c83-2afb-4704-a82c-f60ad921720f.pdf)
+}

@@ -2,4 +2,8 @@
 
 - targets:
     - 'opentelemetry-collector:9091'
+    - 'opentelemetry-collector:9092'
+    - 'opentelemetry-collector:8999'
     - 'localhost:9091'
+    - 'localhost:9092'
+    - 'localhost:8999'

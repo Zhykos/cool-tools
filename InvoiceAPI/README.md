@@ -1,66 +1,84 @@
-https://quarkus.io/quarkus-workshops/super-heroes/variants/os-mac-ai-false-azure-false-cli-false-container-true-contract-testing-false-extension-false-kubernetes-false-messaging-true-native-true-observability-false/spine.html
+# Shop: invoice API - A microservice for the Cool Tools project
 
-install native image macos: https://www.graalvm.org/latest/docs/getting-started/macos/
+This is a simple microservice that simulates an invoice API of a shop.
+It uses the [Quarkus Framework](https://quarkus.io/) and is written in Java.
 
-# code-with-quarkus
+An invoice represents a product, a user, a price, and an address.
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+The API has the following endpoints:
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+- `GET /invoice` - Get all invoices
+- `POST /invoice` - Create a fake invoice
+- `GET /{order_id}/download` - Download the invoice as a PDF
 
-## Running the application in dev mode
+This API is the final step of the Cool Tools project shop.
 
-You can run your application in dev mode that enables live coding using:
+It is linked to a Kafka topic to receive the order data.
+Then it creates an invoice and sends it to the user via email with a PDF attachment.
+The PDF is generated using the [iTextPDF](https://itextpdf.com/) library and is stored in a GED using the [Papermerge](https://papermerge.com/) software.
 
-```shell script
-./mvnw compile quarkus:dev
+No email is really sent. The email is stored in a fake SMTP server, using the [inbucket](https://inbucket.org/) software.
+
+The API is instrumented with [OpenTelemetry](https://opentelemetry.io/) to collect traces and metrics. The traces are sent to the OpenTelemetry Collector and the metrics are sent to Prometheus via the OpenTelemetry Collector.
+
+Use this API to test the OpenTelemetry Collector and the OpenTelemetry Java agent with the main project.
+
+## Getting Started
+
+These instructions will give you a copy of the project and running on
+your local machine for development and testing purposes.
+
+### Prerequisites
+
+Requirements for the software and other tools to build and run the API
+- Java 21
+
+### Running the API
+
+Be sure to start the [Docker Compose](../Infra/docker-compose.yml) environment in the main project, "Infra" directory, before running the API.
+
+Before launching the API, you need to get a token from the GED. To do so, run the following command:
+
+```bash
+docker ps
+# OR
+docker ps -aqf "name=papermerge-worker"
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+Then, copy the container ID of the GED and run the following command:
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
+```bash
+docker exec <DOCKER CONTAINER> create_token.sh admin
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+To run the API, use the following command:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```bash
+./mvnw quarkus:dev -Dged.token=<TOKEN>
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+It will start the API on port 9005 and connect to the OpenTelemetry Collector on port 4317.
 
-## Creating a native executable
+## Improvements
 
-You can create a native executable using:
+- Better code quality, create packages, and refactor the code
 
-```shell script
-./mvnw package -Dnative
-```
+## Contributing
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+## Versioning
 
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
+We use [Semantic Versioning](http://semver.org/) for versioning.
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+## Authors
 
-## Provided Code
+- **Thomas Cicognani** - *First version of the API* -
+  [Zhykos](https://github.com/Zhykos)
 
-### REST
+## Acknowledgments
 
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+- PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
+- Hat tip to anyone whose code is used
+- The world because I'm a bad person who uses CoPilot

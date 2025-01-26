@@ -1,0 +1,27 @@
+meta {
+  name: Get nodes
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:12000/api/nodes/:parentId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  parentId: 8a80c3e4-a697-49b8-b7ad-7fe8e01d0835
+}
+
+auth:bearer {
+  token: {{papermerge-token}}
+}
+
+body:json {
+  {
+    "ctype": "folder",
+    "parent_id": null,
+    "title": "dir1"
+  }
+}

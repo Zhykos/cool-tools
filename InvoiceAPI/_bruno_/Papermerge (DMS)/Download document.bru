@@ -1,0 +1,27 @@
+meta {
+  name: Download document
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:12000/api/document-versions/:documentVersionId/download
+  body: json
+  auth: bearer
+}
+
+params:path {
+  documentVersionId: 28bd5b7f-fb01-4784-b90a-fc96373c8e58
+}
+
+auth:bearer {
+  token: {{papermerge-token}}
+}
+
+body:json {
+  {
+    "ctype": "folder",
+    "parent_id": null,
+    "title": "dir1"
+  }
+}

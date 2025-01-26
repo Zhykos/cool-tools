@@ -1,2 +1,12 @@
 /.metadata/
+.classpath
 .DS_Store
+.factorypath
+**/.idea/*
+.project
+org.eclipse.core.resources.prefs
+org.eclipse.jdt.apt.core.prefs
+org.eclipse.jdt.core.prefs
+org.eclipse.m2e.core.prefs
+*.iml
+__pycache__/

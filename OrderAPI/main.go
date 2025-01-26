@@ -4,9 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
+
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/exporters/stdout/stdoutmetric"
+	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/propagation"
 	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
@@ -14,11 +17,9 @@ import (
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
 	"go.opentelemetry.io/otel/trace"
-	"log"
-	"net/http"
 
 	"OrderAPI/models"
-    "OrderAPI/services"
+	"OrderAPI/services"
 )
 
 var tracerProvider trace.TracerProvider
@@ -43,8 +44,8 @@ func initTracer(ctx context.Context) (*sdktrace.TracerProvider, error) {
 	return tp, err
 }
 
-func initMeter() (*sdkmetric.MeterProvider, error) {
-	exp, err := stdoutmetric.New()
+func initMeter(ctx context.Context) (*sdkmetric.MeterProvider, error) {
+	exp, err := otlpmetrichttp.New(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +56,8 @@ func initMeter() (*sdkmetric.MeterProvider, error) {
 }
 
 func main() {
-	tp, err := initTracer(context.Background())
+    ctx := context.Background()
+	tp, err := initTracer(ctx)
 	tracerProvider = tp
 
 	if err != nil {
@@ -64,19 +66,19 @@ func main() {
 	}
 
 	defer func() {
-		if err := tp.Shutdown(context.Background()); err != nil {
+		if err := tp.Shutdown(ctx); err != nil {
 			log.Printf("Error shutting down tracer provider: %v", err)
 		}
 	}()
 
-	mp, err := initMeter()
+	mp, err := initMeter(ctx)
 	if err != nil {
 	    log.Printf("Cannot initMeter: %v", err)
 		return
 	}
 
 	defer func() {
-		if err := mp.Shutdown(context.Background()); err != nil {
+		if err := mp.Shutdown(ctx); err != nil {
 			log.Printf("Error shutting down meter provider: %v", err)
 		}
 	}()
@@ -91,7 +93,19 @@ func main() {
 }
 
 func createOrder(w http.ResponseWriter, r *http.Request) {
-    if r.Method != http.MethodPost  {
+    fmt.Println("create order", r.Method)
+
+    if r.Method == http.MethodOptions {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        w.Header().Set("Access-Control-Allow-Headers", "*")
+        w.Header().Set("Access-Control-Allow-Credentials", "true")
+        w.Header().Set("Access-Control-Max-Age", "3600")
+        w.WriteHeader(http.StatusOK)
+        return
+    }
+
+    if r.Method != http.MethodPost && r.Method != http.MethodOptions {
         http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
         return
     }
@@ -120,6 +134,7 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    json.NewEncoder(w).Encode(result)
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(result)
 }

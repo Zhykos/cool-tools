@@ -18,10 +18,17 @@ public class InvoiceRepository {
     private InvoiceMapper mapper;
 
     @Transactional
-    public void createInvoice(Invoice invoice) {
+    public Invoice createInvoice(Invoice invoice) {
         InvoiceEntity entity = mapper.domainToEntity(invoice);
         entity.setUuid(UUID.randomUUID().toString());
         entityManager.persist(entity);
+        return mapper.entityToDomain(entity);
+    }
+
+    public InvoiceEntity getInvoiceFromOrderId(String orderId) {
+        return entityManager.createQuery("SELECT i FROM InvoiceEntity i WHERE i.orderId = :orderId", InvoiceEntity.class)
+                .setParameter("orderId", orderId)
+                .getSingleResult();
     }
 
     public List<InvoiceEntity> getAllInvoices() {

@@ -1,4 +1,24 @@
-name: fr-zhykos-demo-opt-infra
+name: fr-zhykos-cool-tools-infra
+
+x-backend: &papermerge-common
+  image: papermerge/papermerge:3.1
+  environment:
+    PAPERMERGE__SECURITY__SECRET_KEY: 12345
+    PAPERMERGE__AUTH__USERNAME: admin
+    PAPERMERGE__AUTH__PASSWORD: admin
+    PAPERMERGE__REDIS__URL: redis://papermerge-redis:6379/0
+    PAPERMERGE__SECURITY__TOKEN_EXPIRE_MINUTES: 518400 # 1 year
+  volumes:
+    - papermerge-data:/db
+    - papermerge-index_db:/core_app/index_db
+    - papermerge-media:/core_app/media
+
+x-kong-config: &kong-env
+  KONG_DATABASE: postgres
+  KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong}
+  KONG_PG_HOST: kong-db
+  KONG_PG_USER: ${KONG_PG_USER:-kong}
+  KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
 
 services:
 
@@ -84,12 +104,14 @@ services:
         condition: service_started
 
   zipkin:
-    image: openzipkin/zipkin:3.4.0
+    image: openzipkin/zipkin:3.4.3
     restart: always
     ports:
       - "9411:9411"
     expose:
       - "9411"
+    environment:
+      - JAVA_OPTS=-XX:UseSVE=0 # Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
 
   postgres-products:
     image: postgres:16.3-alpine
@@ -113,12 +135,12 @@ services:
       - "9014:27017"
 
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: zookeeper:3.9.2-jre-17
     ports:
       - "2181:2181"
 
   kafka:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:2.13-2.8.1
     ports:
       - "9092:9092"
     environment:
@@ -130,7 +152,7 @@ services:
       KAFKA_CREATE_TOPICS: "orders:1:1"
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:v0.7.2
     ports:
       - 8085:8080
     depends_on:
@@ -140,7 +162,151 @@ services:
       KAFKA_CLUSTERS_0_NAME: orders
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
 
+  papermerge-web:
+    <<: *papermerge-common
+    ports:
+      - "12000:80"
+    depends_on:
+      - papermerge-redis
+
+  papermerge-worker:
+    <<: *papermerge-common
+    command: worker
+
+  papermerge-redis:
+    image: redis:6
+
+  fake-smtp:
+    image: inbucket/inbucket:sha-504a79a
+    ports:
+      - '2500:2500' # SMTP
+      - '9000:9000' # web interface
+      - '1100:1100' # POP3
+
+  kong-migrations:
+    image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
+    command: kong migrations bootstrap
+    depends_on:
+      - kong-db
+    environment:
+      <<: *kong-env
+    secrets:
+      - kong_postgres_password
+    restart: on-failure
+
+  kong-migrations-up:
+    image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
+    command: kong migrations up && kong migrations finish
+    depends_on:
+      - kong-db
+    environment:
+      <<: *kong-env
+    secrets:
+      - kong_postgres_password
+    restart: on-failure
+
+  kong-config:
+    build: ./kong
+    depends_on:
+      - kong
+    restart: on-failure
+
+  kong:
+    image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
+    user: "${KONG_USER:-kong}"
+    environment:
+      <<: *kong-env
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_PROXY_LISTEN: "${KONG_PROXY_LISTEN:-0.0.0.0:8000}"
+      KONG_ADMIN_LISTEN: "${KONG_ADMIN_LISTEN:-0.0.0.0:8001}"
+      KONG_ADMIN_GUI_LISTEN: "${KONG_ADMIN_GUI_LISTEN:-0.0.0.0:8002}"
+      KONG_ADMIN_GUI_URL: "${KONG_ADMIN_GUI_URL:-http://localhost:8002}"
+      KONG_ADMIN_GUI_API_URL: "${KONG_ADMIN_GUI_API_URL:-http://localhost:8001}"
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_PREFIX: ${KONG_PREFIX:-/var/run/kong}
+      KONG_DECLARATIVE_CONFIG: "/opt/kong/kong.yaml"
+    secrets:
+      - kong_postgres_password
+    ports:
+      # The following two environment variables default to an insecure value (0.0.0.0)
+      # according to the CIS Security test.
+      - "${KONG_INBOUND_PROXY_LISTEN:-0.0.0.0}:8000:8000/tcp"
+      - "${KONG_INBOUND_SSL_PROXY_LISTEN:-0.0.0.0}:8443:8443/tcp"
+      # Making them mandatory but undefined, like so would be backwards-breaking:
+      # - "${KONG_INBOUND_PROXY_LISTEN?Missing inbound proxy host}:8000:8000/tcp"
+      # - "${KONG_INBOUND_SSL_PROXY_LISTEN?Missing inbound proxy ssl host}:8443:8443/tcp"
+      # Alternative is deactivating check 5.13 in the security bench, if we consider Kong's own config to be enough security here
+
+      - "8001:8001/tcp"
+      - "8444:8444/tcp"
+      - "8002:8002"
+    healthcheck:
+      test: [ "CMD", "kong", "health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: on-failure
+    read_only: true
+    volumes:
+      - kong_prefix_vol:${KONG_PREFIX:-/var/run/kong}
+      - kong_tmp_vol:/tmp
+      - ./kong:/opt/kong
+    security_opt:
+      - no-new-privileges
+
+  kong-db:
+    image: postgres:16.3-alpine
+    environment:
+      POSTGRES_DB: ${KONG_PG_DATABASE:-kong}
+      POSTGRES_USER: ${KONG_PG_USER:-kong}
+      POSTGRES_PASSWORD_FILE: /run/secrets/kong_postgres_password
+    secrets:
+      - kong_postgres_password
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-d",
+          "${KONG_PG_DATABASE:-kong}",
+          "-U",
+          "${KONG_PG_USER:-kong}"
+        ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    volumes:
+      - kong_data:/var/lib/postgresql/data
+
+  excalidraw:
+    container_name: excalidraw
+    image: excalidraw/excalidraw:latest
+    ports:
+      - "3030:80"
+    restart: on-failure
+
+secrets:
+  kong_postgres_password:
+    file: ./POSTGRES_PASSWORD
+
 volumes:
-  prometheus_data: { }
+  prometheus_data: {}
   loki_data: {}
   grafana_data: {}
+  papermerge-data:
+  papermerge-index_db:
+  papermerge-media:
+  kong_data: {}
+  kong_prefix_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  kong_tmp_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs

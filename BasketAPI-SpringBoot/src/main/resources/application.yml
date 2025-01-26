@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: BasketAPI
+  profiles:
+    active: json-logging
+
+server:
+  port: 9003
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        all: true
+      http:
+        server:
+          requests: true
+
+otel:
+  instrumentation:
+    http:
+      server:
+        emit-experimental-telemetry: true
+    micrometer:
+      enabled: true
+  service:
+    name: ${spring.application.name}
+  propagators:
+    - tracecontext
+  resource:
+    attributes:
+      service:
+        name: ${spring.application.name}
+        namespace: fr.zhykos.cool.tools

@@ -1,10 +1,7 @@
 package fr.zhykos.cool.tools;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
@@ -33,5 +30,13 @@ public class InvoiceController {
     @ResponseStatus(201)
     public void saveInvoice() {
         service.saveFakeInvoice();
+    }
+
+    @GET
+    @Path("/{order_id}/download")
+    @ResponseStatus(200)
+    @Produces("application/pdf")
+    public byte[] downloadInvoice(@PathParam("order_id") String orderId) {
+        return service.downloadInvoice(orderId);
     }
 }

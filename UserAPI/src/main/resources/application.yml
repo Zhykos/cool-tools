@@ -4,7 +4,7 @@ spring:
   profiles:
     active: json-logging
   datasource:
-    url: jdbc:h2:mem:users
+    url: jdbc:h2:mem:users;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
   jpa:
     hibernate:
       ddl-auto: update
@@ -47,4 +47,4 @@ otel:
     attributes:
       service:
         name: ${spring.application.name}
-        namespace: fr.zhykos.demo.opt
+        namespace: fr.zhykos.cool.tools
