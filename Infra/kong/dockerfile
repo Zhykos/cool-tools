@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY kong.yaml /app/kong.yml
 
-CMD [ "gateway", "--kong-addr=http://<<IP_TO_REPLACE>>:8001", "sync", "/app/kong.yml" ]
+CMD [ "gateway", "--kong-addr=http://<<MY_IP_ADDRESS>>:8001", "sync", "/app/kong.yml" ]

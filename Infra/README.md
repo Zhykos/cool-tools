@@ -195,13 +195,15 @@ your local machine for development and testing purposes.
 Requirements for the software and other tools to build and run the API
 - Docker and Docker Compose
 
+You also need your computer IP address: `ipconfig getifaddr en0` could do the trick. If you are here, you must know how to find it if the previous command does not work. You also can check https://www.wikihow.com/Check-a-Computer-IP-Address or another website.
+
 ### Running the infrastructure
 
 Before starting the infrastructure, you must set your current IP address in these files:
 - `./kong/dockerfile`
 - `./kong/kong.yaml`
 
-Replace `<<IP_TO_REPLACE>>` with your current IP address: `ipconfig getifaddr en0`.
+Replace `<<MY_IP_ADDRESS>>` with your IP address in all files (see previous paragraph). It will be easy if you are using an IDE like VS Code, Zed or IntelliJ.
 
 Start the infrastructure with the following command:
 
