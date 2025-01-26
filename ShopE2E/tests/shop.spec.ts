@@ -149,14 +149,14 @@ async function checkZipkin(page: Page): Promise<void> {
   await page.keyboard.press("Enter");
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 
-  const bigTraceSuccess: boolean = await retry(page);
+  const bigTraceSuccess: boolean = await findTraces(page);
   expect(bigTraceSuccess).toBe(true);
 
   await page.getByText("Expand All").click();
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 }
 
-async function retry(page: Page): Promise<boolean> {
+async function findTraces(page: Page): Promise<boolean> {
   // await expect(async () => {
   //   console.log("Waiting for traces to appear");
 
@@ -372,6 +372,39 @@ async function checkGrafana(page: Page): Promise<void> {
 
   await page.getByRole('button', { name: 'Import' }).click();
   await page.waitForLoadState();
-  await expect(page.getByText("GET /user ")).toBeVisible({ timeout: 10000 });
+  const loadedDashboard: boolean = await checkGrafanaDashboard(page);
+  expect(loadedDashboard).toBe(true);
   await expect(page).toHaveScreenshot({fullPage: true, maxDiffPixelRatio: 0.02}); // Screenshot 44
+}
+
+async function checkGrafanaDashboard(page: Page): Promise<boolean> {
+  let success = false;
+  let retries = 0;
+  const maxRetries = 20;
+
+  while (retries <= maxRetries && !success) {
+    console.log("Waiting for Grafana dashboard to load, retry", retries);
+
+    try {
+      await page.getByTestId("data-testid RefreshPicker run button").click();
+      await page.waitForLoadState();
+      
+      const getUserLabel: Locator = page.getByText("GET /user");
+      const getUserLabelCount: number = await getUserLabel.count();
+      if (getUserLabelCount !== 1) {
+        throw new Error(`Expected 1 label, got ${getUserLabelCount}`);
+      }
+
+      console.log("Label found");
+
+      success = true;
+    } catch (e) {
+      console.error("Error while retry", retries, e.message);
+      await new Promise(resolve => setTimeout(resolve, 5_000));
+    }
+
+    retries++;
+  }
+
+  return success;
 }

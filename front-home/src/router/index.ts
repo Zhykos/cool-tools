@@ -21,7 +21,7 @@ const router = createRouter({
 
 router.afterEach((to, _) => {
   nextTick(() => {
-    document.title = to.meta.title || "Vite App";
+    document.title = to.meta.title ? to.meta.title as string : "Vite App";
   });
 })
 
