@@ -13,6 +13,7 @@
   <a href="#how-to-use">How To Use</a> •
   <a href="#contributing">Contributing</a> •
   <a href="#authors">Authors</a> •
+  <a href="#changelog">Changelog</a> •
   <a href="#credits">Credits</a> •
   <a href="#kudos">Kudos</a> •
   <a href="#license">License</a>
@@ -221,6 +222,10 @@ of conduct, and the process for submitting pull requests to us.
 
 - **Thomas Cicognani** - *First version of the project* -
   [Zhykos](https://github.com/Zhykos)
+
+## Changelog
+
+- **1.0.0** - First version of the project: shop example, APIs and infrastructure
 
 ## Credits
 
