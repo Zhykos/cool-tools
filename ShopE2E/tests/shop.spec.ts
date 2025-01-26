@@ -1,5 +1,6 @@
 import { test, expect, type Page, type Locator, type APIRequestContext, type APIResponse } from '@playwright/test';
 import { comparePdfToSnapshot } from 'pdf-visual-diff'
+import { readFileSync } from 'fs';
 
 test('Full shop test', async ({ page, request }) => {
   // Shop scenario
@@ -21,9 +22,7 @@ test('Full shop test', async ({ page, request }) => {
   await openAndCheckPDF(emailPdfURL, request);
   await checkExcalidraw(page);
   await checkKong(page);
-
-  // TODO
-  // Check grafana dashboards
+  await checkGrafana(page);
 });
 
 async function goHome(page: Page): Promise<void> {
@@ -247,6 +246,7 @@ async function checkPapermerge(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Sign In' }).click();
 
   await page.waitForLoadState();
+  await expect(page.getByText(/invoice-[a-f0-9]+/)).toBeVisible({ timeout: 5000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 
   await expect(page.getByText(/invoice-[a-f0-9]+/)).toHaveCount(1);
@@ -302,4 +302,76 @@ async function checkKong(page: Page): Promise<void> {
   await page.getByTestId("users").first().click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02, fullPage: true });
+}
+
+async function checkGrafana(page: Page): Promise<void> {
+  await page.goto('http://localhost:3000/login');
+  await expect(page).toHaveTitle("Grafana");
+  await expect(page).toHaveScreenshot(); // Screenshot 28
+
+  await page.getByPlaceholder("email or username").fill("admin");
+  await page.getByPlaceholder("password").fill("password");
+  await page.getByText('Log in').click();
+
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot(); // Screenshot 29
+
+  await page.goto('http://localhost:3000/connections/add-new-connection');
+  await expect(page.getByText(" Google Analytics")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot(); // Screenshot 30
+
+  await page.getByPlaceholder("Search all").fill("loki");
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 31
+
+  await page.getByPlaceholder("Search all").fill("prometheus");
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 32
+
+  await page.goto('http://localhost:3000/connections/datasources/loki');
+  await expect(page.getByText("Loki Data Source - Native Plugin")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot(); // Screenshot 33
+
+  await page.getByText("Create a Loki data source").click();
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot(); // Screenshot 34
+
+  await page.getByPlaceholder("http://localhost:3100").fill("http://loki:3100");
+  await page.getByRole('button', { name: 'Save & test' }).click();
+  await expect(page).toHaveScreenshot({fullPage: true}); // Screenshot 35
+
+  await page.goto('http://localhost:3000/connections/datasources/prometheus');
+  await expect(page.getByText("Prometheus Data Source - Native Plugin")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot(); // Screenshot 36
+
+  await page.getByText("Create a Prometheus data source").click();
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot(); // Screenshot 37
+
+  await page.getByPlaceholder("http://localhost:9090").fill("http://prometheus:9090");
+  await page.getByRole('button', { name: 'Save & test' }).click();
+  await expect(page).toHaveScreenshot({fullPage: true}); // Screenshot 38
+
+  await page.goto('http://localhost:3000/connections/datasources');
+  await expect(page).toHaveScreenshot(); // Screenshot 39
+
+  await page.goto('http://localhost:3000/dashboard/import');
+  await expect(page).toHaveScreenshot(); // Screenshot 40
+
+  const grafanaDashboardContent: string = readFileSync('./tests/resources/grafana-dashboard.json', { encoding: 'utf8', flag: 'r' });
+  await page.getByTestId("data-testid-import-dashboard-textarea").fill(grafanaDashboardContent);
+  await expect(page).toHaveScreenshot(); // Screenshot 41
+
+  await page.getByTestId('data-testid-load-dashboard').click();
+  await page.waitForLoadState();
+  await expect(page).toHaveScreenshot(); // Screenshot 42
+
+  await page.getByTestId('data-testid Data source picker select container').nth(0).locator("input").fill("Prometheus");
+  await page.keyboard.press("Enter");
+  await page.getByTestId('data-testid Data source picker select container').nth(1).locator("input").fill("Loki");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveScreenshot(); // Screenshot 43
+
+  await page.getByRole('button', { name: 'Import' }).click();
+  await page.waitForLoadState();
+  await expect(page.getByText("GET /user ")).toBeVisible({ timeout: 10000 });
+  await expect(page).toHaveScreenshot({fullPage: true, maxDiffPixelRatio: 0.02}); // Screenshot 44
 }
