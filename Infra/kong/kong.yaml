@@ -33,7 +33,7 @@ plugins:
 services:
 - connect_timeout: 60000
   enabled: true
-  host: 192.168.1.140
+  host: <<MY_IP_ADDRESS>>
   name: users
   port: 9001
   protocol: http

@@ -12,4 +12,4 @@ RUN go build
 
 EXPOSE 9004
 
-ENTRYPOINT ["./OrderAPI"]
+CMD ["./OrderAPI"]

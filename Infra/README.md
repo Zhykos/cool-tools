@@ -65,6 +65,10 @@ Website: https://grafana.com/
 
 Open the Grafana web interface at http://localhost:3000/
 
+Some dashboards are available in the project, in the `grafana` directory.
+Go to the Grafana web interface and import the dashboards from the JSON files.
+Check the official documentation for more information: https://grafana.com/docs/grafana/latest/reference/export_import/.
+
 #### Zipkin
 
 Zipkin is a distributed tracing system.
@@ -151,7 +155,27 @@ Kong is an open-source API Gateway and Microservices Management Layer, deliverin
 
 Website: https://konghq.com/
 
-Connect to the Kong Admin API with the following port: 8001.
+Connect to the Kong Admin API with the following port: 8002.
+
+To backup and restore Kong configuration, you can use Kong Deck:
+
+* Install deck: https://docs.konghq.com/deck/latest/installation/
+* Then: https://docs.konghq.com/deck/latest/guides/backup-restore/
+
+Export configuration:
+
+```bash
+cd kong
+deck gateway dump -o kong.yaml
+```
+
+Import configuration:
+
+```bash
+cd kong
+deck gateway diff kong.yaml
+deck gateway sync kong.yaml
+```
 
 #### Excalidraw
 
@@ -171,33 +195,26 @@ your local machine for development and testing purposes.
 Requirements for the software and other tools to build and run the API
 - Docker and Docker Compose
 
+You also need your computer IP address: `ipconfig getifaddr en0` could do the trick. If you are here, you must know how to find it if the previous command does not work. You also can check https://www.wikihow.com/Check-a-Computer-IP-Address or another website.
+
 ### Running the infrastructure
+
+Before starting the infrastructure, you must set your current IP address in these files:
+- `./kong/dockerfile`
+- `./kong/kong.yaml`
+
+Replace `<<MY_IP_ADDRESS>>` with your IP address in all files (see previous paragraph). It will be easy if you are using an IDE like VS Code, Zed or IntelliJ.
 
 Start the infrastructure with the following command:
 
 ```bash
-export EXTERNAL_IP=$(ipconfig getifaddr en0) && docker compose up -d --build
+docker compose up -d --build
 ```
 
-### To backup and restore Kong configuration
-
-Install deck: https://docs.konghq.com/deck/latest/installation/
-
-Then: https://docs.konghq.com/deck/latest/guides/backup-restore/
-
-Export configuration:
+To stop the infrastructure, use the following command:
 
 ```bash
-cd kong
-deck gateway dump -o kong.yaml
-```
-
-Import configuration:
-
-```bash
-cd kong
-deck gateway diff kong.yaml
-deck gateway sync kong.yaml
+docker compose down -v
 ```
 
 ## Improvements

@@ -1,0 +1,21 @@
+meta {
+  name: Delete a user
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{url}}/user/:uuid
+  body: none
+  auth: none
+}
+
+params:path {
+  uuid: 
+}
+
+body:json {
+  {
+    "name": "Toto"
+  }
+}

@@ -17,12 +17,12 @@ async function selectProduct(product: ProductDTO) {
 </script>
 
 <template>
-    <p v-if="props.products.length === 0">No product</p>
-    <p v-else>Select a product to put it on your basket</p>
+    <p v-if="props.products.length === 0" data-testid="product-list-title">No product</p>
+    <p v-else data-testid="product-list-title">Select a product to put it on your basket</p>
     <ul>
         <li v-for="product in props.products" :key="product.uuid">
             <p>
-                <a href="javascript:void(0)" @click="selectProduct(product)">{{
+                <a href="javascript:void(0)" @click="selectProduct(product)" :data-testid="'product-link:' + product.name.replace(' ','-')">{{
                     product.name
                 }}</a>
                 : <b>{{ product.price }}</b> / {{ product.description }} /

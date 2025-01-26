@@ -6,8 +6,8 @@ basketStore.initBasket();
 </script>
 
 <template>
-    <p v-if="basketStore.basket">
+    <p v-if="basketStore.basket" data-testid="basket">
         {{ JSON.stringify(basketStore.basket) }}
     </p>
-    <p v-else>Select user and product (select them above)</p>
+    <p v-else data-testid="basket">Select user and product (select them above)</p>
 </template>

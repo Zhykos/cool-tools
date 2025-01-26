@@ -2,12 +2,12 @@ package fr.zhykos.cool.tools;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
+import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.client.api.ClientMultipartForm;
 
-@ClientHeaderParam(name = "Authorization", value = "Bearer " + "${ged.token}")
-@RegisterRestClient(baseUri = "http://localhost:12000/api")
+@RegisterClientHeaders(GedClientHeader.class)
+@RegisterRestClient(configKey = "papermerge-api")
 public interface GedClient {
 
     @GET

@@ -11,6 +11,8 @@
 <p align="center">
   <a href="#description">Description</a> •
   <a href="#how-to-use">How To Use</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#authors">Authors</a> •
   <a href="#credits">Credits</a> •
   <a href="#kudos">Kudos</a> •
   <a href="#license">License</a>
@@ -34,44 +36,11 @@ So I made a project with a simple architecture and a little online shop.
 I wrote some microservices, and I wanted to add the OpenTelemetry project to it.
 And then it become bigger and bigger, a real project to try and learn new things.
 
-Here are all the tools I used in this project with their versions released on Docker Hub:
+Here are all the tools I used in this project:
 
 <p align="center">
-  <img alt="Docker Image Version for Prometheus" src="https://img.shields.io/docker/v/prom/prometheus/v2.53.0?label=Prometheus" /> •
-  <img alt="Docker Image Version for Loki" src="https://img.shields.io/docker/v/grafana/loki/3.1.0?label=Loki" /> •
-  <img alt="Docker Image Version for Zipkin" src="https://img.shields.io/docker/v/openzipkin/zipkin/3.4.0?label=Zipkin" /> •
-  <img alt="Docker Image Version for Grafana" src="https://img.shields.io/docker/v/grafana/grafana/10.0.3?label=Grafana" /> •
-  <img alt="Docker Image Version for OpenTelemetry Collector" src="https://img.shields.io/docker/v/otel/opentelemetry-collector-contrib/0.104.0?label=OpenTelemetry%20Collector" /> •
-  <img alt="Docker Image Version for Postgres" src="https://img.shields.io/docker/v/library/postgres/16.3-alpine?label=Postgres" /> •
-  <img alt="Docker Image Version for MongoDB" src="https://img.shields.io/docker/v/library/mongo/7-jammy?label=MongoDB" /> •
-  <img alt="Docker Image Version for Zookeeper" src="https://img.shields.io/docker/v/library/zookeeper/3.9.2-jre-17?label=Zookeeper" /> •
-  <img alt="Docker Image Version for Kafka" src="https://img.shields.io/docker/v/wurstmeister/kafka/2.13-2.8.1?label=Kafka" /> •
-  <img alt="Docker Image Version for Kafka UI" src="https://img.shields.io/docker/v/provectuslabs/kafka-ui/v0.7.2?label=Kafka UI" /> •
-  <img alt="Docker Image Version for Papermerge" src="https://img.shields.io/docker/v/papermerge/papermerge/3.1?label=Papermerge" /> •
-  <img alt="Docker Image Version for Inbucket" src="https://img.shields.io/docker/v/inbucket/inbucket/sha-504a79a?label=Inbucket" /> •
-  <img alt="Docker Image Version for Kong" src="https://img.shields.io/docker/v/kong/kong/release-3.7.1-ubuntu?label=Kong" /> •
-  <img alt="Docker Image Version for Excalidraw" src="https://img.shields.io/docker/v/excalidraw/excalidraw/latest?label=Excalidraw" />
+    <a href="https://prometheus.io/">Prometheus</a> • <a href="https://grafana.com/oss/loki/">Loki</a> • <a href="https://zipkin.io/">Zipkin</a> • <a href="https://grafana.com/">Grafana</a> • <a href="https://opentelemetry.io/">OpenTelemetry</a> • <a href="https://opentelemetry.io/docs/collector/">OpenTelemetry Collector</a> • <a href="https://www.h2database.com/">H2</a> • <a href="https://www.postgresql.org/">Postgres</a> • <a href="https://www.mongodb.com/">MongoDB</a> • <a href="https://zookeeper.apache.org/">Zookeeper</a> • <a href="https://kafka.apache.org/">Kafka</a> • <a href="https://docs.kafka-ui.provectus.io/">Kafka UI</a> •  <a href="https://www.papermerge.com/">Papermerge</a> • <a href="https://www.inbucket.org/">Inbucket</a> • <a href="https://konghq.com/">Kong</a> • <a href="https://excalidraw.com/">Excalidraw</a> • <a href="https://vuejs.org/">Vue.js</a> • <a href="https://www.playframework.com/">Play Framework</a> • <a href="https://quarkus.io/">Quarkus</a> • <a href="https://spring.io/projects/spring-boot">Spring Boot</a> • <a href="https://golang.org/">Go</a> • <a href="https://www.docker.com/">Docker</a> • <a href="https://docs.docker.com/compose/">Docker Compose</a> • <a href="https://www.usebruno.com/">Bruno</a> • <a href="https://plantuml.com/">PlantUML</a> • <a href="https://www.archimatetool.com/">Archimate</a> • <a href="https://locust.io/">Locust</a> • <a href="https://nodejs.org/">Node.js</a> • <a href="https://maven.apache.org/">Maven</a> • <a href="https://www.java.com/">Java</a>
 </p>
-
-* [Prometheus](https://prometheus.io/)
-* [Loki](https://grafana.com/oss/loki/)
-* [Zipkin](https://zipkin.io/)
-* [Grafana](https://grafana.com/)
-* [OpenTelemetry](https://opentelemetry.io/)
-* [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/)
-* [Postgres](https://www.postgresql.org/)
-* [MongoDB](https://www.mongodb.com/)
-* [Zookeeper](https://zookeeper.apache.org/)
-* [Kafka](https://kafka.apache.org/)
-* [Kafka UI](https://docs.kafka-ui.provectus.io/)
-* [Papermerge](https://www.papermerge.com/)
-* [Inbucket](https://www.inbucket.org/)
-* [Kong](https://konghq.com/)
-* [Excalidraw](https://excalidraw.com/)
-
-Thus we will use the following tools:
-* [Docker](https://www.docker.com/)
-* [Docker Compose](https://docs.docker.com/compose/)
 
 The project contains several directories (a README.md file is present in each directory):
 * [BasketAPI](./BasketAPI/README.md): a simple API to manage a basket made with Play Framework
@@ -97,23 +66,167 @@ Then, to get the project, clone it with [Git](https://git-scm.com). From your co
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/zhykos/cool-tools
+git clone https://github.com/zhykos/cool-tools
 
 # Go into the repository
-$ cd cool-tools
-
-# Start the Docker Compose: for more information, see the README.md file in the Infra directory
-$ cd Infra
-$ docker-compose up -d
-
-# Run all applications
-# For more information, see the README.md file in each directory
+cd cool-tools
 ```
+
+### Run the complete shop example
+
+To run the complete shop example and check if everything is working, run the following commands:
+
+```bash
+# (1) Start the Docker Compose: for more information, see the README.md file in the Infra directory
+cd Infra
+# But first, you need to get your IP address to configure Kong (the one where the Docker containers will be accessible)
+ipconfig getifaddr en0 # Unix
+# Use the IP address to configure Kong in the "kong/kong.yaml" file at line 36
+-> "host: 192.168.1.140" for instance
+# Then start the infrastructure
+docker compose up -d
+
+# Check if containers are running
+docker ps
+
+# Kong automatic configuration may not work, so you need to configure it manually
+# But first, check if you have to configure it
+# Open the URL: http://localhost:8002/ (should display the Kong Admin) and check the gateway services
+# If you don't see the services, you need to configure it manually
+# See the README.md file in the Infra directory for more information, at "Software infrastructure and tools / Details / Kong / Import configuration"
+# Then check again Kong Admin if the gateway is displayed
+
+# ---
+# (2) Run the UserAPI
+# Open a new terminal
+# See the README.md file in the UserAPI directory for more information
+# Requires Maven and Java 21
+cd UserAPI
+mvn clean test
+mvn spring-boot:run
+
+# Check if the UserAPI is running
+# Open the URL: http://localhost:9001/actuator/health (status should be "UP")
+
+# ---
+# (3) Run the ProductAPI
+# Open a new terminal
+# See the README.md file in the ProductAPI directory for more information
+# Requires Maven and Java 21
+cd ProductAPI
+mvn clean test
+mvn spring-boot:run
+
+# Check if the ProductAPI is running
+# Open the URL: http://localhost:9002/actuator/health (status should be "UP")
+
+# ---
+# (4) Run the BasketAPI
+# Open a new terminal
+# See the README.md file in the BasketAPI directory for more information
+# Requires sbt and Java 21
+cd BasketAPI
+sbt clean
+sbt compile
+sbt "run 9003" -DOTEL_SERVICE_NAME=basket -DOTEL_TRACES_EXPORTER=otlp -DOTEL_METRICS_EXPORTER=otlp -DOTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 -J-Xms512m -J-Xmx2048m -J-javaagent:opentelemetry-javaagent.jar -J-server
+
+# Check if the BasketAPI is running
+# Open the URL: http://localhost:9003 (should display the available routes)
+
+# ---
+# (5) Run the OrderAPI
+# Open a new terminal
+# See the README.md file in the OrderAPI directory for more information
+# Requires Go
+cd OrderAPI
+go build
+MONGODB_URI="mongodb://root:password@localhost:9014" USER_API_URI="http://localhost:9001" PRODUCT_API_URI="http://localhost:9002" OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318" KAFKA_URI="kafka:9092" ./OrderAPI
+
+# Check if the OrderAPI is running
+# Open the URL: http://localhost:9004 (should display a 404 Not Found error)
+
+# ---
+# (6) Run the InvoiceAPI
+# Open a new terminal
+# See the README.md file in the InvoiceAPI directory for more information
+# Requires Maven and Java 21
+cd InvoiceAPI
+
+# But first, you need to get a Papermerge token
+# Get the Papermerge container ID
+docker ps -aqf "name=papermerge-worker"
+
+# Get the Papermerge token
+docker exec <DOCKER CONTAINER> create_token.sh admin
+
+# Run the InvoiceAPI
+./mvnw clean compile
+./mvnw quarkus:dev -Dged.token=<TOKEN>
+
+# Check if the InvoiceAPI is running
+# Open the URL: http://localhost:9005 (Quarkus UI should be displayed)
+
+# ---
+# (7) Run the front-home
+# Open a new terminal
+# See the README.md file in the front-home directory for more information
+# Requires Node.js 21
+cd front-home
+npm install
+npm run dev
+
+# Click on displayed URL or open the URL: http://localhost:5173/ (should display the project home page).
+# Then you can navigate through the website and go to the shop page: http://localhost:5173/shop
+```
+
+> **Note**: I was not able to run the tests on Firefox. Somehow, the `fetch` function always returns an error due to CORS and may be blocked by an extension (though it's ok on private mode).
+
+You also can request APIs with [Bruno](https://www.usebruno.com/).
+You'll find collections in `_bruno_` directories in each API directory and the `Infra` directory.
+
+### Use the Shop
+
+You can use the shop to add products to your basket, create an order, and generate an invoice.
+
+> Sorry, the UI and UX of the shop are not perfect, it's just a simple example.
+
+To do so, you need to:
+* Go to the shop page: [http://localhost:5173/shop](http://localhost:5173/shop)
+* Create a user
+  * Fill the form with a username and click on the "Create user" button
+* Select a user by clicking on a username in the list
+  * The user is selected when the username is displayed in top of the page
+* Select a product by clicking on a product in the list
+  * The product is added to the basket: you can see the basket below the product list
+* Create an order by clicking on the "Create order" button
+* Download the invoice by clicking on the link presenting a PDF path.
+
+### Check the applications
+
+You can check the applications, if everything works correctly, with the following URLs:
+* [Prometheus](http://localhost:9090/): it's a bit complicated to use, I won't explain how to use it here (because it's easier with Grafana), but you can check the metrics
+* [Graphana](http://localhost:3000/): you can log in with the default credentials (admin/password) and check the dashboards (see the README.md file in the Infra directory for more information)
+* [Zipkin](http://localhost:9411/): you can check the traces, click on "Find Traces" and you should see traces, click on one to see the details with the button "SHOW". For instance, display the traces of *"shop-frontend: click"* (21 sections) and you should see the traces of the front-end
+* [Kafka UI](http://localhost:8085/): you can check the Kafka topics and messages
+* [Papermerge](http://localhost:12000/): you can check the generated invoices (PDF files)
+* [Inbucket](http://localhost:9000/): you can check the emails sent by the applications
+* [Kong](http://localhost:8002/): you can check the API gateway
+
+## Contributing
+
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
+
+## Authors
+
+- **Thomas Cicognani** - *First version of the project* -
+  [Zhykos](https://github.com/Zhykos)
 
 ## Credits
 
 Check credits in each directory.
 
+Also:
 - [README template](https://github.com/amitmerchant1990) by Amit Merchant
 - I wish to not generate a header with IA so I used an image by <a href="https://unsplash.com/fr/@growtika">Growtika</a> on <a href="https://unsplash.com/fr/photos/un-ordinateur-avec-un-clavier-et-une-souris-yGQmjh2uOTg">Unsplash</a>
 - Everyone, somehow, because I used Copilot to help me write the code
@@ -132,7 +245,7 @@ Documentation and articles I used and help me a lot to create this project:
 
 ## License
 
-MIT: [LICENSE](LICENSE) for more information.
+MIT: [LICENSE](./LICENSE) for more information.
 
 ---
 
