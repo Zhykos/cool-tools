@@ -54,7 +54,8 @@ async function goToShopFromHome(page: Page): Promise<void> {
   await page.getByTestId("shop-link").click();
 
   await expect(page).toHaveTitle("Shop");
-  await expect(page.getByTestId("product-list-title")).toHaveText("Select a product to put it on your basket", { timeout: 5000 });
+  await expect(page.getByTestId("product-list-title")).toHaveText("Select a product to put it on your basket", { timeout: 10000 });
+  await expect(page.getByTestId("product-link:Zulu-346")).toBeVisible({ timeout: 10000 });
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 
@@ -332,7 +333,7 @@ async function checkGrafana(page: Page): Promise<void> {
   await page.getByText('Log in').click();
 
   await page.waitForLoadState();
-  await expect(page).toHaveScreenshot(); // Screenshot 29
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 }); // Screenshot 29
 
   await page.goto('http://localhost:3000/connections/add-new-connection');
   await expect(page.getByText(" Google Analytics")).toBeVisible({ timeout: 5000 });

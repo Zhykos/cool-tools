@@ -226,6 +226,7 @@ of conduct, and the process for submitting pull requests to us.
 ## Changelog
 
 - **1.0.0** - First version of the project: shop example, APIs and infrastructure
+- **1.1.0** - Update lots of dependencies (thanks dependabot) and improve some E2E checks in the shop test
 
 ## Credits
 
