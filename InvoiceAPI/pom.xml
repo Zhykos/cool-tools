@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>bouncy-castle-adapter</artifactId>
-            <version>8.0.5</version>
+            <version>9.0.0</version>
         </dependency>
 
         <!-- Kafka -->
