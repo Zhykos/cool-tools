@@ -5,7 +5,7 @@ go 1.22.4
 require (
 	github.com/twmb/franz-go v1.18.0
 	github.com/twmb/franz-go/plugin/kotel v1.5.0
-	go.mongodb.org/mongo-driver v1.17.1
+	go.mongodb.org/mongo-driver v1.17.2
 	go.opentelemetry.io/contrib/instrumentation/go.mongodb.org/mongo-driver/mongo/otelmongo v0.57.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.57.0
 	go.opentelemetry.io/otel v1.34.0
