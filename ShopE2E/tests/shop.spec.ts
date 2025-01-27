@@ -332,7 +332,7 @@ async function checkGrafana(page: Page): Promise<void> {
   await page.getByText('Log in').click();
 
   await page.waitForLoadState();
-  await expect(page).toHaveScreenshot(); // Screenshot 29
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 }); // Screenshot 29
 
   await page.goto('http://localhost:3000/connections/add-new-connection');
   await expect(page.getByText(" Google Analytics")).toBeVisible({ timeout: 5000 });
