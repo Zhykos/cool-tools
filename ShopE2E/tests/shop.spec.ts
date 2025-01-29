@@ -41,6 +41,7 @@ test('Full shop test', async ({ page, request }) => {
   await checkExcalidraw(page);
   await checkKong(page);
   await checkGrafana(page);
+  await checkKafkaUI(page);
 });
 
 async function goHome(page: Page): Promise<void> {
@@ -426,4 +427,26 @@ async function checkGrafanaDashboard(page: Page): Promise<boolean> {
   }
 
   return success;
+}
+
+async function checkKafkaUI(page: Page): Promise<void> {
+  await page.goto('http://localhost:8085/');
+  await expect(page).toHaveTitle("UI for Apache Kafka");
+  await expect(page.getByText("2.8-IV1")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot(); // Screenshot 45
+
+  await page.getByRole('link', { name: 'Topics' }).click();
+  await page.waitForLoadState();
+  await expect(page.getByText("consumer_offsets")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 }); // Screenshot 46
+
+  await page.getByRole("link", { name: "orders" }).click();
+  await page.waitForLoadState();
+  await expect(page.getByText("Replication Factor")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 }); // Screenshot 47
+
+  await page.getByRole('link', { name: 'Messages' }).click();
+  await page.waitForLoadState();
+  await expect(page.getByText("OrderID")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 }); // Screenshot 48  
 }
