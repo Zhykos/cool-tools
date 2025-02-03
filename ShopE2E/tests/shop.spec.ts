@@ -7,7 +7,13 @@ import { comparePdfToSnapshot } from 'pdf-visual-diff'
 
 // test.beforeAll(async () => {
 //   testContainer = await new DockerComposeEnvironment("./tests/resources", "docker-compose.yml")
-//       .withWaitStrategy("front-shop-1", Wait.forListeningPorts())
+//   .withHealthCheck({
+//     test: ["CMD-SHELL", "pg_isready -U postgres"],
+//     interval: 1000,
+//     timeout: 3000,
+//     retries: 5,
+//   })
+//       .withWaitStrategy("front-shop", Wait.forHealthCheck())
 //       //.withStartupTimeout(300_000)
 //       .up();
 // });

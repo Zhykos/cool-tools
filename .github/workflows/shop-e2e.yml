@@ -1,0 +1,90 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Shop E2E
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - feature/**
+      - hotfix/**
+      - release/**
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    # - name: Install Docker Compose
+    #   run: |
+    #     curl -L "https://github.com/docker/compose/releases/download/v2.32.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    #     chmod +x /usr/local/bin/docker-compose
+    
+    - name: Replace IP address in all files
+      run: |
+        current_ip=$(hostname -I | awk '{print $1}')
+        echo "Current IP address: $current_ip"
+        find . -type f -exec sed -i "s/<<MY_IP_ADDRESS>>/$current_ip/g" {} +
+
+    - name: Launch Docker Compose for infrastructure
+      uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        compose-file: "./Infra/docker-compose.yml"
+
+    - name: TEST PRODUCTS API
+      run: |
+        cd ./ProductAPI
+        docker build -t product-api:latest .
+        docker run -d -p 9002:9002 product-api:latest
+        curl http://localhost:9002/product
+    
+    # - name: Launch Docker Compose for infrastructure and applications
+    #   uses: hoverkraft-tech/compose-action@v2.0.1
+    #   with:
+    #     compose-file: "./ShopE2E/tests/resources/docker-compose.yml"
+    # # - name: Launch Docker Compose for infrastructure and applications
+    # #   run: |
+    # #     cd ./ShopE2E/tests/resources
+    # #     docker compose up -d --build
+    # #     curl http://product-api:9002/product
+    
+    # - name: Use Node.js 22
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: 22
+    #     cache: 'npm'
+    #     cache-dependency-path: ./ShopE2E/package-lock.json
+
+    # - name: Run test
+    #   run: |
+    #     docker ps -a
+    #     current_ip=$(hostname -I | awk '{print $1}')
+    #     curl $current_ip:9002/product
+    #     cd ./ShopE2E
+    #     npm install
+    #     npx playwright install chromium --with-deps
+    #     npm run test
+    
+    # - name: Upload Playwright report
+    #   uses: actions/upload-artifact@v4
+    #   if: ${{ !cancelled() }}
+    #   with:
+    #     name: playwright-report
+    #     path: ./ShopE2E/playwright-report/
+    #     retention-days: 30
+    
+    # - name: Upload Playwright screenshots
+    #   uses: actions/upload-artifact@v4
+    #   if: ${{ !cancelled() }}
+    #   with:
+    #     name: playwright-screenshots
+    #     path: ./ShopE2E/tests/resources/snapshots/shop.spec.ts-snapshots
+    #     retention-days: 30

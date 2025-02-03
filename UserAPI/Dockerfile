@@ -6,7 +6,7 @@ COPY src /build/src/
 WORKDIR /build/
 
 # Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
-RUN export MAVEN_OPTS="-XX:UseSVE=0" && mvn clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
 
@@ -16,4 +16,4 @@ COPY --from=maven_build /build/target/user-api-1.0.0-SNAPSHOT.jar /app/
 EXPOSE 9001
 
 # Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
-ENTRYPOINT ["java", "-XX:UseSVE=0", "-jar", "user-api-1.0.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "user-api-1.0.0-SNAPSHOT.jar"]

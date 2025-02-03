@@ -16,6 +16,7 @@ services:
         condition: service_started
 
   front-shop:
+    container_name: front-shop
     build: ../../../front-home
     ports:
       - "5173:80"
