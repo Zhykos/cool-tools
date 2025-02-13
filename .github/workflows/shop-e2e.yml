@@ -11,6 +11,7 @@ on:
       - feature/**
       - hotfix/**
       - release/**
+      - dependabot/**
   pull_request:
     branches:
       - develop
@@ -19,21 +20,6 @@ jobs:
   tests:
 
     runs-on: ubuntu-latest
-
-    # services:
-    #   postgres-products:
-    #     image: postgres:16.3-alpine
-    #     env:
-    #       POSTGRES_USER: user
-    #       POSTGRES_PASSWORD: password
-    #       POSTGRES_DB: db
-    #     volumes:
-    #       - ./Infra/postgres/init-products.sql:/docker-entrypoint-initdb.d/init.sql
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
 
     steps:
     - name: Checkout repository
@@ -50,56 +36,12 @@ jobs:
       with:
         compose-file: "./ShopE2E/tests/resources/docker-compose.yml"
 
-    # - name: TEST PRODUCTS API
-    #   run: |
-    #     cd ./ProductAPI
-    #     docker build -t product-api:latest .
-    #     docker run -d -p 9002:9002 product-api:latest
-    #     curl http://localhost:9002/product
-    
-    # - name: Launch Docker Compose for infrastructure and applications
-    #   uses: hoverkraft-tech/compose-action@v2.0.1
-    #   with:
-    #     compose-file: "./ShopE2E/docker-compose.yml"
-
-    # - name: Create and launch the front-shop container
-    #   timeout-minutes: 5
-    #   working-directory: ./front-home
-      
-    #   run: |
-    #     npm install
-    #     npm run dev &
-
-    # - name: Create and launch the Playwright container
-    #   timeout-minutes: 5
-    #   working-directory: ./ShopE2E
-    #   run: |
-    #     docker build -t playwright-docker . 
-    #     docker run -t playwright-docker:latest npm run test
-
-    - name: Create and launch the Playwright container
+    - name: Create and launch the Playwright tests
       working-directory: ./ShopE2E
       run: |
         npm install
         npx playwright install firefox --with-deps
         npm run test
-    
-    # - name: Use Node.js 22
-    #   uses: actions/setup-node@v4
-    #   with:
-    #     node-version: 22
-    #     cache: 'npm'
-    #     cache-dependency-path: ./ShopE2E/package-lock.json
-
-    # - name: Run test
-    #   run: |
-    #     docker ps -a
-    #     current_ip=$(hostname -I | awk '{print $1}')
-    #     curl $current_ip:9002/product
-    #     cd ./ShopE2E
-    #     npm install
-    #     npx playwright install chromium --with-deps
-    #     npm run test
     
     - name: Upload Playwright report
       uses: actions/upload-artifact@v4

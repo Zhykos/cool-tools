@@ -26,7 +26,6 @@ public class InvoiceRepository {
     }
 
     public InvoiceEntity getInvoiceFromOrderId(String orderId) {
-        System.out.println("search orderId: " + orderId);
         return entityManager.createQuery("SELECT i FROM InvoiceEntity i WHERE i.orderId = :orderId", InvoiceEntity.class)
                 .setParameter("orderId", orderId)
                 .getSingleResult();
