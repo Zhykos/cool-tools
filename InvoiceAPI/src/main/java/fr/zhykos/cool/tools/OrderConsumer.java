@@ -14,6 +14,10 @@ public class OrderConsumer {
     @Inject
     private InvoiceService service;
 
+    public OrderConsumer() {
+        System.out.println("OrderConsumer created");
+    }
+
     @Incoming("orders")
     public void consumeOrders(ConsumerRecord<String, InvoiceMQ> record) {
         System.out.println("Consuming order: " + record.value() + " with key: " + record.key());

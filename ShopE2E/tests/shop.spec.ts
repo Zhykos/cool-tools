@@ -125,12 +125,35 @@ async function createOrder(page: Page): Promise<string> {
 }
 
 async function openAndCheckPDF(pdfURL: string, request: APIRequestContext): Promise<void> {
-  await new Promise(resolve => setTimeout(resolve, 5000)); // Arbitrary wait for the PDF to be generated ; XXX better way to wait for the PDF to be generated
+  let success = false;
+  let retries = 0;
+  const maxRetries = 20;
 
-  const response: APIResponse = await request.get(pdfURL);
-  expect(response.status()).toBe(200);
+  let response: APIResponse | null = null;
 
-  const pdfBuffer = await response.body();
+  while (retries <= maxRetries && !success) {
+    console.log("Waiting for PDF, retry", retries);
+
+    try {
+      response = await request.get(pdfURL);
+      if (response.status() !== 200) {
+        throw new Error(`Expected status 200, got ${response.status()}`);
+      }
+
+      console.log("PDF found");
+
+      success = true;
+    } catch (e) {
+      console.error("Error while retry", retries, e.message);
+      await new Promise(resolve => setTimeout(resolve, 5_000));
+    }
+
+    retries++;
+  }
+
+  expect(response?.status()).toBe(200);
+
+  const pdfBuffer = await response?.body();
   expect(pdfBuffer.length).toBeGreaterThan(0);
 
   const pdfEqual: boolean = await comparePdfToSnapshot(pdfBuffer, './tests/resources/snapshots/pdf', "invoice");
