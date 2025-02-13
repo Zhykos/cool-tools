@@ -1,25 +1,26 @@
 package services
 
 import (
-    "context"
-    "encoding/json"
-    "errors"
-    "fmt"
-    "github.com/twmb/franz-go/pkg/kgo"
-    "github.com/twmb/franz-go/plugin/kotel"
-    "go.mongodb.org/mongo-driver/bson/primitive"
-    "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
-    "go.opentelemetry.io/otel/propagation"
-    "go.opentelemetry.io/otel/trace"
-    "io"
-    "log"
-    "net/http"
-    "os"
-    "strings"
-    "sync"
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"strings"
+	"sync"
 
-    "OrderAPI/config"
-    "OrderAPI/models"
+	"github.com/twmb/franz-go/pkg/kgo"
+	"github.com/twmb/franz-go/plugin/kotel"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+	"go.opentelemetry.io/otel/propagation"
+	"go.opentelemetry.io/otel/trace"
+
+	"OrderAPI/config"
+	"OrderAPI/models"
 )
 
 func CreateOrder(order models.Order, ctx context.Context, tracerProvider trace.TracerProvider) (*models.OrderDTO, string, *error) {
@@ -92,7 +93,7 @@ func callAllUsers(ctx context.Context) (*[]models.User) {
 
         req, _ := http.NewRequestWithContext(ctx, "GET", uri + "/user", nil)
 
-        fmt.Printf("Sending request...\n")
+        fmt.Printf("Sending request 'callAllUsers'...\n")
         res, err := client.Do(req)
         if err != nil {
             panic(err)
@@ -164,7 +165,7 @@ func callAllProducts(ctx context.Context) (*[]models.Product) {
 
         req, _ := http.NewRequestWithContext(ctx, "GET", uri + "/product", nil)
 
-        fmt.Printf("Sending request...\n")
+        fmt.Printf("Sending request 'callAllProducts'...\n")
         res, err := client.Do(req)
         if err != nil {
             panic(err)
@@ -201,6 +202,8 @@ func callAllProducts(ctx context.Context) (*[]models.Product) {
 
 func sendOrderToKafka(order models.OrderDTO, ctx context.Context, tracerProvider trace.TracerProvider) {
     // Objects to send to Kafka
+
+    fmt.Printf("Sending order to Kafka...\n")
 
     orderKafka := models.OrderKafka{
         OrderID: order.OrderID,
@@ -251,6 +254,8 @@ func sendOrderToKafka(order models.OrderDTO, ctx context.Context, tracerProvider
         defer wg.Done()
         if err != nil {
             fmt.Printf("record had a produce error: %v\n", err)
+        } else {
+            fmt.Printf("record produced successfully\n")
         }
 
     })
