@@ -45,3 +45,16 @@ updates:
     directory: "/front-home/"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    target-branch: "develop"
+    directories:
+      - "/BasketAPI-SpringBoot/"
+      - "/front-home/"
+      - "/Infra/"
+      - "/InvoiceAPI/"
+      - "/OrderAPI/"
+      - "/ProductAPI/"
+      - "ShopE2E/tests/resources/"
+      - "/UserAPI/"
+    schedule:
+      interval: "weekly"
