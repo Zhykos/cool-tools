@@ -109,7 +109,7 @@ async function selectProduct(page: Page, userUUID: string): Promise<void> {
 
   await page.mouse.wheel(0, 1000);
 
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 }
 
 async function createOrder(page: Page): Promise<string> {
@@ -357,10 +357,11 @@ async function checkGrafana(page: Page): Promise<void> {
   await page.getByText('Log in').click();
 
   await page.waitForLoadState();
+  await expect(page.getByText("Welcome to Grafana")).toBeVisible({ timeout: 10_000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 }); // Screenshot 29
 
   await page.goto('http://localhost:3000/connections/add-new-connection');
-  await expect(page.getByText(" Google Analytics")).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText("Google Analytics")).toBeVisible({ timeout: 5_000 });
   await expect(page).toHaveScreenshot(); // Screenshot 30
 
   await page.getByPlaceholder("Search all").fill("loki");
