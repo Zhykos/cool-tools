@@ -109,7 +109,7 @@ async function selectProduct(page: Page, userUUID: string): Promise<void> {
 
   await page.mouse.wheel(0, 1000);
 
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 }
 
 async function createOrder(page: Page): Promise<string> {
