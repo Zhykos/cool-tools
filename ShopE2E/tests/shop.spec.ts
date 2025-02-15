@@ -363,6 +363,10 @@ async function checkGrafana(page: Page): Promise<void> {
   await page.getByText('Log in').click();
 
   await page.waitForLoadState();
+  
+  await page.goto('http://localhost:3000/?orgId=1');
+  await page.waitForLoadState();
+  await expect(page).toHaveTitle("Grafana");
   await expect(page.getByText("Welcome to Grafana")).toBeVisible({ timeout: 10_000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 }); // Screenshot 29
 
@@ -442,7 +446,17 @@ async function checkGrafanaDashboard(page: Page): Promise<boolean> {
       const getUserLabel: Locator = page.getByText("GET /user");
       const getUserLabelCount: number = await getUserLabel.count();
       if (getUserLabelCount !== 1) {
-        throw new Error(`Expected 1 label, got ${getUserLabelCount}`);
+        console.log("Reloading page");
+
+        await page.reload({ waitUntil: "load" });
+        await page.waitForLoadState();
+
+        const getUserLabelAgain: Locator = page.getByText("GET /user");
+        const getUserLabelCountAgain: number = await getUserLabelAgain.count();
+
+        if (getUserLabelCountAgain !== 1) {
+          throw new Error(`Expected 1 label, got ${getUserLabelCountAgain}`);
+        }
       }
 
       console.log("Label found");
