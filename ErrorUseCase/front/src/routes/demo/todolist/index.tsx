@@ -10,18 +10,31 @@ import {
 import styles from "./todolist.module.css";
 
 interface ListItem {
+  id: string;
   text: string;
 }
 
 export const list: ListItem[] = [];
 
-export const useListLoader = routeLoader$(() => {
-  return list;
+export const useListLoader = routeLoader$(async () => {
+  const res: Response = await fetch(`http://localhost:8080/todo`);
+  const todos = await res.json();
+  return todos as ListItem[];
 });
 
 export const useAddToListAction = routeAction$(
-  (item) => {
-    list.push(item);
+  async (item) => {
+    const res: Response = await fetch(`http://localhost:8080/todo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({text: item.text}),
+    });
+
+    const newTodo = await res.json();
+    list.push(newTodo as ListItem);
+
     return {
       success: true,
     };
@@ -43,15 +56,15 @@ export default component$(() => {
         </h1>
       </div>
 
-      <div role="presentation" class="ellipsis"></div>
+      <div role="presentation" class="ellipsis" />
 
       <div class="container container-center">
         {list.value.length === 0 ? (
           <span class={styles.empty}>No items found</span>
         ) : (
           <ul class={styles.list}>
-            {list.value.map((item, index) => (
-              <li key={`items-${index}`}>{item.text}</li>
+            {list.value.map((item) => (
+              <li key={`items-${item.id}`}>{item.text}</li>
             ))}
           </ul>
         )}
