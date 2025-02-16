@@ -6,8 +6,11 @@ import {
   zod$,
   z,
   Form,
+  server$,
 } from "@builder.io/qwik-city";
 import styles from "./todolist.module.css";
+import winston from "winston";
+import { SeqTransport } from "@datalust/winston-seq";
 
 interface ListItem {
   id: string;
@@ -16,15 +19,51 @@ interface ListItem {
 
 export const list: ListItem[] = [];
 
+let logger: winston.Logger | null = null;
+
+const log = server$((message: string) => {
+  if (!logger) {
+    logger = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      defaultMeta: { service: 'user-service' },
+      transports: [
+        //
+        // - Write all logs with importance level of `error` or higher to `error.log`
+        //   (i.e., error, fatal, but not other levels)
+        //
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        //
+        // - Write all logs with importance level of `info` or higher to `combined.log`
+        //   (i.e., fatal, error, warn, and info, but not trace)
+        //
+        new winston.transports.File({ filename: 'combined.log' }),
+      ],
+    });
+    
+    logger.add(new SeqTransport({
+      serverUrl: import.meta.env.PUBLIC_SEQ_URL,
+      apiKey: import.meta.env.PUBLIC_SEQ_API_KEY,
+      onError: ((e: unknown) => { console.error(e) }),
+    }));
+  }
+
+  logger.info(message);
+});
+
 export const useListLoader = routeLoader$(async () => {
-  const res: Response = await fetch(`http://${import.meta.env.PUBLIC_SERVER_URL}/todo`);
+  log('Loading todo list');
+  const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`);
   const todos = await res.json();
+  log(`Loaded todo list: ${JSON.stringify(todos)}`);
   return todos as ListItem[];
 });
 
 export const useAddToListAction = routeAction$(
   async (item) => {
-    const res: Response = await fetch(`http://${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
+    log(`Adding todo item: ${JSON.stringify(item)}`);
+
+    const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,6 +73,8 @@ export const useAddToListAction = routeAction$(
 
     const newTodo = await res.json();
     list.push(newTodo as ListItem);
+
+    log(`Added todo item: ${JSON.stringify(newTodo)}`);
 
     return {
       success: true,
