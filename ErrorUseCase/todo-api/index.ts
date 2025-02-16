@@ -50,6 +50,7 @@ router.post("/todo", async (ctx) => {
   const { text }: { text: string } = await ctx.request.body.json();
 
   if (text.includes("y")) {
+    logger.error("Text includes 'y'");
     ctx.response.status = 500;
     ctx.response.body = { error: "Text includes 'y'" };
     return;

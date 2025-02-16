@@ -9,3 +9,4 @@ Tags:
 - step 01: no way to know if the log is from the frontend or backend
 - step 02: service name to know if the log is from the frontend or backend
 - step 03: use case which returns an error 500
+- step 04: log the error, server side
