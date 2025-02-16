@@ -1,5 +1,5 @@
-import { SeqTransport } from '@datalust/winston-seq';
-import winston from 'winston';
+import { SeqTransport } from './$node_modules/@datalust/winston-seq/dist/index.js';
+import winston from './$node_modules/winston/index.js';
 
 const logger = winston.createLogger({
   level: 'info',
