@@ -10,3 +10,4 @@ Tags:
 - step 02: service name to know if the log is from the frontend or backend
 - step 03: use case which returns an error 500
 - step 04: log the error, server side
+- step 05: create traceId-ish

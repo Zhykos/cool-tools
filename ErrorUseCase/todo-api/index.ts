@@ -41,25 +41,33 @@ const items: ListItem[] = [];
 const router = new Router();
 
 router.get("/todo", (ctx) => {
-  logger.info("Getting all todos");
+  const requestID: string = ctx.request.headers.get("X-Request-Id") ??
+    "unknown";
+  logger.info("Getting all todos", { requestID });
   ctx.response.body = items;
+  ctx.response.headers.set("X-Request-Id", requestID);
 });
 
 router.post("/todo", async (ctx) => {
-  logger.info("Creating new todo");
+  const requestID: string = ctx.request.headers.get("X-Request-Id") ??
+    "unknown";
+  logger.info("Creating new todo", { requestID });
   const { text }: { text: string } = await ctx.request.body.json();
 
   if (text.includes("y")) {
-    logger.error("Text includes 'y'");
+    logger.error("Text includes 'y'", { requestID });
     ctx.response.status = 500;
     ctx.response.body = { error: "Text includes 'y'" };
+    ctx.response.headers.set("X-Request-Id", requestID);
+
     return;
   }
 
-  const id: string = Math.random().toString(16);
+  const id: string = Math.random().toString(16).slice(2);
   items.push({ id, text });
-  logger.info(`Created new todo with id ${id}`);
+  logger.info(`Created new todo with id ${id}`, { requestID });
   ctx.response.body = { id };
+  ctx.response.headers.set("X-Request-Id", requestID);
 });
 
 const app = new Application();

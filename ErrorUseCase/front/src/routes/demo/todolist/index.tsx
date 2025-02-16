@@ -21,7 +21,7 @@ export const list: ListItem[] = [];
 
 let logger: winston.Logger | null = null;
 
-const log = server$((message: string) => {
+const log = server$((message: string, existingRequestID?: string) => {
   if (!logger) {
     logger = winston.createLogger({
       level: 'info',
@@ -48,25 +48,33 @@ const log = server$((message: string) => {
     }));
   }
 
-  logger.info(message);
+  const requestID: string = existingRequestID ? existingRequestID : Math.random().toString(16).slice(2);
+  logger.info(message, { requestID });
+
+  return requestID;
 });
 
 export const useListLoader = routeLoader$(async () => {
-  log('Loading todo list');
-  const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`);
+  const requestID: string = await log('Loading todo list');
+  const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
+    headers: {
+      "X-Request-Id": requestID,
+    },
+  });
   const todos = await res.json();
-  log(`Loaded todo list: ${JSON.stringify(todos)}`);
+  log(`Loaded todo list: ${JSON.stringify(todos)}`, requestID);
   return todos as ListItem[];
 });
 
 export const useAddToListAction = routeAction$(
   async (item) => {
-    log(`Adding todo item: ${JSON.stringify(item)}`);
+    const requestID: string = await log(`Adding todo item: ${JSON.stringify(item)}`);
 
     const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-Request-Id": requestID,
       },
       body: JSON.stringify({text: item.text}),
     });
@@ -74,7 +82,7 @@ export const useAddToListAction = routeAction$(
     const newTodo = await res.json();
     list.push(newTodo as ListItem);
 
-    log(`Added todo item: ${JSON.stringify(newTodo)}`);
+    log(`Added todo item: ${JSON.stringify(newTodo)}`, requestID);
 
     return {
       success: true,
