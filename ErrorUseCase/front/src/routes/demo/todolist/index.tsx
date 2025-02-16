@@ -112,6 +112,10 @@ export default component$(() => {
       </div>
 
       <div class="container container-center">
+        <p class={styles.hint}>
+          Y does it fail?
+        </p>
+
         <Form action={action} spaReset>
           <input type="text" name="text" required class={styles.input} />{" "}
           <button type="submit" class="button-dark">

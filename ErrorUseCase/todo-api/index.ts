@@ -48,6 +48,13 @@ router.get("/todo", (ctx) => {
 router.post("/todo", async (ctx) => {
   logger.info("Creating new todo");
   const { text }: { text: string } = await ctx.request.body.json();
+
+  if (text.includes("y")) {
+    ctx.response.status = 500;
+    ctx.response.body = { error: "Text includes 'y'" };
+    return;
+  }
+
   const id: string = Math.random().toString(16);
   items.push({ id, text });
   logger.info(`Created new todo with id ${id}`);
