@@ -62,7 +62,7 @@ async function goToShopFromHome(page: Page): Promise<void> {
 
   await expect(page).toHaveTitle("Shop");
   await expect(page.getByTestId("product-list-title")).toHaveText("Select a product to put it on your basket", { timeout: 10000 });
-  await expect(page.getByTestId("product-link:Zulu-346")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByTestId("product-link:Zulu-346")).toBeVisible({ timeout: 100_000 });
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 

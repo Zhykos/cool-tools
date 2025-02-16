@@ -6,7 +6,7 @@ import { SeqTransport } from "npm:@datalust/winston-seq";
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.json(),
-  defaultMeta: { service: "user-service" },
+  defaultMeta: { service: "error-case-195-backend" },
   transports: [
     //
     // - Write all logs with importance level of `error` or higher to `error.log`

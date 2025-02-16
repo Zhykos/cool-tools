@@ -26,7 +26,7 @@ const log = server$((message: string) => {
     logger = winston.createLogger({
       level: 'info',
       format: winston.format.json(),
-      defaultMeta: { service: 'user-service' },
+      defaultMeta: { service: 'error-case-195-frontend' },
       transports: [
         //
         // - Write all logs with importance level of `error` or higher to `error.log`
