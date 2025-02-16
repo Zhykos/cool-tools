@@ -17,14 +17,14 @@ interface ListItem {
 export const list: ListItem[] = [];
 
 export const useListLoader = routeLoader$(async () => {
-  const res: Response = await fetch(`http://localhost:8080/todo`);
+  const res: Response = await fetch(`http://${import.meta.env.PUBLIC_SERVER_URL}/todo`);
   const todos = await res.json();
   return todos as ListItem[];
 });
 
 export const useAddToListAction = routeAction$(
   async (item) => {
-    const res: Response = await fetch(`http://localhost:8080/todo`, {
+    const res: Response = await fetch(`http://${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
