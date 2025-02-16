@@ -1,8 +1,10 @@
 {
   "tasks": {
-    "start": "deno run --allow-net index.ts"
+    "start": "deno run --allow-net --allow-env --allow-read --allow-write index.ts"
   },
   "imports": {
-    "@oak/oak": "jsr:@oak/oak@^17.1.4"
+    "@datalust/winston-seq": "npm:@datalust/winston-seq@^2.0.0",
+    "@oak/oak": "jsr:@oak/oak@^17.1.4",
+    "winston": "npm:winston@^3.17.0"
   }
 }
