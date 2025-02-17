@@ -12,6 +12,11 @@ import styles from "./todolist.module.css";
 import winston from "winston";
 import { SeqTransport } from "@datalust/winston-seq";
 
+import { FrontendTracer } from "./FrontendTracer";
+if (typeof window !== "undefined") {
+  FrontendTracer();
+}
+
 interface ListItem {
   id: string;
   text: string;

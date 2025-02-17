@@ -11,3 +11,4 @@ Tags:
 - step 03: use case which returns an error 500
 - step 04: log the error, server side
 - step 05: create traceId-ish
+- step 06: add OpenTelemetry auto-instrumentation in frontend
