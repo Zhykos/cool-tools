@@ -30,14 +30,14 @@ const resource = Resource.default().merge(
 );
 
 const exporterOpts: OTLPExporterNodeConfigBase = {};
-    if (import.meta.env.PUBLIC_OPENTELEMETRY_COLLECTOR_URI) {
-        exporterOpts.url = import.meta.env.PUBLIC_OPENTELEMETRY_COLLECTOR_URI;
-    }
+if (import.meta.env.PUBLIC_OPENTELEMETRY_COLLECTOR_URI) {
+  exporterOpts.url = import.meta.env.PUBLIC_OPENTELEMETRY_COLLECTOR_URI;
+}
 
 const provider = new WebTracerProvider({
   resource: resource,
 });
-const processor = new SimpleSpanProcessor(new OTLPTraceExporter(exporterOpts))
+const processor = new SimpleSpanProcessor(new OTLPTraceExporter(exporterOpts));
 provider.addSpanProcessor(processor);
 
 provider.register();
@@ -56,7 +56,7 @@ export const list: ListItem[] = [];
 
 let logger: winston.Logger | null = null;
 
-const log = server$((message: string, existingRequestID?: string) => {
+const log = server$((message: string, traceId: string): void => {
   if (!logger) {
     logger = winston.createLogger({
       level: 'info',
@@ -83,22 +83,22 @@ const log = server$((message: string, existingRequestID?: string) => {
     }));
   }
 
-  const requestID: string = existingRequestID ? existingRequestID : Math.random().toString(16).slice(2);
-  logger.info(message, { requestID });
-
-  return requestID;
+  logger.info(message, { traceId });
 });
 
 export const useListLoader = routeLoader$(async () => {
   return tracer.startActiveSpan('get todo list', async (span: Span) => {
-    const requestID: string = await log('Loading todo list', span.spanContext().traceId);
+    const traceIdOPT: string = span.spanContext().traceId;
+
     const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
       headers: {
-        "X-Request-Id": requestID,
+        "X-Trace-Id-Opt": traceIdOPT,
+        "X-Trace-Flags-Opt": span.spanContext().traceFlags.toString(),
       },
     });
     const todos = await res.json();
-    log(`Loaded todo list: ${JSON.stringify(todos)}`, span.spanContext().traceId);
+
+    log(`get todo list: ${JSON.stringify(todos)}`, traceIdOPT);
     span.end();
     return todos as ListItem[];
   });
@@ -107,13 +107,14 @@ export const useListLoader = routeLoader$(async () => {
 export const useAddToListAction = routeAction$(
   async (item) => {
     return tracer.startActiveSpan('create todo item', async (span: Span) => {
-      const requestID: string = await log(`Adding todo item: ${JSON.stringify(item)}`, span.spanContext().traceId);
+      const traceIdOPT: string = span.spanContext().traceId;
 
       const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Request-Id": requestID,
+          "X-Trace-Id-Opt": traceIdOPT,
+          "X-Trace-Flags-Opt": span.spanContext().traceFlags.toString(),
         },
         body: JSON.stringify({text: item.text}),
       });
@@ -121,7 +122,7 @@ export const useAddToListAction = routeAction$(
       const newTodo = await res.json();
       list.push(newTodo as ListItem);
 
-      log(`Added todo item: ${JSON.stringify(newTodo)}`, requestID);
+      log(`Added todo item: ${JSON.stringify(newTodo)}`, traceIdOPT);
 
       span.end();
       return {
