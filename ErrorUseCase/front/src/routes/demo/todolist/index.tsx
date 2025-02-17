@@ -11,11 +11,41 @@ import {
 import styles from "./todolist.module.css";
 import winston from "winston";
 import { SeqTransport } from "@datalust/winston-seq";
+import { Resource } from '@opentelemetry/resources';
+import {
+  ATTR_SERVICE_NAME,
+  ATTR_SERVICE_VERSION,
+} from '@opentelemetry/semantic-conventions';
+import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
+import { SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import opentelemetry, {type Span} from '@opentelemetry/api';
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import type { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
 
-import { FrontendTracer } from "./FrontendTracer";
-if (typeof window !== "undefined") {
-  FrontendTracer();
-}
+const resource = Resource.default().merge(
+  new Resource({
+    [ATTR_SERVICE_NAME]: 'error-case-195-frontend',
+    [ATTR_SERVICE_VERSION]: '0.1.0',
+  }),
+);
+
+const exporterOpts: OTLPExporterNodeConfigBase = {};
+    if (import.meta.env.PUBLIC_OPENTELEMETRY_COLLECTOR_URI) {
+        exporterOpts.url = import.meta.env.PUBLIC_OPENTELEMETRY_COLLECTOR_URI;
+    }
+
+const provider = new WebTracerProvider({
+  resource: resource,
+});
+const processor = new SimpleSpanProcessor(new OTLPTraceExporter(exporterOpts))
+provider.addSpanProcessor(processor);
+
+provider.register();
+
+const tracer = opentelemetry.trace.getTracer(
+  'error-case-195-frontend',
+  '0.1.0',
+);
 
 interface ListItem {
   id: string;
@@ -60,15 +90,18 @@ const log = server$((message: string, existingRequestID?: string) => {
 });
 
 export const useListLoader = routeLoader$(async () => {
-  const requestID: string = await log('Loading todo list');
-  const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
-    headers: {
-      "X-Request-Id": requestID,
-    },
+  return tracer.startActiveSpan('get todo list', async (span: Span) => {
+    const requestID: string = await log('Loading todo list', span.spanContext().traceId);
+    const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
+      headers: {
+        "X-Request-Id": requestID,
+      },
+    });
+    const todos = await res.json();
+    log(`Loaded todo list: ${JSON.stringify(todos)}`, span.spanContext().traceId);
+    span.end();
+    return todos as ListItem[];
   });
-  const todos = await res.json();
-  log(`Loaded todo list: ${JSON.stringify(todos)}`, requestID);
-  return todos as ListItem[];
 });
 
 export const useAddToListAction = routeAction$(

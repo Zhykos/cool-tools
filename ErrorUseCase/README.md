@@ -12,3 +12,4 @@ Tags:
 - step 04: log the error, server side
 - step 05: create traceId-ish
 - step 06: add OpenTelemetry auto-instrumentation in frontend
+- step 07: use real OpenTelemetry span in frontend and the logs now have the traceId
