@@ -106,25 +106,28 @@ export const useListLoader = routeLoader$(async () => {
 
 export const useAddToListAction = routeAction$(
   async (item) => {
-    const requestID: string = await log(`Adding todo item: ${JSON.stringify(item)}`);
+    return tracer.startActiveSpan('create todo item', async (span: Span) => {
+      const requestID: string = await log(`Adding todo item: ${JSON.stringify(item)}`, span.spanContext().traceId);
 
-    const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Request-Id": requestID,
-      },
-      body: JSON.stringify({text: item.text}),
-    });
+      const res: Response = await fetch(`${import.meta.env.PUBLIC_SERVER_URL}/todo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Request-Id": requestID,
+        },
+        body: JSON.stringify({text: item.text}),
+      });
 
-    const newTodo = await res.json();
-    list.push(newTodo as ListItem);
+      const newTodo = await res.json();
+      list.push(newTodo as ListItem);
 
-    log(`Added todo item: ${JSON.stringify(newTodo)}`, requestID);
+      log(`Added todo item: ${JSON.stringify(newTodo)}`, requestID);
 
-    return {
-      success: true,
-    };
+      span.end();
+      return {
+        success: true,
+      };
+    });    
   },
   zod$({
     text: z.string().trim().min(1),
