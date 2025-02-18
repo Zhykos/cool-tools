@@ -15,3 +15,4 @@ Tags:
 - step 06: add OpenTelemetry auto-instrumentation in frontend
 - step 07: use real OpenTelemetry span in frontend and the logs now have the traceId
 - step 08: full OpenTelemetry tracing (manual instrumentation)
+- step 09: change the error case

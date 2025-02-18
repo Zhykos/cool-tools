@@ -122,38 +122,74 @@ router.post("/todo", async (ctx) => {
       traceFlags: Number.parseInt(traceFlagsOpt),
     }),
   );
+
   const span = tracer.startSpan(
     "create todo item",
     undefined,
     externalContext,
   );
 
-  logger.info("create todo item", { traceId: traceIdOpt });
+  try {
+    logger.info("create todo item", { traceId: traceIdOpt });
 
-  const { text }: { text: string } = await ctx.request.body.json();
+    const { text }: { text: string } = await ctx.request.body.json();
 
-  if (text.includes("y")) {
-    logger.error("Text includes 'y'", { traceId: traceIdOpt });
-    ctx.response.status = 500;
-    ctx.response.body = { error: "Text includes 'y'" };
-    ctx.response.headers.set("X-Trace-Id-Opt", traceIdOpt);
-    ctx.response.headers.set("X-Trace-Flags-Opt", traceFlagsOpt);
+    fakeDatabaseAccess(span, text.includes("y"));
 
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: "Text includes 'y'",
-    });
-  } else {
+    // if (text.includes("y")) {
+    //   logger.error("Text includes 'y'", { traceId: traceIdOpt });
+    //   ctx.response.status = 500;
+    //   ctx.response.body = { error: "Text includes 'y'" };
+    //   ctx.response.headers.set("X-Trace-Id-Opt", traceIdOpt);
+    //   ctx.response.headers.set("X-Trace-Flags-Opt", traceFlagsOpt);
+
+    //   span.setStatus({
+    //     code: SpanStatusCode.ERROR,
+    //     message: "Text includes 'y'",
+    //   });
+    // } else {
     const id: string = Math.random().toString(16).slice(2);
     items.push({ id, text });
     logger.info(`Created new todo with id ${id}`, { traceId: traceIdOpt });
     ctx.response.body = { id };
     ctx.response.headers.set("X-Request-Id", traceIdOpt);
     ctx.response.headers.set("X-Trace-Flags-Opt", traceFlagsOpt);
+    // }
+  } finally {
+    span.end();
   }
-
-  span.end();
 });
+
+function fakeDatabaseAccess(
+  parentSpan: opentelemetry.Span,
+  generateError: boolean,
+) {
+  const externalContext = opentelemetry.trace.setSpan(
+    opentelemetry.context.active(),
+    parentSpan,
+  );
+
+  const span = tracer.startSpan(
+    "fake database access",
+    undefined,
+    externalContext,
+  );
+
+  try {
+    if (generateError) {
+      throw new Error("Cannot access to database");
+    }
+  } catch (e) {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: (e as Error).message,
+    });
+    span.addEvent("error", { error: (e as Error).message });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
 
 const app = new Application();
 app.use(router.routes());
