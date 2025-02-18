@@ -136,25 +136,12 @@ router.post("/todo", async (ctx) => {
 
     fakeDatabaseAccess(span, text.includes("y"));
 
-    // if (text.includes("y")) {
-    //   logger.error("Text includes 'y'", { traceId: traceIdOpt });
-    //   ctx.response.status = 500;
-    //   ctx.response.body = { error: "Text includes 'y'" };
-    //   ctx.response.headers.set("X-Trace-Id-Opt", traceIdOpt);
-    //   ctx.response.headers.set("X-Trace-Flags-Opt", traceFlagsOpt);
-
-    //   span.setStatus({
-    //     code: SpanStatusCode.ERROR,
-    //     message: "Text includes 'y'",
-    //   });
-    // } else {
     const id: string = Math.random().toString(16).slice(2);
     items.push({ id, text });
     logger.info(`Created new todo with id ${id}`, { traceId: traceIdOpt });
     ctx.response.body = { id };
     ctx.response.headers.set("X-Request-Id", traceIdOpt);
     ctx.response.headers.set("X-Trace-Flags-Opt", traceFlagsOpt);
-    // }
   } finally {
     span.end();
   }
