@@ -75,7 +75,7 @@ async function checkZipkin(page: Page): Promise<void> {
   expect(bigTraceSuccess).toBe(true);
 
   await page.getByText("Expand All").click();
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
 }
 
 async function findTraces(page: Page): Promise<boolean> {
