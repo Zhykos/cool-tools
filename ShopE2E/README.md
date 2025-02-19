@@ -17,11 +17,20 @@ Then, initialize the project with the following command:
 npm install
 ```
 
-Then, you can run the tests with the following command:
+```bash
+cd ./tests/resources/
+docker compose up -d --build
+```
+
+In another terminal, to execute the tests, run:
 
 ```bash
-docker compose up -d --build
 npm run test
+```
+
+Then, in the first terminal, run the following command to end the infrastructure:
+
+```bash
 docker compose down -v
 ```
 
@@ -40,7 +49,7 @@ We use [Semantic Versioning](http://semver.org/) for versioning.
 
 ## Authors
 
-- **Thomas Cicognani** - *First version of the API* -
+- **Thomas Cicognani** - *First version* -
   [Zhykos](https://github.com/Zhykos)
 
 ## Acknowledgments
