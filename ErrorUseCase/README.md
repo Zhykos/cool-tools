@@ -111,7 +111,7 @@ Tags:
 
 ## Launch the tests to verify the logs and traces
 
-TODO
+Read the README in [E2E directory](./e2e/) to know how to tests this project.
 
 ## Contributing
 
