@@ -47,6 +47,16 @@ To stop the services, run the following command in the root directory of the pro
 docker compose down -v
 ```
 
+### Launch the logger service
+
+You must have Docker installed on your machine.
+
+Run the following command to launch Seq:
+
+```bash
+docker run --name seq -d --restart unless-stopped -e ACCEPT_EULA=Y -p 5341:80 datalust/seq:latest
+```
+
 ### Launch the backend service
 
 To launch the backend service, you need to have Deno installed on your machine.
@@ -77,14 +87,6 @@ To generate an error, you can add a task with a character `y`.
 ## Verify the logs and traces
 
 ### Verify the logs with Seq
-
-You must have Docker installed on your machine.
-
-Run the following command to launch Seq:
-
-```bash
-docker run --name seq -d --restart unless-stopped -e ACCEPT_EULA=Y -p 5341:80 datalust/seq:latest
-```
 
 To verify the logs, you can go to the Seq interface at `http://localhost:5341/`.
 

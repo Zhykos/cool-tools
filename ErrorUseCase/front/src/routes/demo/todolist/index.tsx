@@ -78,7 +78,6 @@ const log = server$((message: string, traceId: string): void => {
     
     logger.add(new SeqTransport({
       serverUrl: import.meta.env.PUBLIC_SEQ_URL,
-      apiKey: import.meta.env.PUBLIC_SEQ_API_KEY,
       onError: ((e: unknown) => { console.error(e) }),
     }));
   }

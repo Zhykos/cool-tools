@@ -37,7 +37,6 @@ const logger = winston.createLogger({
 logger.add(
   new SeqTransport({
     serverUrl: Deno.env.get("SEQ_URL"),
-    apiKey: Deno.env.get("SEQ_API_KEY"),
     onError: ((e: unknown) => {
       console.error(e);
     }),
