@@ -169,8 +169,8 @@ export default component$(() => {
         </p>
 
         <Form action={action} spaReset>
-          <input type="text" name="text" required class={styles.input} />{" "}
-          <button type="submit" class="button-dark">
+          <input type="text" name="text" required class={styles.input} data-testid="input-todo-item" />{" "}
+          <button type="submit" class="button-dark" data-testid="create-todo-button">
             Add item
           </button>
         </Form>
