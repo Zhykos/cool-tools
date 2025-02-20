@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Shop E2E
+name: Error Use Case E2E
 
 on:
   push:
@@ -23,20 +23,14 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    
-    - name: Replace IP address in all files
-      run: |
-        current_ip=$(hostname -I | awk '{print $1}')
-        echo "Current IP address: $current_ip"
-        find . -type f -exec sed -i "s/192.168.1.10/$current_ip/g" {} +
 
     - name: Launch Docker Compose for infrastructure
       uses: hoverkraft-tech/compose-action@v2.0.1
       with:
-        compose-file: "./ShopE2E/tests/resources/docker-compose.yml"
+        compose-file: "./ErrorUseCase/e2e/tests/resources/docker-compose.yml"
 
     - name: Create and launch the Playwright tests
-      working-directory: ./ShopE2E
+      working-directory: ./ErrorUseCase/e2e
       run: |
         npm install
         npx playwright install firefox --with-deps
@@ -47,7 +41,7 @@ jobs:
       if: ${{ failure() }}
       with:
         name: playwright-report
-        path: ./ShopE2E/playwright-report/
+        path: ./ErrorUseCase/e2e/playwright-report/
         retention-days: 30
     
     - name: Upload Playwright snapshots
@@ -55,7 +49,7 @@ jobs:
       if: ${{ failure() }}
       with:
         name: playwright-snapshots
-        path: ./ShopE2E/tests/resources/snapshots
+        path: ./ErrorUseCase/e2e/tests/resources/snapshots
         retention-days: 30
 
     - name: Dump docker logs
