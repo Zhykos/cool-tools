@@ -1,28 +1,26 @@
-# End-to-End (E2E) tests for the Shop and all services
+# End-to-End (E2E) tests for the Error Use Case and all services
 
-This project contains the end-to-end tests for the Shop and all external services like databases, message brokers, and more.
+This project contains the end-to-end tests for the Error Use Case and all external services like Seq and Zipkin.
 It uses Docker Compose to run the services.
-
-All services are described in the `docker-compose.yml` file, in the Infra directory.
 
 Tests are written in TypeScript and use the Playwright library to interact with the web application.
 
 ## Launch the tests
 
-First, read the infrastructure README to set the IP address (check paragraph `Running the infrastructure`).
-
-Then, initialize the project with the following command:
+Initialize the project with the following command:
 
 ```bash
 npm install
 ```
+
+Then, you can run the tests with the following command:
 
 ```bash
 cd ./tests/resources/
 docker compose up -d --build
 ```
 
-In another terminal, to execute the tests, run:
+In another terminal,to execute the tests, run:
 
 ```bash
 npm run test
@@ -33,10 +31,6 @@ Then, in the first terminal, run the following command to end the infrastructure
 ```bash
 docker compose down -v
 ```
-
-## Improvements
-
-- I tried to use the `testcontainer` library to start the services in the tests, but somehow it didn't work.
 
 ## Contributing
 
