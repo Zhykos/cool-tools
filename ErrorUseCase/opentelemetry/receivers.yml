@@ -1,0 +1,15 @@
+---
+
+receivers:
+
+  otlp:
+    protocols:
+      grpc:
+        endpoint: ":4317"
+      http:
+        endpoint: ":4318"
+        include_metadata: true
+        cors:
+          allowed_origins:
+            - http://*
+            - https://*
