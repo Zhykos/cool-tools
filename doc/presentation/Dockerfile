@@ -1,21 +1,31 @@
-# Kudos to https://dev.to/borisuu/setup-vite-vuejs-docker-32fb
+# Kudos to https://gitlab.com/quarto-forge/docker/-/blob/main/Dockerfile.quarto_all?ref_type=heads
 
-FROM node:22-alpine AS builder
+FROM mambaorg/micromamba AS build
+
+USER root
+
+RUN apt update
+RUN apt install -y curl libreoffice-writer texlive-full
+RUN rm -rf /var/lib/apt/lists/*
+#RUN curl -L $(curl https://quarto.org/docs/download/_prerelease.json | grep -oP "(?<=\"download_url\":\s\")https.*${ARCH}\.deb") -o /tmp/quarto.deb
+RUN curl -L https://github.com/quarto-dev/quarto-cli/releases/download/v1.7.13/quarto-1.7.13-linux-arm64.deb -o /tmp/quarto.deb
+RUN dpkg -i /tmp/quarto.deb
+RUN rm /tmp/quarto.deb
+
+USER $MAMBA_USER
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY package-lock.json ./
+COPY presentation.qmd ./
+COPY _extensions/ ./_extensions/
 
-RUN npm install
+RUN quarto render presentation.qmd
 
-COPY . ./
-
-FROM builder AS prod-builder
-RUN npm run build
+# -----------------------------
 
 FROM nginx:latest
 
-COPY --from=prod-builder /usr/src/app/dist /usr/share/nginx/html
+COPY --from=build /usr/src/app/presentation.html /usr/share/nginx/html/index.html
+COPY --from=build /usr/src/app/presentation_files/ /usr/share/nginx/html/presentation_files/
 
 CMD ["nginx", "-g", "daemon off;"]

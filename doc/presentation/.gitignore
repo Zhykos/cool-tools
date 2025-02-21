@@ -2,3 +2,5 @@
 /dist/
 playwright-report/
 test-results/
+presentation_files/
+presentation.html
