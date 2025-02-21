@@ -35,6 +35,8 @@ docker run -d -p 3026:80 presentation
 npm run test
 ```
 
+***Note***: the Dockerfile is Linux amd64 specific.
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code
