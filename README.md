@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="./doc/growtika-yGQmjh2uOTg-unsplash.jpg" alt="cool tools by Zhykos" width="200" />
+  <img src="./README-medias/growtika-yGQmjh2uOTg-unsplash.jpg" alt="cool tools by Zhykos" width="200" />
   <br>
   Cool tools
   <br>
@@ -19,7 +19,7 @@
   <a href="#license">License</a>
 </p>
 
-![Simplified architecture](./doc/simplified-arch.svg)
+![Simplified architecture](./README-medias/simplified-arch.svg)
 
 ## Description
 
@@ -47,13 +47,13 @@ The project contains several directories (a README.md file is present in each di
 * [BasketAPI](./BasketAPI/README.md): a simple API to manage a basket made with Play Framework
 * [BenchmarkOpenTelemetryCollector](./BenchmarkOpenTelemetryCollector/README.md): a simple project to benchmark the OpenTelemetry Collector
 * [ErrorUseCase](./ErrorUseCase/README.md): a simple backend - frontend architecture to demonstrate how to use logs and traces in case of errors
-* [front-home](./front-home/README.md): a simple front-end to display the home page, made with Vue.js
+* [Shop-front](./Shop-front/README.md): a simple front-end to display the home page, made with Vue.js
 * [Infra](./Infra/README.md): the infrastructure of the project, made with Docker Compose
 * [InvoiceAPI](./InvoiceAPI/README.md): a simple API to manage invoices, made with Java and Quarkus
 * [OrderAPI](./OrderAPI/README.md): a simple API to manage orders, made with Go
-* [Presentation *PowerPoint like*](./doc/presentation/README.md): a French presentation I may use
+* [Observability presentation *PowerPoint like*](./Presentations/observability/README.md): a French presentation I may use to illustrate how to use OpenTelemetry through the Shop example and other stuffs
 * [ProductAPI](./ProductAPI/README.md): a simple API to manage products, made with Java and Spring Boot (WebFlux)
-* [ShopE2E](./ShopE2E/README.md): end-to-end tests for the Shop and all services
+* [Shop E2E](./Shop-E2E/README.md): end-to-end tests for the Shop and all services
 * [UserAPI](./UserAPI/README.md): a simple API to manage users, made with Java and Spring Boot.
 
 You'll find a complete architecture documentation with the file [arch.plantuml](./arch.plantuml).
@@ -171,11 +171,11 @@ docker exec <DOCKER CONTAINER> create_token.sh admin
 # Open the URL: http://localhost:9005 (Quarkus UI should be displayed)
 
 # ---
-# (7) Run the front-home
+# (7) Run the Shop front
 # Open a new terminal
-# See the README.md file in the front-home directory for more information
+# See the README.md file in the Shop-front directory for more information
 # Requires Node.js 21
-cd front-home
+cd Shop-front
 npm install
 npm run dev
 

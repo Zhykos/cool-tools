@@ -1,16 +1,18 @@
 ---
 title: Observabilité
-subtitle: A subtitle
+subtitle: Tout surveiller sans rien faire (ou presque)
 format: clean-revealjs
 html-math-method:
   method: mathjax
   url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 author:
-  - name: Your Name
-    orcid: 0000-0000-0000-0000
-    email: alias@email.com
-    affiliations: Your Institution
-date: last-modified
+  - name: Thomas Cicognani
+    email: zhykos.github.yy9x5@passmail.net
+    affiliations: In my free time
+  - name: Grant McDermott
+    email: gmcd@amazon.com
+    affiliations: Créateur du template de présentation
+date: 2025-01-01
 ---
 
 ## Example slide

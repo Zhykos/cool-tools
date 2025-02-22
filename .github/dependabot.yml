@@ -34,8 +34,9 @@ updates:
     directories: 
       - "/ErrorUseCase/e2e/"
       - "/ErrorUseCase/front/"
-      - "/front-home/"
-      - "/ShopE2E/"
+      - "/Shop-front/"
+      - "/Presentations/observability/"
+      - "/Shop-E2E/"
     schedule:
       interval: "weekly"
 
@@ -43,12 +44,12 @@ updates:
     target-branch: "develop"
     directories:
       - "/BasketAPI-SpringBoot/"
-      - "/front-home/"
+      - "/Shop-front/"
       - "/Infra/"
       - "/InvoiceAPI/"
       - "/OrderAPI/"
       - "/ProductAPI/"
-      - "/ShopE2E/tests/resources/"
+      - "/Shop-E2E/tests/resources/"
       - "/UserAPI/"
     schedule:
       interval: "weekly"
