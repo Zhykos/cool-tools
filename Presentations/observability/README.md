@@ -1,4 +1,4 @@
-# A French presentation to illustrate logs, traces, metrics with OpenTelemetry
+# A French presentation to illustrate Observability: logs, traces, metrics with OpenTelemetry
 
 This project demonstrates how to create a presentation *PowerPoint like* with a simple code, thanks to reveal.js and Quarto.
 

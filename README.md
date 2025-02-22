@@ -51,7 +51,7 @@ The project contains several directories (a README.md file is present in each di
 * [Infra](./Infra/README.md): the infrastructure of the project, made with Docker Compose
 * [InvoiceAPI](./InvoiceAPI/README.md): a simple API to manage invoices, made with Java and Quarkus
 * [OrderAPI](./OrderAPI/README.md): a simple API to manage orders, made with Go
-* [Presentation *PowerPoint like*](./doc/presentation/README.md): a French presentation I may use
+* [Observability presentation *PowerPoint like*](./Presentations/observability/README.md): a French presentation I may use to illustrate how to use OpenTelemetry through the Shop example and other stuffs
 * [ProductAPI](./ProductAPI/README.md): a simple API to manage products, made with Java and Spring Boot (WebFlux)
 * [ShopE2E](./ShopE2E/README.md): end-to-end tests for the Shop and all services
 * [UserAPI](./UserAPI/README.md): a simple API to manage users, made with Java and Spring Boot.

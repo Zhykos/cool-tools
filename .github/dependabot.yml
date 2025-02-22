@@ -35,6 +35,7 @@ updates:
       - "/ErrorUseCase/e2e/"
       - "/ErrorUseCase/front/"
       - "/front-home/"
+      - "/Presentations/observability/"
       - "/ShopE2E/"
     schedule:
       interval: "weekly"
