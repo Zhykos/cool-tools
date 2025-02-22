@@ -1,4 +1,4 @@
-import { defineConfig, devices } from './$node_modules/@playwright/test/index.js';
+import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
