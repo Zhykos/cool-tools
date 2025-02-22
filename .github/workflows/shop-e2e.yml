@@ -12,12 +12,14 @@ on:
       - hotfix/**
       - release/**
     paths:
+      - '**'
       - '!ErrorUseCase/**'
       - '!Presentations/**'
   pull_request:
     branches:
       - develop
     paths:
+      - '**'
       - '!ErrorUseCase/**'
       - '!Presentations/**'
 
