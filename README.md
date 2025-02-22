@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="./doc/growtika-yGQmjh2uOTg-unsplash.jpg" alt="cool tools by Zhykos" width="200" />
+  <img src="./README-medias/growtika-yGQmjh2uOTg-unsplash.jpg" alt="cool tools by Zhykos" width="200" />
   <br>
   Cool tools
   <br>
@@ -19,7 +19,7 @@
   <a href="#license">License</a>
 </p>
 
-![Simplified architecture](./doc/simplified-arch.svg)
+![Simplified architecture](./README-medias/simplified-arch.svg)
 
 ## Description
 
