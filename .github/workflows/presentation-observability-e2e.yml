@@ -11,9 +11,13 @@ on:
       - feature/**
       - hotfix/**
       - release/**
+    paths:
+      - 'Presentations/observability/**'
   pull_request:
     branches:
       - develop
+    paths:
+      - 'Presentations/observability/**'
 
 jobs:
   tests:

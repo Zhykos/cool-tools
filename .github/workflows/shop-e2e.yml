@@ -12,9 +12,15 @@ on:
       - hotfix/**
       - release/**
       - dependabot/**
+    paths:
+      - '!ErrorUseCase/**'
+      - '!Presentations/**'
   pull_request:
     branches:
       - develop
+    paths:
+      - '!ErrorUseCase/**'
+      - '!Presentations/**'
 
 jobs:
   tests:
