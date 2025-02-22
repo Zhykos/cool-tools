@@ -11,7 +11,6 @@ on:
       - feature/**
       - hotfix/**
       - release/**
-      - dependabot/**
     paths:
       - '!ErrorUseCase/**'
       - '!Presentations/**'
@@ -35,7 +34,7 @@ jobs:
       run: |
         current_ip=$(hostname -I | awk '{print $1}')
         echo "Current IP address: $current_ip"
-        find . -type f -exec sed -i "s/<<MY_IP_ADDRESS>>/$current_ip/g" {} +
+        find . -type f -exec sed -i "s/192.168.1.10/$current_ip/g" {} +
 
     - name: Launch Docker Compose for infrastructure
       uses: hoverkraft-tech/compose-action@v2.0.1

@@ -110,8 +110,8 @@ services:
       - "9411:9411"
     expose:
       - "9411"
-    # environment:
-    #   - JAVA_OPTS=-XX:UseSVE=0 # Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
+    environment:
+      - JAVA_OPTS=-XX:UseSVE=0 # Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
 
   postgres-products:
     image: postgres:16.3-alpine
