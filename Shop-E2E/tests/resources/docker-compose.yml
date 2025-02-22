@@ -16,7 +16,7 @@ services:
         condition: service_started
 
   front-shop:
-    build: ../../../front-home
+    build: ../../../Shop-front
     ports:
       - "5173:80"
     environment:
