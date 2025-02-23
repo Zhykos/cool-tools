@@ -34,6 +34,7 @@ updates:
     directories: 
       - "/ErrorUseCase/e2e/"
       - "/ErrorUseCase/front/"
+      - "/ErrorUseCase-2/e2e/"
       - "/Shop-front/"
       - "/Presentations/observability/"
       - "/Shop-E2E/"

@@ -1,0 +1,64 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Error Use Case E2E 2
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - feature/**
+      - hotfix/**
+      - release/**
+    paths:
+      - 'ErrorUseCase-2/**'
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - 'ErrorUseCase-2/**'
+
+jobs:
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Launch Docker LGTM
+      working-directory: ./ErrorUseCase-2
+      run: docker run --name lgtm -p 3000:3000 -p 4317:4317 -p 4318:4318 --rm -ti -e GF_PATHS_DATA=/data/grafana docker.io/grafana/otel-lgtm:0.8.1
+
+    - name: Launch API
+      working-directory: ./ErrorUseCase-2/api
+      run: OTEL_DENO=true ./api
+
+    - name: Create and launch the Playwright tests
+      working-directory: ./ErrorUseCase-2/e2e
+      run: |
+        npm install
+        npx playwright install firefox --with-deps
+        npm run test
+    
+    - name: Upload Playwright report
+      uses: actions/upload-artifact@v4
+      if: ${{ failure() }}
+      with:
+        name: playwright-report
+        path: ./ErrorUseCase-2/e2e/playwright-report/
+        retention-days: 30
+    
+    - name: Upload Playwright snapshots
+      uses: actions/upload-artifact@v4
+      if: ${{ failure() }}
+      with:
+        name: playwright-snapshots
+        path: ./ErrorUseCase-2/e2e/tests/resources/snapshots
+        retention-days: 30
+
+    - name: Dump docker logs
+      if: ${{ failure() }}
+      uses: jwalton/gh-docker-logs@v2
