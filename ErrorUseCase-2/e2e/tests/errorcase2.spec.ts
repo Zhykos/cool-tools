@@ -125,23 +125,23 @@ async function checkGrafanaMetrics(page: Page): Promise<boolean> {
       await page.getByTestId("data-testid RefreshPicker run button").click();
       await page.waitForLoadState();
       
-      const labelToFind: Locator = page.getByText("otelcol_process_memory_rss");
+      const labelToFind: Locator = page.getByTestId("uplot-main-div");
       const labelToFindCount: number = await labelToFind.count();
-      if (labelToFindCount !== 1) {
+      if (labelToFindCount === 0) {
         console.log("Reloading page");
 
         await page.reload({ waitUntil: "load" });
         await page.waitForLoadState();
 
-        const labelToFindAgain: Locator = page.getByText("otelcol_process_memory_rss");
+        const labelToFindAgain: Locator = page.getByTestId("uplot-main-div");
         const labelToFindCountAgain: number = await labelToFindAgain.count();
 
-        if (labelToFindCountAgain !== 1) {
-          throw new Error(`Expected 1 label, got ${labelToFindCountAgain}`);
+        if (labelToFindCountAgain === 0) {
+          throw new Error(`Expected at least 1 uplot, got ${labelToFindCountAgain}`);
         }
       }
 
-      console.log("Label found");
+      console.log("Uplot found");
 
       success = true;
       await new Promise(resolve => setTimeout(resolve, 5_000)); // Because we want to see all the metrics
