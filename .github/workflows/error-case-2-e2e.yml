@@ -30,11 +30,11 @@ jobs:
 
     - name: Launch Docker LGTM
       working-directory: ./ErrorUseCase-2
-      run: docker run --name lgtm -p 3000:3000 -p 4317:4317 -p 4318:4318 --rm -e GF_PATHS_DATA=/data/grafana docker.io/grafana/otel-lgtm:0.8.1
+      run: docker run -d --name lgtm -p 3000:3000 -p 4317:4317 -p 4318:4318 --rm -e GF_PATHS_DATA=/data/grafana docker.io/grafana/otel-lgtm:0.8.1
 
     - name: Launch API
       working-directory: ./ErrorUseCase-2/api
-      run: OTEL_DENO=true ./api
+      run: OTEL_DENO=true ./api &
 
     - name: Create and launch the Playwright tests
       working-directory: ./ErrorUseCase-2/e2e
