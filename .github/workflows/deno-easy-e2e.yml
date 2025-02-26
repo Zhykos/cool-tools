@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Shop E2E
+name: Deno Easy Observability E2E
 
 on:
   push:
@@ -12,20 +12,12 @@ on:
       - hotfix/**
       - release/**
     paths:
-      - '**'
-      - '!DenoEasyObservability/**'
-      - '!ErrorUseCase/**'
-      - '!ErrorUseCase-2/**'
-      - '!Presentations/**'
+      - 'DenoEasyObservability/**'
   pull_request:
     branches:
       - develop
     paths:
-      - '**'
-      - '!DenoEasyObservability/**'
-      - '!ErrorUseCase/**'
-      - '!ErrorUseCase-2/**'
-      - '!Presentations/**'
+      - 'DenoEasyObservability/**'
 
 jobs:
   tests:
@@ -35,20 +27,15 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    
-    - name: Replace IP address in all files
-      run: |
-        current_ip=$(hostname -I | awk '{print $1}')
-        echo "Current IP address: $current_ip"
-        find . -type f -exec sed -i "s/<<MY_IP_ADDRESS>>/$current_ip/g" {} +
 
-    - name: Launch Docker Compose for infrastructure
-      uses: hoverkraft-tech/compose-action@v2.0.1
-      with:
-        compose-file: "./Shop-E2E/tests/resources/docker-compose.yml"
+    - name: Launch API
+      working-directory: ./DenoEasyObservability/api
+      run: |
+        docker build -t DenoEasyObservability .
+        docker run -d -p 8000:8000 DenoEasyObservability
 
     - name: Create and launch the Playwright tests
-      working-directory: ./Shop-E2E
+      working-directory: ./DenoEasyObservability/e2e
       run: |
         npm install
         npx playwright install firefox --with-deps
@@ -59,7 +46,7 @@ jobs:
       if: ${{ failure() }}
       with:
         name: playwright-report
-        path: ./Shop-E2E/playwright-report/
+        path: ./DenoEasyObservability/e2e/playwright-report/
         retention-days: 30
     
     - name: Upload Playwright snapshots
@@ -67,7 +54,7 @@ jobs:
       if: ${{ failure() }}
       with:
         name: playwright-snapshots
-        path: ./Shop-E2E/tests/resources/snapshots
+        path: ./DenoEasyObservability/e2e/tests/resources/snapshots
         retention-days: 30
 
     - name: Dump docker logs
