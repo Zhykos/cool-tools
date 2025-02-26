@@ -31,8 +31,8 @@ jobs:
     - name: Launch API
       working-directory: ./DenoEasyObservability/api
       run: |
-        docker build -t DenoEasyObservability .
-        docker run -d -p 8000:8000 DenoEasyObservability
+        docker build -t deno_easy_observability .
+        docker run -d -p 8000:8000 deno_easy_observability
 
     - name: Create and launch the Playwright tests
       working-directory: ./DenoEasyObservability/e2e

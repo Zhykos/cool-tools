@@ -35,8 +35,8 @@ jobs:
     - name: Launch API
       working-directory: ./ErrorUseCase-2/api
       run: |
-        docker build -t ErrorUseCase2api .
-        docker run -d -p 8000:8000 ErrorUseCase2api
+        curl -fsSL https://deno.land/install.sh | sh
+        deno task start
 
     - name: Create and launch the Playwright tests
       working-directory: ./ErrorUseCase-2/e2e
