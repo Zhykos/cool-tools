@@ -1,6 +1,5 @@
 {
   "tasks": {
-    "start": "OTEL_DENO=true deno run --unstable-otel --allow-net index.ts",
-    "build-github": "OTEL_DENO=true deno compile --unstable-otel --allow-net --target x86_64-unknown-linux-gnu index.ts"
+    "start": "OTEL_DENO=true deno run --unstable-otel --allow-net --allow-env index.ts"
   }
 }

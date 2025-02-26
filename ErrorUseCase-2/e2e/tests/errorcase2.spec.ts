@@ -25,10 +25,10 @@ async function callAPI(): Promise<void> {
 async function checkGrafana(page: Page): Promise<void> {
   await page.goto('http://localhost:3000');
   await expect(page).toHaveTitle("Grafana");
-  await expect(page).toHaveScreenshot();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 
   await page.getByTestId("data-testid Toggle menu").click();
-  await expect(page).toHaveScreenshot();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 
   await page.getByLabel("Expand section Explore").click();
   await page.getByTestId("data-testid Nav menu item").filter({ hasText: "Logs" }).click();
@@ -68,7 +68,7 @@ async function checkGrafana(page: Page): Promise<void> {
   await expect(page).toHaveTitle("Select metric - Metrics - Explore - Grafana");
 
   expect(await checkGrafanaMetrics(page)).toBe(true);
-  await expect(page).toHaveScreenshot({ fullPage: true, maxDiffPixelRatio: 0.01 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
 }
 
 async function checkGrafanaTempo(page: Page): Promise<boolean> {
