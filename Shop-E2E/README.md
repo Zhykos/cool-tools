@@ -34,6 +34,8 @@ Then, in the first terminal, run the following command to end the infrastructure
 docker compose down -v
 ```
 
+> **Note**: In case you get E2E results via a zip file, you can check the tests with `npx playwright show-report`.
+
 ## Improvements
 
 - I tried to use the `testcontainer` library to start the services in the tests, but somehow it didn't work.

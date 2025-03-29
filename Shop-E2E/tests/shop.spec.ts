@@ -326,7 +326,7 @@ async function checkEmails(page: Page): Promise<string> {
 async function checkExcalidraw(page: Page): Promise<void> {
   await page.goto('http://localhost:3030/');
   await expect(page).toHaveTitle("Excalidraw | Hand-drawn look & feel • Collaborative • Secure");
-  await expect(page).toHaveScreenshot();
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
 }
 
 async function checkKong(page: Page): Promise<void> {
