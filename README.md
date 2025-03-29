@@ -241,7 +241,6 @@ Check credits in each directory.
 Also:
 - [README template](https://github.com/amitmerchant1990) by Amit Merchant
 - I wish to not generate a header with IA so I used an image by <a href="https://unsplash.com/fr/@growtika">Growtika</a> on <a href="https://unsplash.com/fr/photos/un-ordinateur-avec-un-clavier-et-une-souris-yGQmjh2uOTg">Unsplash</a>
-- Everyone, somehow, because I used Copilot to help me write the code
 
 ## Kudos
 
