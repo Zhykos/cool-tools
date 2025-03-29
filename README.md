@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="./doc/growtika-yGQmjh2uOTg-unsplash.jpg" alt="cool tools by Zhykos" width="200" />
+  <img src="./README-medias/growtika-yGQmjh2uOTg-unsplash.jpg" alt="cool tools by Zhykos" width="200" />
   <br>
   Cool tools
   <br>
@@ -19,7 +19,7 @@
   <a href="#license">License</a>
 </p>
 
-![Simplified architecture](./doc/simplified-arch.svg)
+![Simplified architecture](./README-medias/simplified-arch.svg)
 
 ## Description
 
@@ -37,22 +37,26 @@ So I made a project with a simple architecture and a little online shop.
 I wrote some microservices, and I wanted to add the OpenTelemetry project to it.
 And then it become bigger and bigger, a real project to try and learn new things.
 
-Here are all the tools I used in this project:
+Here are all the **free** tools I used in this project:
 
 <p align="center">
-    <a href="https://prometheus.io/">Prometheus</a> • <a href="https://grafana.com/oss/loki/">Loki</a> • <a href="https://zipkin.io/">Zipkin</a> • <a href="https://grafana.com/">Grafana</a> • <a href="https://opentelemetry.io/">OpenTelemetry</a> • <a href="https://opentelemetry.io/docs/collector/">OpenTelemetry Collector</a> • <a href="https://www.h2database.com/">H2</a> • <a href="https://www.postgresql.org/">Postgres</a> • <a href="https://www.mongodb.com/">MongoDB</a> • <a href="https://zookeeper.apache.org/">Zookeeper</a> • <a href="https://kafka.apache.org/">Kafka</a> • <a href="https://docs.kafka-ui.provectus.io/">Kafka UI</a> •  <a href="https://www.papermerge.com/">Papermerge</a> • <a href="https://www.inbucket.org/">Inbucket</a> • <a href="https://konghq.com/">Kong</a> • <a href="https://excalidraw.com/">Excalidraw</a> • <a href="https://vuejs.org/">Vue.js</a> • <a href="https://www.playframework.com/">Play Framework</a> • <a href="https://quarkus.io/">Quarkus</a> • <a href="https://spring.io/projects/spring-boot">Spring Boot</a> • <a href="https://golang.org/">Go</a> • <a href="https://www.docker.com/">Docker</a> • <a href="https://docs.docker.com/compose/">Docker Compose</a> • <a href="https://www.usebruno.com/">Bruno</a> • <a href="https://plantuml.com/">PlantUML</a> • <a href="https://www.archimatetool.com/">Archimate</a> • <a href="https://locust.io/">Locust</a> • <a href="https://nodejs.org/">Node.js</a> • <a href="https://maven.apache.org/">Maven</a> • <a href="https://www.java.com/">Java</a> • <a href="https://playwright.dev/">Playwright</a> • <a href="https://deno.land/">Deno</a> • <a href="https://qwik.dev/">Qwik</a> • <a href="https://datalust.co/seq">Seq</a>
+    <a href="https://prometheus.io/">Prometheus</a> • <a href="https://grafana.com/oss/loki/">Loki</a> • <a href="https://zipkin.io/">Zipkin</a> • <a href="https://grafana.com/">Grafana</a> • <a href="https://opentelemetry.io/">OpenTelemetry</a> • <a href="https://opentelemetry.io/docs/collector/">OpenTelemetry Collector</a> • <a href="https://www.h2database.com/">H2</a> • <a href="https://www.postgresql.org/">Postgres</a> • <a href="https://www.mongodb.com/">MongoDB</a> • <a href="https://zookeeper.apache.org/">Zookeeper</a> • <a href="https://kafka.apache.org/">Kafka</a> • <a href="https://docs.kafka-ui.provectus.io/">Kafka UI</a> •  <a href="https://www.papermerge.com/">Papermerge</a> • <a href="https://www.inbucket.org/">Inbucket</a> • <a href="https://konghq.com/">Kong</a> • <a href="https://excalidraw.com/">Excalidraw</a> • <a href="https://vuejs.org/">Vue.js</a> • <a href="https://www.playframework.com/">Play Framework</a> • <a href="https://quarkus.io/">Quarkus</a> • <a href="https://spring.io/projects/spring-boot">Spring Boot</a> • <a href="https://golang.org/">Go</a> • <a href="https://www.docker.com/">Docker</a> • <a href="https://docs.docker.com/compose/">Docker Compose</a> • <a href="https://www.usebruno.com/">Bruno</a> • <a href="https://plantuml.com/">PlantUML</a> • <a href="https://www.archimatetool.com/">Archimate</a> • <a href="https://locust.io/">Locust</a> • <a href="https://nodejs.org/">Node.js</a> • <a href="https://maven.apache.org/">Maven</a> • <a href="https://www.java.com/">Java</a> • <a href="https://playwright.dev/">Playwright</a> • <a href="https://deno.land/">Deno</a> • <a href="https://qwik.dev/">Qwik</a> • <a href="https://datalust.co/seq">Seq</a> • <a href="https://revealjs.com/">reveal.js</a> • <a href="https://quarto.org/">Quarto</a> • <a href="https://code.visualstudio.com/">Visual Studio Code</a> • <a href="https://zed.dev/">Zed</a> • <a href="https://www.jetbrains.com/idea">IntelliJ Community</a> • <a href="https://grafana.com/go/webinar/getting-started-with-grafana-lgtm-stack/">LGTM</a>
 </p>
 
 The project contains several directories (a README.md file is present in each directory):
 * [BasketAPI](./BasketAPI/README.md): a simple API to manage a basket made with Play Framework
+* [BasketAPI-SpringBoot](./BasketAPI-SpringBoot/README.md): the same API but made with Spring Boot
 * [BenchmarkOpenTelemetryCollector](./BenchmarkOpenTelemetryCollector/README.md): a simple project to benchmark the OpenTelemetry Collector
+* [DenoEasyObservability](./DenoEasyObservability/README.md): a simple backend architecture to demonstrate how to use logs and traces with Deno
 * [ErrorUseCase](./ErrorUseCase/README.md): a simple backend - frontend architecture to demonstrate how to use logs and traces in case of errors
-* [front-home](./front-home/README.md): a simple front-end to display the home page, made with Vue.js
+* [ErrorUseCase-2](./ErrorUseCase-2/README.md): a simple backend architecture to demonstrate how to use logs and traces in case of errors
 * [Infra](./Infra/README.md): the infrastructure of the project, made with Docker Compose
 * [InvoiceAPI](./InvoiceAPI/README.md): a simple API to manage invoices, made with Java and Quarkus
 * [OrderAPI](./OrderAPI/README.md): a simple API to manage orders, made with Go
+* [Presentations](./Presentations/observability/README.md): a French presentation I may use to illustrate how to use OpenTelemetry through the Shop example and other stuffs
 * [ProductAPI](./ProductAPI/README.md): a simple API to manage products, made with Java and Spring Boot (WebFlux)
-* [ShopE2E](./ShopE2E/README.md): end-to-end tests for the Shop and all services
+* [Shop-E2E](./Shop-E2E/README.md): end-to-end tests for the Shop and all services
+* [Shop-front](./Shop-front/README.md): a simple front-end to display the home page, made with Vue.js
 * [UserAPI](./UserAPI/README.md): a simple API to manage users, made with Java and Spring Boot.
 
 You'll find a complete architecture documentation with the file [arch.plantuml](./arch.plantuml).
@@ -170,11 +174,11 @@ docker exec <DOCKER CONTAINER> create_token.sh admin
 # Open the URL: http://localhost:9005 (Quarkus UI should be displayed)
 
 # ---
-# (7) Run the front-home
+# (7) Run the Shop front
 # Open a new terminal
-# See the README.md file in the front-home directory for more information
+# See the README.md file in the Shop-front directory for more information
 # Requires Node.js 21
-cd front-home
+cd Shop-front
 npm install
 npm run dev
 
