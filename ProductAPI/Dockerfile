@@ -8,7 +8,7 @@ WORKDIR /build/
 # Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
 RUN export MAVEN_OPTS="-XX:UseSVE=0" && mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 

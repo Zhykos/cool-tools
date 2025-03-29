@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Shop E2E
+name: Error Use Case E2E 2
 
 on:
   push:
@@ -12,20 +12,12 @@ on:
       - hotfix/**
       - release/**
     paths:
-      - '**'
-      - '!DenoEasyObservability/**'
-      - '!ErrorUseCase/**'
-      - '!ErrorUseCase-2/**'
-      - '!Presentations/**'
+      - 'ErrorUseCase-2/**'
   pull_request:
     branches:
       - develop
     paths:
-      - '**'
-      - '!DenoEasyObservability/**'
-      - '!ErrorUseCase/**'
-      - '!ErrorUseCase-2/**'
-      - '!Presentations/**'
+      - 'ErrorUseCase-2/**'
 
 jobs:
   tests:
@@ -35,20 +27,19 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    
-    - name: Replace IP address in all files
-      run: |
-        current_ip=$(hostname -I | awk '{print $1}')
-        echo "Current IP address: $current_ip"
-        find . -type f -exec sed -i "s/<<MY_IP_ADDRESS>>/$current_ip/g" {} +
 
-    - name: Launch Docker Compose for infrastructure
-      uses: hoverkraft-tech/compose-action@v2.0.1
-      with:
-        compose-file: "./Shop-E2E/tests/resources/docker-compose.yml"
+    - name: Launch Docker LGTM
+      working-directory: ./ErrorUseCase-2
+      run: docker run -d --name lgtm -p 3000:3000 -p 4317:4317 -p 4318:4318 --rm -e GF_PATHS_DATA=/data/grafana docker.io/grafana/otel-lgtm:0.8.1
+
+    - name: Launch API
+      working-directory: ./ErrorUseCase-2/api
+      run: |
+        curl -fsSL https://deno.land/install.sh | sh
+        /home/runner/.deno/bin/deno task start &
 
     - name: Create and launch the Playwright tests
-      working-directory: ./Shop-E2E
+      working-directory: ./ErrorUseCase-2/e2e
       run: |
         npm install
         npx playwright install firefox --with-deps
@@ -59,7 +50,7 @@ jobs:
       if: ${{ failure() }}
       with:
         name: playwright-report
-        path: ./Shop-E2E/playwright-report/
+        path: ./ErrorUseCase-2/e2e/playwright-report/
         retention-days: 30
     
     - name: Upload Playwright snapshots
@@ -67,7 +58,7 @@ jobs:
       if: ${{ failure() }}
       with:
         name: playwright-snapshots
-        path: ./Shop-E2E/tests/resources/snapshots
+        path: ./ErrorUseCase-2/e2e/tests/resources/snapshots
         retention-days: 30
 
     - name: Dump docker logs

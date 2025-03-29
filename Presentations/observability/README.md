@@ -56,4 +56,3 @@ We use [Semantic Versioning](http://semver.org/) for versioning.
 - PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
 - Grant McDermott for the Quarto template: https://github.com/grantmcdermott/quarto-revealjs-clean
 - Hat tip to anyone whose code is used
-- The world because I'm a bad person who uses CoPilot
