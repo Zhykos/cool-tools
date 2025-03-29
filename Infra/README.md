@@ -218,7 +218,7 @@ Before starting the infrastructure, you must set your current IP address in thes
 - `./kong/dockerfile`
 - `./kong/kong.yaml`
 
-Replace `<<MY_IP_ADDRESS>>` with your IP address in all files (see previous paragraph). It will be easy if you are using an IDE like VS Code, Zed or IntelliJ.
+Replace `192.168.1.10` with your IP address in all files (see previous paragraph). It will be easy if you are using an IDE like VS Code, Zed or IntelliJ.
 
 Start the infrastructure with the following command:
 

@@ -44,8 +44,8 @@ services:
       - "9005:9005"
     environment:
       - QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4317
-      - QUARKUS_REST-CLIENT_PAPERMERGE-API_URL=http://<<MY_IP_ADDRESS>>:12000/api
-      - QUARKUS_MAILER_HOST=<<MY_IP_ADDRESS>>
+      - QUARKUS_REST-CLIENT_PAPERMERGE-API_URL=http://192.168.1.10:12000/api
+      - QUARKUS_MAILER_HOST=192.168.1.10
     depends_on:
       grafana:
         condition: service_started
@@ -59,7 +59,7 @@ services:
     ports:
       - "9004:9004"
     environment:
-      - MONGODB_URI=mongodb://root:password@<<MY_IP_ADDRESS>>:9014
+      - MONGODB_URI=mongodb://root:password@192.168.1.10:9014
       - USER_API_URI=http://user-api:9001
       - PRODUCT_API_URI=http://product-api:9002
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
@@ -82,7 +82,7 @@ services:
       - "9002:9002"
     environment:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://opentelemetry-collector:4318
-      - SPRING_R2DBC_URL=r2dbc:postgresql://<<MY_IP_ADDRESS>>:9012/db
+      - SPRING_R2DBC_URL=r2dbc:postgresql://192.168.1.10:9012/db
     depends_on:
       grafana:
         condition: service_started
