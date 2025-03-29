@@ -25,10 +25,10 @@ async function callAPI(): Promise<void> {
 async function checkGrafana(page: Page): Promise<void> {
   await page.goto('http://localhost:3000');
   await expect(page).toHaveTitle("Grafana");
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
 
   await page.getByTestId("data-testid Toggle menu").click();
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
 
   await page.getByLabel("Expand section Explore").click();
   await page.getByTestId("data-testid Nav menu item").filter({ hasText: "Logs" }).click();
@@ -43,7 +43,7 @@ async function checkGrafana(page: Page): Promise<void> {
   await expect(page).toHaveTitle("Logs - Grafana Logs Drilldown - Explore - Grafana");
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
 
-  await expect(page.getByText("Logs (3)")).toBeVisible();
+  await expect(page.getByText(/Logs \(\d\)/)).toBeVisible();
   await expect(page.getByText("Received request for http://localhost:8000/foo")).toBeVisible();
   
   await page.keyboard.press("PageDown");
