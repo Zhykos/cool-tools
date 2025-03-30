@@ -11,9 +11,13 @@ on:
       - feature/**
       - hotfix/**
       - release/**
+    paths:
+      - 'ErrorUseCase/**'
   pull_request:
     branches:
       - develop
+    paths:
+      - 'ErrorUseCase/**'
 
 jobs:
   tests:
