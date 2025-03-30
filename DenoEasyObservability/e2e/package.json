@@ -1,0 +1,13 @@
+{
+  "name": "deno-e2e",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.1",
+    "@types/node": "^22.10.5"
+  }
+}
