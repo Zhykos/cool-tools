@@ -1,5 +1,4 @@
-import { test, expect, type Page, type Locator, type APIRequestContext, type APIResponse } from '@playwright/test';
-import { readFileSync } from 'fs';
+import { test, expect, type Page, type Locator } from '@playwright/test';
 
 
 test('Full ErrorUseCase test', async ({ page, request }) => {
