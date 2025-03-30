@@ -131,5 +131,4 @@ We use [Semantic Versioning](http://semver.org/) for versioning.
 
 - PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
 - Hat tip to anyone whose code is used
-- The world because I'm a bad person who uses CoPilot
 - https://opentelemetry.io/docs/languages/js/instrumentation/
