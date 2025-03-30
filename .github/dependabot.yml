@@ -5,43 +5,52 @@
 
 version: 2
 updates:
+
   - package-ecosystem: "maven"
     target-branch: "develop"
-    directory: "/UserAPI/"
+    directories:
+      - "/BasketAPI-SpringBoot/"
+      - "/BenchmarkOpenTelemetryCollector/api/"
+      - "/InvoiceAPI/"
+      - "/ProductAPI/"
+      - "/UserAPI/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "maven"
-    target-branch: "develop"
-    directory: "/ProductAPI/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "maven"
-    target-branch: "develop"
-    directory: "/BenchmarkOpenTelemetryCollector/api/"
-    schedule:
-      interval: "weekly"
+
   - package-ecosystem: "pip"
     target-branch: "develop"
     directory: "/BenchmarkOpenTelemetryCollector/bench-locust/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "docker"
-    target-branch: "develop"
-    directory: "/Infra/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "maven"
-    target-branch: "develop"
-    directory: "/InvoiceAPI/"
-    schedule:
-      interval: "weekly"
+
   - package-ecosystem: "gomod"
     target-branch: "develop"
     directory: "/OrderAPI/"
     schedule:
       interval: "weekly"
+
   - package-ecosystem: "npm"
     target-branch: "develop"
-    directory: "/front-home/"
+    directories: 
+      - "/ErrorUseCase/e2e/"
+      - "/ErrorUseCase/front/"
+      - "/ErrorUseCase-2/e2e/"
+      - "/Shop-front/"
+      - "/Presentations/observability/"
+      - "/Shop-E2E/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    target-branch: "develop"
+    directories:
+      - "/BasketAPI-SpringBoot/"
+      - "/Shop-front/"
+      - "/Infra/"
+      - "/InvoiceAPI/"
+      - "/OrderAPI/"
+      - "/ProductAPI/"
+      - "/Shop-E2E/tests/resources/"
+      - "/UserAPI/"
     schedule:
       interval: "weekly"

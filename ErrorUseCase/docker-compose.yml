@@ -1,0 +1,42 @@
+name: fr-zhykos-cool-tools-error-use-case
+
+services:
+
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    command:
+      - --config=/etc/otel/receivers.yml
+      - --config=/etc/otel/processors.yml
+      - --config=/etc/otel/exporters.yml
+      - --config=/etc/otel/service.yml
+    volumes:
+      - ./opentelemetry:/etc/otel:ro
+      - ../UserAPI/logs:/logs
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:13133/healthz || exit 1
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "13133:13133" # health check
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+    expose:
+      - "4317"
+      - "4318"
+      - "13133"
+    depends_on:
+      - zipkin
+
+  zipkin:
+    image: openzipkin/zipkin:3.4.3
+    restart: always
+    ports:
+      - "9411:9411"
+    expose:
+      - "9411"
+
+  zookeeper:
+    image: zookeeper:3.9.2-jre-17
+    ports:
+      - "2181:2181"
