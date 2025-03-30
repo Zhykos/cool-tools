@@ -4,8 +4,7 @@ COPY pom.xml /build/
 COPY src /build/src/
 WORKDIR /build/
 
-# Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
-RUN export MAVEN_OPTS="-XX:UseSVE=0" && mvn clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre
 
@@ -15,5 +14,4 @@ COPY --from=maven_build /build/target/ target/
 
 EXPOSE 9005
 
-# Workaround for M4, Java 21, MacOS 15.2 bug: https://github.com/corretto/corretto-21/issues/85
-CMD ["java", "-XX:UseSVE=0", "-jar", "target/quarkus-app/quarkus-run.jar"]
+CMD ["java", "-jar", "target/quarkus-app/quarkus-run.jar"]
