@@ -172,7 +172,7 @@ services:
     command: worker
 
   papermerge-redis:
-    image: redis:6
+    image: redis:7
 
   fake-smtp:
     image: inbucket/inbucket:sha-504a79a
