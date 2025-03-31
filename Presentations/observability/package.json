@@ -10,8 +10,8 @@
     "test": "playwright test"
   },
   "devDependencies": {
+    "@types/node": "^22.13.14",
     "@playwright/test": "^1.51.1",
-    "@types/node": "^22.13.4",
     "reveal.js": "^5.1.0",
     "typescript": "~5.7.2",
     "vite": "^6.2.4"
