@@ -6,6 +6,44 @@
 version: 2
 updates:
 
+# https://github.com/Zhykos/cool-tools/issues/336
+  # - package-ecosystem: "deno"
+  #   target-branch: "develop"
+  #   directories:
+  #     - "/DenoEasyObservability/api/"
+  #     - "/ErrorUseCase/todo-api/"
+  #     - "/ErrorUseCase-2/api/"
+  #   schedule:
+  #     interval: "weekly"
+
+  - package-ecosystem: "docker"
+    target-branch: "develop"
+    directories:
+      - "/BasketAPI-SpringBoot/"
+      - "/InvoiceAPI/"
+      - "/OrderAPI/"
+      - "/Presentations/observability/"
+      - "/ProductAPI/"
+      - "/Shop-front/"
+      - "/UserAPI/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker-compose"
+    target-branch: "develop"
+    directories:
+      - "/ErrorUseCase/"
+      - "/Infra/"
+      - "/Shop-E2E/tests/resources/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "gomod"
+    target-branch: "develop"
+    directory: "/OrderAPI/"
+    schedule:
+      interval: "weekly"
+
   - package-ecosystem: "maven"
     target-branch: "develop"
     directories:
@@ -17,40 +55,15 @@ updates:
     schedule:
       interval: "weekly"
 
-  - package-ecosystem: "pip"
-    target-branch: "develop"
-    directory: "/BenchmarkOpenTelemetryCollector/bench-locust/"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "gomod"
-    target-branch: "develop"
-    directory: "/OrderAPI/"
-    schedule:
-      interval: "weekly"
-
   - package-ecosystem: "npm"
     target-branch: "develop"
     directories: 
+      - "/DenoEasyObservability/e2e/"
       - "/ErrorUseCase/e2e/"
       - "/ErrorUseCase/front/"
       - "/ErrorUseCase-2/e2e/"
-      - "/Shop-front/"
       - "/Presentations/observability/"
       - "/Shop-E2E/"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "docker"
-    target-branch: "develop"
-    directories:
-      - "/BasketAPI-SpringBoot/"
       - "/Shop-front/"
-      - "/Infra/"
-      - "/InvoiceAPI/"
-      - "/OrderAPI/"
-      - "/ProductAPI/"
-      - "/Shop-E2E/tests/resources/"
-      - "/UserAPI/"
     schedule:
       interval: "weekly"
