@@ -1,6 +1,6 @@
 # Kudos to https://dev.to/borisuu/setup-vite-vuejs-docker-32fb
 
-FROM node:22-alpine AS builder
+FROM node:23-alpine AS builder
 
 WORKDIR /usr/src/app
 
