@@ -5,43 +5,65 @@
 
 version: 2
 updates:
-  - package-ecosystem: "maven"
-    target-branch: "develop"
-    directory: "/UserAPI/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "maven"
-    target-branch: "develop"
-    directory: "/ProductAPI/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "maven"
-    target-branch: "develop"
-    directory: "/BenchmarkOpenTelemetryCollector/api/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    target-branch: "develop"
-    directory: "/BenchmarkOpenTelemetryCollector/bench-locust/"
-    schedule:
-      interval: "weekly"
+
+# https://github.com/Zhykos/cool-tools/issues/336
+  # - package-ecosystem: "deno"
+  #   target-branch: "develop"
+  #   directories:
+  #     - "/DenoEasyObservability/api/"
+  #     - "/ErrorUseCase/todo-api/"
+  #     - "/ErrorUseCase-2/api/"
+  #   schedule:
+  #     interval: "weekly"
+
   - package-ecosystem: "docker"
     target-branch: "develop"
-    directory: "/Infra/"
+    directories:
+      - "/BasketAPI-SpringBoot/"
+      - "/InvoiceAPI/"
+      - "/OrderAPI/"
+      - "/Presentations/observability/"
+      - "/ProductAPI/"
+      - "/Shop-front/"
+      - "/UserAPI/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "maven"
+
+  - package-ecosystem: "docker-compose"
     target-branch: "develop"
-    directory: "/InvoiceAPI/"
+    directories:
+      - "/ErrorUseCase/"
+      - "/Infra/"
+      - "/Shop-E2E/tests/resources/"
     schedule:
       interval: "weekly"
+
   - package-ecosystem: "gomod"
     target-branch: "develop"
     directory: "/OrderAPI/"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "maven"
+    target-branch: "develop"
+    directories:
+      - "/BasketAPI-SpringBoot/"
+      - "/BenchmarkOpenTelemetryCollector/api/"
+      - "/InvoiceAPI/"
+      - "/ProductAPI/"
+      - "/UserAPI/"
+    schedule:
+      interval: "weekly"
+
   - package-ecosystem: "npm"
     target-branch: "develop"
-    directory: "/front-home/"
+    directories: 
+      - "/DenoEasyObservability/e2e/"
+      - "/ErrorUseCase/e2e/"
+      - "/ErrorUseCase/front/"
+      - "/ErrorUseCase-2/e2e/"
+      - "/Presentations/observability/"
+      - "/Shop-E2E/"
+      - "/Shop-front/"
     schedule:
       interval: "weekly"

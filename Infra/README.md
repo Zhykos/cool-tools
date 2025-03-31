@@ -36,12 +36,15 @@ Website: https://prometheus.io/
 
 Open the Prometheus web interface at http://localhost:9090/
 
+![Prometheus capture](./doc/prometheus.png)
+
 #### OpenTelemetry Collector
 
 OpenTelemetry Collector is a vendor-agnostic agent for observability data collection and processing.
 It is part of the OpenTelemetry project, which provides a single set of APIs, libraries, agents, and instrumentation to capture distributed traces and metrics from your application.
 
 Website: https://opentelemetry.io/
+
 Collector: https://opentelemetry.io/docs/collector/
 
 Collectors are configured with a configuration file in YAML format.
@@ -69,6 +72,8 @@ Some dashboards are available in the project, in the `grafana` directory.
 Go to the Grafana web interface and import the dashboards from the JSON files.
 Check the official documentation for more information: https://grafana.com/docs/grafana/latest/reference/export_import/.
 
+![Grafana capture](./doc/grafana.png)
+
 #### Zipkin
 
 Zipkin is a distributed tracing system.
@@ -76,6 +81,8 @@ Zipkin is a distributed tracing system.
 Website: https://zipkin.io/
 
 Open the Zipkin web interface at http://localhost:9411/
+
+![Zipkin capture](./doc/zipkin.png)
 
 #### Postgres
 
@@ -139,6 +146,8 @@ Connect to the DMS with the following credentials:
 * Password: admin
 * Security token: 12345
 
+![Papermerge capture](./doc/papermerge.png)
+
 #### Inbucket
 
 Inbucket is an email testing service.
@@ -148,6 +157,8 @@ Website: https://www.inbucket.org/
 Open the Inbucket web interface at http://localhost:9000/
 
 Send emails to the SMTP server at localhost:2500.
+
+![Inbucket capture](./doc/inbucket.png)
 
 #### Kong
 
@@ -177,6 +188,8 @@ deck gateway diff kong.yaml
 deck gateway sync kong.yaml
 ```
 
+![Kong capture](./doc/kong.png)
+
 #### Excalidraw
 
 Excalidraw is a whiteboard tool.
@@ -184,6 +197,8 @@ Excalidraw is a whiteboard tool.
 Website: https://excalidraw.com/
 
 Open the Excalidraw web interface at http://localhost:3030/
+
+![Excalidraw capture](./doc/excalidraw.png)
 
 ## Getting Started
 
@@ -239,4 +254,3 @@ We use [Semantic Versioning](http://semver.org/) for versioning.
 
 - PurpleBooth 🖤 for the README template: https://github.com/PurpleBooth/a-good-readme-template
 - Hat tip to anyone whose code is used
-- The world because I'm a bad person who uses CoPilot
