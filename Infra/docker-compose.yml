@@ -37,7 +37,7 @@ services:
       - "9091"
 
   opentelemetry-collector:
-    image: otel/opentelemetry-collector-contrib:0.104.0
+    image: otel/opentelemetry-collector-contrib:0.122.1
     command:
       - --config=/etc/otel/receivers.yml
       - --config=/etc/otel/processors.yml
