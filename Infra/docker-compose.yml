@@ -112,7 +112,7 @@ services:
       - "9411"
 
   postgres-products:
-    image: postgres:16.3-alpine
+    image: postgres:17.4-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: user
@@ -255,7 +255,7 @@ services:
       - no-new-privileges
 
   kong-db:
-    image: postgres:16.3-alpine
+    image: postgres:17.4-alpine
     environment:
       POSTGRES_DB: ${KONG_PG_DATABASE:-kong}
       POSTGRES_USER: ${KONG_PG_USER:-kong}
