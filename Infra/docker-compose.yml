@@ -63,7 +63,7 @@ services:
       - zipkin
 
   loki:
-    image: grafana/loki:3.1.0
+    image: grafana/loki:3.4.3
     restart: unless-stopped
     environment:
       - LOKI_RETENTION_PERIOD=90d
