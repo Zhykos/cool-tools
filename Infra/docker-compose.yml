@@ -37,7 +37,7 @@ services:
       - "9091"
 
   opentelemetry-collector:
-    image: otel/opentelemetry-collector-contrib:0.104.0
+    image: otel/opentelemetry-collector-contrib:0.123.0
     command:
       - --config=/etc/otel/receivers.yml
       - --config=/etc/otel/processors.yml
@@ -63,7 +63,7 @@ services:
       - zipkin
 
   loki:
-    image: grafana/loki:3.1.0
+    image: grafana/loki:3.4.3
     restart: unless-stopped
     environment:
       - LOKI_RETENTION_PERIOD=90d
