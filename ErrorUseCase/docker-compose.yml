@@ -3,7 +3,7 @@ name: fr-zhykos-cool-tools-error-use-case
 services:
 
   opentelemetry-collector:
-    image: otel/opentelemetry-collector-contrib:0.104.0
+    image: otel/opentelemetry-collector-contrib:0.123.0
     command:
       - --config=/etc/otel/receivers.yml
       - --config=/etc/otel/processors.yml
@@ -29,7 +29,7 @@ services:
       - zipkin
 
   zipkin:
-    image: openzipkin/zipkin:3.4.3
+    image: openzipkin/zipkin:3.5.0
     restart: always
     ports:
       - "9411:9411"
