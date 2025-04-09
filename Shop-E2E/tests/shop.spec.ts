@@ -198,14 +198,14 @@ async function checkZipkin(page: Page): Promise<void> {
   await page.keyboard.press("Enter");
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 
-  const bigTraceSuccess: boolean = await findTraces(page);
+  const bigTraceSuccess: boolean = await findTracesInZipkin(page);
   expect(bigTraceSuccess).toBe(true);
 
   await page.getByText("Expand All").click();
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 }
 
-async function findTraces(page: Page): Promise<boolean> {
+async function findTracesInZipkin(page: Page): Promise<boolean> {
   // await expect(async () => {
   //   console.log("Waiting for traces to appear");
 
@@ -274,15 +274,64 @@ async function checkPrometheus(page: Page): Promise<void> {
   await expect(page).toHaveTitle("Prometheus Time Series Collection and Processing Server");
   await expect(page).toHaveScreenshot();
 
-  await page.getByTitle("Open metrics explorer").click();
-  await expect(page.getByText("Metrics Explorer")).toBeVisible({ timeout: 5000 });
+  await page.getByLabel("Show query options").click();
+  await page.getByText("Explore metrics").click();
+
+  await expect(page.getByPlaceholder("Enter text to filter metric names by...")).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText("unknown").nth(8)).toBeVisible({ timeout: 5000 });
   await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.5});
 
-  await page.getByLabel("Close").click();
+  await page.keyboard.press("Escape");
 
   await page.getByRole("textbox").first().fill("http_server_active_requests");
   await page.getByText("Execute").click();
+
+  const checkedDashboard: boolean = await checkPrometheusDashboard(page);
+  expect(checkedDashboard).toBe(true);
   await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.04});
+}
+
+async function checkPrometheusDashboard(page: Page): Promise<boolean> {
+  let success = false;
+  let retries = 0;
+  const maxRetries = 20;
+
+  while (retries <= maxRetries && !success) {
+    console.log("Waiting for Prometheus dashboard to load, retry", retries);
+
+    try {
+      await page.getByText("Execute").click();
+      await page.waitForLoadState();
+      
+      const getWantedText: Locator = page.getByText("opentelemetry-collector:9091");
+      const getWantedTextCount: number = await getWantedText.count();
+      if (getWantedTextCount !== 7) {
+        console.log("Reloading page");
+
+        await page.reload({ waitUntil: "load" });
+        await page.waitForLoadState();
+        await new Promise(resolve => setTimeout(resolve, 6_000));
+
+        const getWantedTextAgain: Locator = page.getByText("opentelemetry-collector:9091");
+        const getWantedTextAgainCount: number = await getWantedTextAgain.count();
+
+        if (getWantedTextAgainCount !== 7) {
+          throw new Error(`Expected 7 labels, got ${getWantedTextAgainCount}`);
+        }
+      }
+
+      console.log("Label found");
+
+      success = true;
+    } catch (e) {
+      console.error("Error while retry", retries, e.message);
+      await new Promise(resolve => setTimeout(resolve, 5_000));
+    }
+
+    retries++;
+  }
+
+  return success;
 }
 
 async function checkPapermerge(page: Page): Promise<void> {
