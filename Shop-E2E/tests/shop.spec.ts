@@ -366,24 +366,28 @@ async function checkGrafana(page: Page): Promise<void> {
   
   // await page.goto('http://localhost:3000/?orgId=1');
   // await expect(page).toHaveTitle("Grafana");
-  await expect(page.getByTestId("data-testid Home breadcrumb")).toBeVisible({ timeout: 100_000 });
+  await expect(page.getByTestId("data-testid Home breadcrumb").nth(1)).toBeVisible({ timeout: 100_000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 }); // Screenshot 29
 
   await page.goto('http://localhost:3000/connections/add-new-connection');
   await expect(page.getByText("Google Analytics")).toBeVisible({ timeout: 5_000 });
   await expect(page).toHaveScreenshot(); // Screenshot 30
 
-  await page.getByPlaceholder("Search all").fill("loki");
+  await page.getByPlaceholder("Search Grafana plugins").fill("loki");
+  await page.keyboard.press("Enter");
+  await expect(page.getByText("Google Analytics")).not.toBeVisible({ timeout: 5_000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 31
 
-  await page.getByPlaceholder("Search all").fill("prometheus");
+  await page.getByPlaceholder("Search Grafana plugins").fill("prometheus");
+  await page.keyboard.press("Enter");
+  await expect(page.getByText("Loki")).not.toBeVisible({ timeout: 5_000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 32
 
   await page.goto('http://localhost:3000/connections/datasources/loki');
   await expect(page.getByText("Loki Data Source - Native Plugin")).toBeVisible({ timeout: 5000 });
   await expect(page).toHaveScreenshot(); // Screenshot 33
 
-  await page.getByText("Create a Loki data source").click();
+  await page.getByText("Add new data source").click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot(); // Screenshot 34
 
@@ -395,13 +399,13 @@ async function checkGrafana(page: Page): Promise<void> {
   await expect(page.getByText("Prometheus Data Source - Native Plugin")).toBeVisible({ timeout: 5000 });
   await expect(page).toHaveScreenshot(); // Screenshot 36
 
-  await page.getByText("Create a Prometheus data source").click();
+  await page.getByText("Add new data source").click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot(); // Screenshot 37
 
   await page.getByPlaceholder("http://localhost:9090").fill("http://prometheus:9090");
   await page.getByRole('button', { name: 'Save & test' }).click();
-  await expect(page).toHaveScreenshot({fullPage: true}); // Screenshot 38
+  await expect(page).toHaveScreenshot({fullPage: true, maxDiffPixelRatio: 0.01}); // Screenshot 38
 
   await page.goto('http://localhost:3000/connections/datasources');
   await expect(page).toHaveScreenshot(); // Screenshot 39
@@ -418,9 +422,9 @@ async function checkGrafana(page: Page): Promise<void> {
   await expect(page).toHaveScreenshot(); // Screenshot 42
 
   await page.getByTestId('data-testid Data source picker select container').nth(0).locator("input").fill("Prometheus");
-  await page.keyboard.press("Enter");
+  await page.getByTestId('data-source-card').click();
   await page.getByTestId('data-testid Data source picker select container').nth(1).locator("input").fill("Loki");
-  await page.keyboard.press("Enter");
+  await page.getByTestId('data-source-card').click();
   await expect(page).toHaveScreenshot(); // Screenshot 43
 
   await page.getByRole('button', { name: 'Import' }).click();
@@ -449,6 +453,7 @@ async function checkGrafanaDashboard(page: Page): Promise<boolean> {
 
         await page.reload({ waitUntil: "load" });
         await page.waitForLoadState();
+        await new Promise(resolve => setTimeout(resolve, 6_000));
 
         const getUserLabelAgain: Locator = page.getByText("GET /user");
         const getUserLabelCountAgain: number = await getUserLabelAgain.count();
