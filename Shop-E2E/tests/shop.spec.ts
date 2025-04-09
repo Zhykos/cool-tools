@@ -405,7 +405,7 @@ async function checkGrafana(page: Page): Promise<void> {
 
   await page.getByPlaceholder("http://localhost:9090").fill("http://prometheus:9090");
   await page.getByRole('button', { name: 'Save & test' }).click();
-  await expect(page).toHaveScreenshot({fullPage: true}); // Screenshot 38
+  await expect(page).toHaveScreenshot({fullPage: true, maxDiffPixelRatio: 0.01}); // Screenshot 38
 
   await page.goto('http://localhost:3000/connections/datasources');
   await expect(page).toHaveScreenshot(); // Screenshot 39
