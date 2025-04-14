@@ -1,11 +1,12 @@
 module OrderAPI
 
 go 1.22.4
+
 toolchain go1.24.1
 
 require (
 	github.com/twmb/franz-go v1.18.1
-	github.com/twmb/franz-go/plugin/kotel v1.5.0
+	github.com/twmb/franz-go/plugin/kotel v1.6.0
 	go.mongodb.org/mongo-driver v1.17.3
 	go.opentelemetry.io/contrib/instrumentation/go.mongodb.org/mongo-driver/mongo/otelmongo v0.60.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.60.0
