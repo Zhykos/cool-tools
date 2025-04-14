@@ -1,7 +1,7 @@
 name: fr-zhykos-cool-tools-infra
 
 x-backend: &papermerge-common
-  image: papermerge/papermerge:3.1
+  image: papermerge/papermerge:3.4.1
   environment:
     PAPERMERGE__SECURITY__SECRET_KEY: 12345
     PAPERMERGE__AUTH__USERNAME: admin
