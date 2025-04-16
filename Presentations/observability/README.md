@@ -23,7 +23,7 @@ quarto preview presentation.qmd
 
 Then open your browser at `http://localhost:4216/` is it is not automatic.
 
-## Launch the tests to verify the logs and traces
+## Launch the tests to verify the presentation
 
 Tests to check if the presentation can be generated are done thanks to Playwright.
 
