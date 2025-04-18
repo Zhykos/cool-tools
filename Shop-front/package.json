@@ -13,12 +13,12 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
-    "@opentelemetry/auto-instrumentations-web": "^0.41.0",
-    "@opentelemetry/context-zone": "^1.28.0",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.57.1",
-    "@opentelemetry/instrumentation-fetch": "^0.200.0",
-    "@opentelemetry/propagator-b3": "^1.27.0",
-    "@opentelemetry/sdk-trace-web": "^1.26.0",
+    "@opentelemetry/auto-instrumentations-web": "0.46.0",
+    "@opentelemetry/context-zone": "2.0.0",
+    "@opentelemetry/exporter-trace-otlp-http": "0.200.0",
+    "@opentelemetry/instrumentation-fetch": "0.200.0",
+    "@opentelemetry/propagator-b3": "2.0.0",
+    "@opentelemetry/sdk-trace-web": "2.0.0",
     "pinia": "^2.1.7",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

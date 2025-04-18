@@ -1,6 +1,13 @@
-import { test, expect, type Page, type Locator, type APIRequestContext, type APIResponse } from '@playwright/test';
-import { readFileSync } from 'fs';
-import { comparePdfToSnapshot } from 'pdf-visual-diff'
+import {
+  test,
+  expect,
+  type Page,
+  type Locator,
+  type APIRequestContext,
+  type APIResponse,
+} from "@playwright/test";
+import { readFileSync } from "fs";
+import { comparePdfToSnapshot } from "pdf-visual-diff";
 // import { DockerComposeEnvironment, Wait, type StartedDockerComposeEnvironment } from 'testcontainers';
 
 // let testContainer: StartedDockerComposeEnvironment | null = null;
@@ -24,7 +31,7 @@ import { comparePdfToSnapshot } from 'pdf-visual-diff'
 //   }
 // });
 
-test('Full shop test', async ({ page, request }) => {
+test("Full shop test", async ({ page, request }) => {
   console.log("Starting test");
 
   // Shop scenario
@@ -51,7 +58,7 @@ test('Full shop test', async ({ page, request }) => {
 });
 
 async function goHome(page: Page): Promise<void> {
-  await page.goto('http://localhost:5173/');
+  await page.goto("http://localhost:5173/");
 
   await expect(page).toHaveTitle("Vite App");
   await expect(page).toHaveScreenshot();
@@ -61,33 +68,52 @@ async function goToShopFromHome(page: Page): Promise<void> {
   await page.getByTestId("shop-link").click();
 
   await expect(page).toHaveTitle("Shop");
-  await expect(page.getByTestId("product-list-title")).toHaveText("Select a product to put it on your basket", { timeout: 10000 });
-  await expect(page.getByTestId("product-link:Zulu-346")).toBeVisible({ timeout: 100_000 });
+  await expect(page.getByTestId("product-list-title")).toHaveText(
+    "Select a product to put it on your basket",
+    { timeout: 10000 },
+  );
+  await expect(page.getByTestId("product-link:Zulu-346")).toBeVisible({
+    timeout: 100_000,
+  });
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 
 async function addUser(page: Page): Promise<void> {
-  await expect(page.getByTestId("user-list-title")).toHaveText("No user: create a new one above");
+  await expect(page.getByTestId("user-list-title")).toHaveText(
+    "No user: create a new one above",
+  );
 
   await page.getByTestId("username-input").fill("John Doe");
   await page.getByTestId("create-user-button").click();
-  await expect(page.getByTestId("user-list-title")).toHaveText("Click on a user to select it", { timeout: 5000 });
+  await expect(page.getByTestId("user-list-title")).toHaveText(
+    "Click on a user to select it",
+    { timeout: 5000 },
+  );
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
 
-  const userListItemsLocator: Locator = page.getByRole('listitem').filter({ hasText: "John Doe" });
+  const userListItemsLocator: Locator = page
+    .getByRole("listitem")
+    .filter({ hasText: "John Doe" });
   await expect(userListItemsLocator).toHaveCount(1);
-  await expect(userListItemsLocator).toHaveText(/John Doe\([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\)/);
+  await expect(userListItemsLocator).toHaveText(
+    /John Doe\([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\)/,
+  );
 }
 
 async function selectUser(page: Page): Promise<string> {
-  await expect(page.getByTestId("selected-user")).toHaveText("User not selected yet (select one below)");
+  await expect(page.getByTestId("selected-user")).toHaveText(
+    "User not selected yet (select one below)",
+  );
 
-  const userListItemsLocator: Locator = page.getByRole('listitem').filter({ hasText: "John Doe" });
-  const listItemID: string | null = await userListItemsLocator.getAttribute("data-testid");
+  const userListItemsLocator: Locator = page
+    .getByRole("listitem")
+    .filter({ hasText: "John Doe" });
+  const listItemID: string | null =
+    await userListItemsLocator.getAttribute("data-testid");
   expect(listItemID).not.toBeNull();
 
-  const itemUUID: string = (listItemID as string).split(':')[1];
-  const linkID = `${(listItemID as string).split(':')[0]}-link:${itemUUID}`;
+  const itemUUID: string = (listItemID as string).split(":")[1];
+  const linkID = `${(listItemID as string).split(":")[0]}-link:${itemUUID}`;
 
   const userItemLocator: Locator = page.getByTestId(linkID);
   await expect(userItemLocator).toHaveCount(1);
@@ -95,7 +121,9 @@ async function selectUser(page: Page): Promise<string> {
 
   await userItemLocator.click();
 
-  await expect(page.getByTestId("selected-user")).toHaveText(/\{"uuid":"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}","name":"John Doe"\}/);
+  await expect(page.getByTestId("selected-user")).toHaveText(
+    /\{"uuid":"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}","name":"John Doe"\}/,
+  );
   await expect(page.getByTestId("selected-user")).toContainText(itemUUID);
 
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.03 });
@@ -104,13 +132,19 @@ async function selectUser(page: Page): Promise<string> {
 }
 
 async function selectProduct(page: Page, userUUID: string): Promise<void> {
-  await expect(page.getByRole('listitem').filter({ hasNotText: "John Doe" })).toHaveCount(10);
+  await expect(
+    page.getByRole("listitem").filter({ hasNotText: "John Doe" }),
+  ).toHaveCount(10);
 
-  await expect(page.getByTestId("basket")).toHaveText("Select user and product (select them above)");
+  await expect(page.getByTestId("basket")).toHaveText(
+    "Select user and product (select them above)",
+  );
 
   await page.getByTestId("product-link:Zulu-346").click();
 
-  await expect(page.getByTestId("basket")).toHaveText(/\{"basketId":\d+,"userId":"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}","productId":"1d9f5cd4-d25e-4bc0-8459-694b359bf388"}/);
+  await expect(page.getByTestId("basket")).toHaveText(
+    /\{"basketId":\d+,"userId":"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}","productId":"1d9f5cd4-d25e-4bc0-8459-694b359bf388"}/,
+  );
   await expect(page.getByTestId("basket")).toContainText(userUUID);
 
   await page.mouse.wheel(0, 1000);
@@ -123,14 +157,20 @@ async function createOrder(page: Page): Promise<string> {
 
   await page.getByTestId("create-order").click();
 
-  await expect(page.getByTestId("pdf-div")).toHaveText(/Download PDF: http:\/\/localhost:9005\/invoice\/[0-9a-f]+\/download/, { timeout: 20_000 });
+  await expect(page.getByTestId("pdf-div")).toHaveText(
+    /Download PDF: http:\/\/localhost:9005\/invoice\/[0-9a-f]+\/download/,
+    { timeout: 20_000 },
+  );
 
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 
   return await page.getByTestId("pdf-link").innerText();
 }
 
-async function openAndCheckPDF(pdfURL: string, request: APIRequestContext): Promise<void> {
+async function openAndCheckPDF(
+  pdfURL: string,
+  request: APIRequestContext,
+): Promise<void> {
   let success = false;
   let retries = 0;
   const maxRetries = 20;
@@ -151,7 +191,7 @@ async function openAndCheckPDF(pdfURL: string, request: APIRequestContext): Prom
       success = true;
     } catch (e) {
       console.error("Error while retry", retries, e.message);
-      await new Promise(resolve => setTimeout(resolve, 5_000));
+      await new Promise((resolve) => setTimeout(resolve, 5_000));
     }
 
     retries++;
@@ -162,19 +202,23 @@ async function openAndCheckPDF(pdfURL: string, request: APIRequestContext): Prom
   const pdfBuffer = await response?.body();
   expect(pdfBuffer.length).toBeGreaterThan(0);
 
-  const pdfEqual: boolean = await comparePdfToSnapshot(pdfBuffer, './tests/resources/snapshots/pdf', "invoice");
+  const pdfEqual: boolean = await comparePdfToSnapshot(
+    pdfBuffer,
+    "./tests/resources/snapshots/pdf",
+    "invoice",
+  );
   expect(pdfEqual).toBe(true);
 }
 
 async function checkZipkin(page: Page): Promise<void> {
-  await page.goto('http://localhost:9411/');
+  await page.goto("http://localhost:9411/");
   await expect(page).toHaveTitle("Zipkin");
 
   // Set language to English
 
   await page.getByTestId("change-language-button").click();
   await expect(page).toHaveScreenshot();
-  
+
   await page.getByTestId("language-list-item-en").click();
   await expect(page).toHaveScreenshot();
 
@@ -209,7 +253,6 @@ async function findTracesInZipkin(page: Page): Promise<boolean> {
   // await expect(async () => {
   //   console.log("Waiting for traces to appear");
 
-  
   //   await page.getByText("Run Query").click();
   //   await page.waitForLoadState();
 
@@ -233,21 +276,21 @@ async function findTracesInZipkin(page: Page): Promise<boolean> {
     try {
       await page.getByText("Run Query").click();
       await page.waitForLoadState();
-      
+
       const allRowsShop: Locator = page.getByText("shop-frontend:");
       // expect(allRowsShop).toHaveCount(7);
       const allRowsShopCount: number = await allRowsShop.count();
       if (allRowsShopCount !== 7) {
         throw new Error(`Expected 7 rows, got ${allRowsShopCount}`);
       }
-      
+
       const allRowsShopClick: Locator = page.getByText("shop-frontend: click");
       // expect(allRowsShopClick).toHaveCount(4);
       const allRowsShopClickCount: number = await allRowsShopClick.count();
       if (allRowsShopClickCount !== 4) {
         throw new Error(`Expected 4 rows, got ${allRowsShopClickCount}`);
       }
-      
+
       const bigTraceRow: Locator = page.getByText(/^2\d$/);
       // expect(bigTraceRow).toHaveCount(1);
       const bigTraceRowCount: number = await bigTraceRow.count();
@@ -260,7 +303,7 @@ async function findTracesInZipkin(page: Page): Promise<boolean> {
       success = true;
     } catch (e) {
       console.error("Error while retry", retries, e.message);
-      await new Promise(resolve => setTimeout(resolve, 5_000));
+      await new Promise((resolve) => setTimeout(resolve, 5_000));
     }
 
     retries++;
@@ -270,16 +313,20 @@ async function findTracesInZipkin(page: Page): Promise<boolean> {
 }
 
 async function checkPrometheus(page: Page): Promise<void> {
-  await page.goto('http://localhost:9090/');
-  await expect(page).toHaveTitle("Prometheus Time Series Collection and Processing Server");
+  await page.goto("http://localhost:9090/");
+  await expect(page).toHaveTitle(
+    "Prometheus Time Series Collection and Processing Server",
+  );
   await expect(page).toHaveScreenshot();
 
   await page.getByLabel("Show query options").click();
   await page.getByText("Explore metrics").click();
 
-  await expect(page.getByPlaceholder("Enter text to filter metric names by...")).toBeVisible({ timeout: 5000 });
+  await expect(
+    page.getByPlaceholder("Enter text to filter metric names by..."),
+  ).toBeVisible({ timeout: 5000 });
   await expect(page.getByText("unknown").nth(8)).toBeVisible({ timeout: 5000 });
-  await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.5});
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.5 });
 
   await page.keyboard.press("Escape");
 
@@ -288,7 +335,7 @@ async function checkPrometheus(page: Page): Promise<void> {
 
   const checkedDashboard: boolean = await checkPrometheusDashboard(page);
   expect(checkedDashboard).toBe(true);
-  await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.04});
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 });
 }
 
 async function checkPrometheusDashboard(page: Page): Promise<boolean> {
@@ -302,18 +349,23 @@ async function checkPrometheusDashboard(page: Page): Promise<boolean> {
     try {
       await page.getByText("Execute").click();
       await page.waitForLoadState();
-      
-      const getWantedText: Locator = page.getByText("opentelemetry-collector:9091");
+
+      const getWantedText: Locator = page.getByText(
+        "opentelemetry-collector:9091",
+      );
       const getWantedTextCount: number = await getWantedText.count();
       if (getWantedTextCount !== 7) {
         console.log("Reloading page");
 
         await page.reload({ waitUntil: "load" });
         await page.waitForLoadState();
-        await new Promise(resolve => setTimeout(resolve, 6_000));
+        await new Promise((resolve) => setTimeout(resolve, 6_000));
 
-        const getWantedTextAgain: Locator = page.getByText("opentelemetry-collector:9091");
-        const getWantedTextAgainCount: number = await getWantedTextAgain.count();
+        const getWantedTextAgain: Locator = page.getByText(
+          "opentelemetry-collector:9091",
+        );
+        const getWantedTextAgainCount: number =
+          await getWantedTextAgain.count();
 
         if (getWantedTextAgainCount !== 7) {
           throw new Error(`Expected 7 labels, got ${getWantedTextAgainCount}`);
@@ -325,7 +377,7 @@ async function checkPrometheusDashboard(page: Page): Promise<boolean> {
       success = true;
     } catch (e) {
       console.error("Error while retry", retries, e.message);
-      await new Promise(resolve => setTimeout(resolve, 5_000));
+      await new Promise((resolve) => setTimeout(resolve, 5_000));
     }
 
     retries++;
@@ -335,16 +387,18 @@ async function checkPrometheusDashboard(page: Page): Promise<boolean> {
 }
 
 async function checkPapermerge(page: Page): Promise<void> {
-  await page.goto('http://localhost:12000/');
+  await page.goto("http://localhost:12000/");
   await expect(page).toHaveTitle("Papermerge DMS");
   await expect(page).toHaveScreenshot();
 
   await page.getByPlaceholder("Username or email").fill("admin");
   await page.locator("input").nth(1).fill("admin");
-  await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.getByRole("button", { name: "Sign In" }).click();
 
   await page.waitForLoadState();
-  await expect(page.getByText(/invoice-[a-f0-9]+/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(/invoice-[a-f0-9]+/)).toBeVisible({
+    timeout: 5000,
+  });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 
   await expect(page.getByText(/invoice-[a-f0-9]+/)).toHaveCount(1);
@@ -355,11 +409,11 @@ async function checkPapermerge(page: Page): Promise<void> {
 }
 
 async function checkEmails(page: Page): Promise<string> {
-  await page.goto('http://localhost:9000/');
+  await page.goto("http://localhost:9000/");
   await expect(page).toHaveTitle("Inbucket");
   await expect(page).toHaveScreenshot();
 
-  await page.goto('http://localhost:9000/monitor');
+  await page.goto("http://localhost:9000/monitor");
   await expect(page).toHaveTitle("Inbucket Monitor");
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 
@@ -373,13 +427,15 @@ async function checkEmails(page: Page): Promise<string> {
 }
 
 async function checkExcalidraw(page: Page): Promise<void> {
-  await page.goto('http://localhost:3030/');
-  await expect(page).toHaveTitle("Excalidraw | Hand-drawn look & feel • Collaborative • Secure");
+  await page.goto("http://localhost:3030/");
+  await expect(page).toHaveTitle(
+    "Excalidraw | Hand-drawn look & feel • Collaborative • Secure",
+  );
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
 }
 
 async function checkKong(page: Page): Promise<void> {
-  await page.goto('http://localhost:8002/');
+  await page.goto("http://localhost:8002/");
   await expect(page).toHaveTitle("Kong Manager OSS");
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
 
@@ -390,41 +446,53 @@ async function checkKong(page: Page): Promise<void> {
 
   await page.getByTestId("users").first().click();
   await page.waitForLoadState();
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02, fullPage: true });
-  
-  await page.getByRole('link', { name: 'Routes' }).click();
+  await expect(page).toHaveScreenshot({
+    maxDiffPixelRatio: 0.02,
+    fullPage: true,
+  });
+
+  await page.getByRole("link", { name: "Routes" }).click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
   await expect(page.getByTestId("users")).toHaveCount(2);
 
   await page.getByTestId("users").first().click();
   await page.waitForLoadState();
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02, fullPage: true });
+  await expect(page).toHaveScreenshot({
+    maxDiffPixelRatio: 0.02,
+    fullPage: true,
+  });
 }
 
 async function checkGrafana(page: Page): Promise<void> {
-  await page.goto('http://localhost:3000/login');
+  await page.goto("http://localhost:3000/login");
   await expect(page).toHaveTitle("Grafana");
   await expect(page).toHaveScreenshot(); // Screenshot 28
 
   await page.getByPlaceholder("email or username").fill("admin");
   await page.getByPlaceholder("password").fill("password");
-  await page.getByText('Log in').click();
+  await page.getByText("Log in").click();
 
   await page.waitForLoadState();
-  
+
   // await page.goto('http://localhost:3000/?orgId=1');
   // await expect(page).toHaveTitle("Grafana");
-  await expect(page.getByTestId("data-testid Home breadcrumb").nth(1)).toBeVisible({ timeout: 100_000 });
+  await expect(
+    page.getByTestId("data-testid Home breadcrumb").nth(1),
+  ).toBeVisible({ timeout: 100_000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.04 }); // Screenshot 29
 
-  await page.goto('http://localhost:3000/connections/add-new-connection');
-  await expect(page.getByText("Google Analytics")).toBeVisible({ timeout: 5_000 });
-  await expect(page).toHaveScreenshot(); // Screenshot 30
+  await page.goto("http://localhost:3000/connections/add-new-connection");
+  await expect(page.getByText("Google Analytics")).toBeVisible({
+    timeout: 5_000,
+  });
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 30
 
   await page.getByPlaceholder("Search Grafana plugins").fill("loki");
   await page.keyboard.press("Enter");
-  await expect(page.getByText("Google Analytics")).not.toBeVisible({ timeout: 5_000 });
+  await expect(page.getByText("Google Analytics")).not.toBeVisible({
+    timeout: 5_000,
+  });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 31
 
   await page.getByPlaceholder("Search Grafana plugins").fill("prometheus");
@@ -432,8 +500,10 @@ async function checkGrafana(page: Page): Promise<void> {
   await expect(page.getByText("Loki")).not.toBeVisible({ timeout: 5_000 });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 32
 
-  await page.goto('http://localhost:3000/connections/datasources/loki');
-  await expect(page.getByText("Loki Data Source - Native Plugin")).toBeVisible({ timeout: 5000 });
+  await page.goto("http://localhost:3000/connections/datasources/loki");
+  await expect(page.getByText("Loki Data Source - Native Plugin")).toBeVisible({
+    timeout: 5000,
+  });
   await expect(page).toHaveScreenshot(); // Screenshot 33
 
   await page.getByText("Add new data source").click();
@@ -441,46 +511,69 @@ async function checkGrafana(page: Page): Promise<void> {
   await expect(page).toHaveScreenshot(); // Screenshot 34
 
   await page.getByPlaceholder("http://localhost:3100").fill("http://loki:3100");
-  await page.getByRole('button', { name: 'Save & test' }).click();
-  await expect(page).toHaveScreenshot({fullPage: true}); // Screenshot 35
+  await page.getByRole("button", { name: "Save & test" }).click();
+  await expect(page).toHaveScreenshot({ fullPage: true }); // Screenshot 35
 
-  await page.goto('http://localhost:3000/connections/datasources/prometheus');
-  await expect(page.getByText("Prometheus Data Source - Native Plugin")).toBeVisible({ timeout: 5000 });
+  await page.goto("http://localhost:3000/connections/datasources/prometheus");
+  await expect(
+    page.getByText("Prometheus Data Source - Native Plugin"),
+  ).toBeVisible({ timeout: 5000 });
   await expect(page).toHaveScreenshot(); // Screenshot 36
 
   await page.getByText("Add new data source").click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot(); // Screenshot 37
 
-  await page.getByPlaceholder("http://localhost:9090").fill("http://prometheus:9090");
-  await page.getByRole('button', { name: 'Save & test' }).click();
-  await expect(page).toHaveScreenshot({fullPage: true, maxDiffPixelRatio: 0.01}); // Screenshot 38
+  await page
+    .getByPlaceholder("http://localhost:9090")
+    .fill("http://prometheus:9090");
+  await page.getByRole("button", { name: "Save & test" }).click();
+  await expect(page).toHaveScreenshot({
+    fullPage: true,
+    maxDiffPixelRatio: 0.01,
+  }); // Screenshot 38
 
-  await page.goto('http://localhost:3000/connections/datasources');
+  await page.goto("http://localhost:3000/connections/datasources");
   await expect(page).toHaveScreenshot(); // Screenshot 39
 
-  await page.goto('http://localhost:3000/dashboard/import');
+  await page.goto("http://localhost:3000/dashboard/import");
   await expect(page).toHaveScreenshot(); // Screenshot 40
 
-  const grafanaDashboardContent: string = readFileSync('./tests/resources/grafana-dashboard.json', { encoding: 'utf8', flag: 'r' });
-  await page.getByTestId("data-testid-import-dashboard-textarea").fill(grafanaDashboardContent);
+  const grafanaDashboardContent: string = readFileSync(
+    "./tests/resources/grafana-dashboard.json",
+    { encoding: "utf8", flag: "r" },
+  );
+  await page
+    .getByTestId("data-testid-import-dashboard-textarea")
+    .fill(grafanaDashboardContent);
   await expect(page).toHaveScreenshot(); // Screenshot 41
 
-  await page.getByTestId('data-testid-load-dashboard').click();
+  await page.getByTestId("data-testid-load-dashboard").click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot(); // Screenshot 42
 
-  await page.getByTestId('data-testid Data source picker select container').nth(0).locator("input").fill("Prometheus");
-  await page.getByTestId('data-source-card').click();
-  await page.getByTestId('data-testid Data source picker select container').nth(1).locator("input").fill("Loki");
-  await page.getByTestId('data-source-card').click();
+  await page
+    .getByTestId("data-testid Data source picker select container")
+    .nth(0)
+    .locator("input")
+    .fill("Prometheus");
+  await page.getByTestId("data-source-card").click();
+  await page
+    .getByTestId("data-testid Data source picker select container")
+    .nth(1)
+    .locator("input")
+    .fill("Loki");
+  await page.getByTestId("data-source-card").click();
   await expect(page).toHaveScreenshot(); // Screenshot 43
 
-  await page.getByRole('button', { name: 'Import' }).click();
+  await page.getByRole("button", { name: "Import" }).click();
   await page.waitForLoadState();
   const loadedDashboard: boolean = await checkGrafanaDashboard(page);
   expect(loadedDashboard).toBe(true);
-  await expect(page).toHaveScreenshot({fullPage: true, maxDiffPixelRatio: 0.02}); // Screenshot 44
+  await expect(page).toHaveScreenshot({
+    fullPage: true,
+    maxDiffPixelRatio: 0.02,
+  }); // Screenshot 44
 }
 
 async function checkGrafanaDashboard(page: Page): Promise<boolean> {
@@ -494,7 +587,7 @@ async function checkGrafanaDashboard(page: Page): Promise<boolean> {
     try {
       await page.getByTestId("data-testid RefreshPicker run button").click();
       await page.waitForLoadState();
-      
+
       const getUserLabel: Locator = page.getByText("GET /user");
       const getUserLabelCount: number = await getUserLabel.count();
       if (getUserLabelCount !== 1) {
@@ -502,7 +595,7 @@ async function checkGrafanaDashboard(page: Page): Promise<boolean> {
 
         await page.reload({ waitUntil: "load" });
         await page.waitForLoadState();
-        await new Promise(resolve => setTimeout(resolve, 6_000));
+        await new Promise((resolve) => setTimeout(resolve, 6_000));
 
         const getUserLabelAgain: Locator = page.getByText("GET /user");
         const getUserLabelCountAgain: number = await getUserLabelAgain.count();
@@ -517,7 +610,7 @@ async function checkGrafanaDashboard(page: Page): Promise<boolean> {
       success = true;
     } catch (e) {
       console.error("Error while retry", retries, e.message);
-      await new Promise(resolve => setTimeout(resolve, 5_000));
+      await new Promise((resolve) => setTimeout(resolve, 5_000));
     }
 
     retries++;
@@ -527,23 +620,27 @@ async function checkGrafanaDashboard(page: Page): Promise<boolean> {
 }
 
 async function checkKafkaUI(page: Page): Promise<void> {
-  await page.goto('http://localhost:8085/');
+  await page.goto("http://localhost:8085/");
   await expect(page).toHaveTitle("UI for Apache Kafka");
   await expect(page.getByText("2.8-IV1")).toBeVisible({ timeout: 5000 });
   await expect(page).toHaveScreenshot(); // Screenshot 45
 
-  await page.getByRole('link', { name: 'Topics' }).click();
+  await page.getByRole("link", { name: "Topics" }).click();
   await page.waitForLoadState();
-  await expect(page.getByText("consumer_offsets")).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText("consumer_offsets")).toBeVisible({
+    timeout: 5000,
+  });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 }); // Screenshot 46
 
   await page.getByRole("link", { name: "orders" }).click();
   await page.waitForLoadState();
-  await expect(page.getByText("Replication Factor")).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText("Replication Factor")).toBeVisible({
+    timeout: 5000,
+  });
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 }); // Screenshot 47
 
-  await page.getByRole('link', { name: 'Messages' }).click();
+  await page.getByRole("link", { name: "Messages" }).click();
   await page.waitForLoadState();
   await expect(page.getByText("OrderID")).toBeVisible({ timeout: 5000 });
-  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 }); // Screenshot 48  
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 }); // Screenshot 48
 }
