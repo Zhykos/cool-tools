@@ -20,6 +20,7 @@ import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface QwikCityPlatform extends PlatformNode {}
 }
 
