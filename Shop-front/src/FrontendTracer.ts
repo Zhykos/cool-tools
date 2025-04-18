@@ -13,9 +13,10 @@ import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import type { OTLPExporterNodeConfigBase } from "@opentelemetry/otlp-exporter-base";
 import { ZoneContextManager } from "@opentelemetry/context-zone";
+import { getWebAutoInstrumentations } from "@opentelemetry/auto-instrumentations-web";
 import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
 
-export const FrontendTracer = async () => {
+export const FrontendTracer = () => {
   const exporterOpts: OTLPExporterNodeConfigBase = {};
   if (import.meta.env.VITE_OPENTELEMETRY_COLLECTOR_URI) {
     exporterOpts.url = import.meta.env.VITE_OPENTELEMETRY_COLLECTOR_URI;
@@ -32,6 +33,14 @@ export const FrontendTracer = async () => {
 
   provider.register({
     contextManager: new ZoneContextManager(),
+  });
+
+  registerInstrumentations({
+    instrumentations: [new FetchInstrumentation()],
+  });
+
+  /*provider.register({
+    contextManager: new ZoneContextManager(),
     propagator: new CompositePropagator({
       propagators: [
         new W3CBaggagePropagator(),
@@ -42,6 +51,13 @@ export const FrontendTracer = async () => {
 
   registerInstrumentations({
     tracerProvider: provider,
-    instrumentations: [new FetchInstrumentation()],
-  });
+    instrumentations: [
+      getWebAutoInstrumentations({
+        "@opentelemetry/instrumentation-fetch": {
+          propagateTraceHeaderCorsUrls: /./,
+          clearTimingResources: true,
+        },
+      }),
+    ],
+  });*/
 };
