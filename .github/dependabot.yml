@@ -5,8 +5,7 @@
 
 version: 2
 updates:
-
-# https://github.com/Zhykos/cool-tools/issues/336
+  # https://github.com/Zhykos/cool-tools/issues/336
   # - package-ecosystem: "deno"
   #   target-branch: "develop"
   #   directories:
@@ -14,7 +13,7 @@ updates:
   #     - "/ErrorUseCase/todo-api/"
   #     - "/ErrorUseCase-2/api/"
   #   schedule:
-  #     interval: "weekly"
+  #     interval: "monthly"
 
   - package-ecosystem: "docker"
     target-branch: "develop"
@@ -27,7 +26,7 @@ updates:
       - "/Shop-front/"
       - "/UserAPI/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "docker-compose"
     target-branch: "develop"
@@ -36,13 +35,13 @@ updates:
       - "/Infra/"
       - "/Shop-E2E/tests/resources/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "gomod"
     target-branch: "develop"
     directory: "/OrderAPI/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "maven"
     target-branch: "develop"
@@ -53,11 +52,11 @@ updates:
       - "/ProductAPI/"
       - "/UserAPI/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "npm"
     target-branch: "develop"
-    directories: 
+    directories:
       - "/DenoEasyObservability/e2e/"
       - "/ErrorUseCase/e2e/"
       - "/ErrorUseCase/front/"
@@ -66,4 +65,4 @@ updates:
       - "/Shop-E2E/"
       - "/Shop-front/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
