@@ -4,7 +4,6 @@ include:
   - ../../../Infra/docker-compose.yml # Include the docker-compose file from the Infra module
 
 services:
-
   basket-api:
     build: ../../../BasketAPI-SpringBoot
     ports:
@@ -51,7 +50,7 @@ services:
         condition: service_started
       kafka:
         condition: service_started
-      papermerge-web:
+      papermerge:
         condition: service_started
 
   order-api:
@@ -88,7 +87,7 @@ services:
         condition: service_started
       postgres-products:
         condition: service_started
-  
+
   user-api:
     build: ../../../UserAPI
     ports:
