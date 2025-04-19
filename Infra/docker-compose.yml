@@ -1,18 +1,5 @@
 name: fr-zhykos-cool-tools-infra
 
-x-backend: &papermerge-common
-  image: papermerge/papermerge:3.1
-  environment:
-    PAPERMERGE__SECURITY__SECRET_KEY: 12345
-    PAPERMERGE__AUTH__USERNAME: admin
-    PAPERMERGE__AUTH__PASSWORD: admin
-    PAPERMERGE__REDIS__URL: redis://papermerge-redis:6379/0
-    PAPERMERGE__SECURITY__TOKEN_EXPIRE_MINUTES: 518400 # 1 year
-  volumes:
-    - papermerge-data:/db
-    - papermerge-index_db:/core_app/index_db
-    - papermerge-media:/core_app/media
-
 x-kong-config: &kong-env
   KONG_DATABASE: postgres
   KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong}
@@ -21,7 +8,6 @@ x-kong-config: &kong-env
   KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
 
 services:
-
   prometheus:
     image: prom/prometheus:v3.3.0
     restart: unless-stopped
@@ -53,8 +39,8 @@ services:
       retries: 5
     ports:
       - "13133:13133" # health check
-      - "4317:4317"   # OTLP gRPC receiver
-      - "4318:4318"   # OTLP HTTP receiver
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP HTTP receiver
     expose:
       - "4317"
       - "4318"
@@ -83,7 +69,7 @@ services:
 
   grafana:
     image: grafana/grafana:11.6.0
-    user: '472'
+    user: "472"
     restart: unless-stopped
     environment:
       GF_SECURITY_ADMIN_USER: admin
@@ -158,30 +144,45 @@ services:
     depends_on:
       - kafka
     environment:
-      DYNAMIC_CONFIG_ENABLED: 'true'
+      DYNAMIC_CONFIG_ENABLED: "true"
       KAFKA_CLUSTERS_0_NAME: orders
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
 
-  papermerge-web:
-    <<: *papermerge-common
+  # https://docs.papermerge.io/3.4/setup/docker-compose/
+  papermerge:
+    image: papermerge/papermerge:3.4.1
+    environment:
+      PAPERMERGE__SECURITY__SECRET_KEY: 12345
+      PAPERMERGE__AUTH__USERNAME: admin
+      PAPERMERGE__AUTH__PASSWORD: admin
+      PAPERMERGE__DATABASE__URL: postgresql://coco:jumbo@db-papermerge:5432/pmgdb
+      PAPERMERGE__SECURITY__TOKEN_EXPIRE_MINUTES: 518400 # 1 year
     ports:
       - "12000:80"
     depends_on:
-      - papermerge-redis
+      - db-papermerge
 
-  papermerge-worker:
-    <<: *papermerge-common
-    command: worker
-
-  papermerge-redis:
-    image: redis:7
+  db-papermerge:
+    image: postgres:16.1
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: jumbo
+      POSTGRES_DB: pmgdb
+      POSTGRES_USER: coco
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
   fake-smtp:
     image: inbucket/inbucket:sha-504a79a
     ports:
-      - '2500:2500' # SMTP
-      - '9000:9000' # web interface
-      - '1100:1100' # POP3
+      - "2500:2500" # SMTP
+      - "9000:9000" # web interface
+      - "1100:1100" # POP3
 
   kong-migrations:
     image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
@@ -243,7 +244,7 @@ services:
       - "8444:8444/tcp"
       - "8002:8002"
     healthcheck:
-      test: [ "CMD", "kong", "health" ]
+      test: ["CMD", "kong", "health"]
       interval: 10s
       timeout: 10s
       retries: 10
@@ -272,7 +273,7 @@ services:
           "-d",
           "${KONG_PG_DATABASE:-kong}",
           "-U",
-          "${KONG_PG_USER:-kong}"
+          "${KONG_PG_USER:-kong}",
         ]
       interval: 30s
       timeout: 30s
@@ -298,9 +299,7 @@ volumes:
   prometheus_data: {}
   loki_data: {}
   grafana_data: {}
-  papermerge-data:
-  papermerge-index_db:
-  papermerge-media:
+  pgdata:
   kong_data: {}
   kong_prefix_vol:
     driver_opts:

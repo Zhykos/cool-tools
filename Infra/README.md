@@ -220,6 +220,8 @@ Before starting the infrastructure, you must set your current IP address in thes
 
 Replace `192.168.1.10` with your IP address in all files (see previous paragraph). It will be easy if you are using an IDE like VS Code, Zed or IntelliJ.
 
+> If you are using a Apple Silicon CPU (M1, M2, etc.), you'll need to get Papermerge with a specific command: `docker pull --platform linux/amd64  papermerge/papermerge:xxx` (replace `xxx` with the correct version specified in the `docker-compose.yml` file). More information about the 3.4 version, for instance: https://docs.papermerge.io/3.4/setup/docker/#apple-m1-m2-users.
+
 Start the infrastructure with the following command:
 
 ```bash
