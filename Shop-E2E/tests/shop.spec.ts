@@ -442,9 +442,9 @@ async function checkKong(page: Page): Promise<void> {
   await page.getByText("Gateway Services").click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
-  await expect(page.getByTestId("users")).toHaveCount(2);
+  await expect(page.getByTestId("name")).toHaveCount(1);
 
-  await page.getByTestId("users").first().click();
+  await page.getByTestId("name").click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot({
     maxDiffPixelRatio: 0.02,
@@ -454,9 +454,9 @@ async function checkKong(page: Page): Promise<void> {
   await page.getByRole("link", { name: "Routes" }).click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
-  await expect(page.getByTestId("users")).toHaveCount(2);
+  await expect(page.getByTestId("name")).toHaveCount(1);
 
-  await page.getByTestId("users").first().click();
+  await page.getByTestId("name").click();
   await page.waitForLoadState();
   await expect(page).toHaveScreenshot({
     maxDiffPixelRatio: 0.02,

@@ -183,7 +183,7 @@ services:
       - "1100:1100" # POP3
 
   kong-migrations:
-    image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
+    image: "${KONG_DOCKER_TAG:-kong:3.9.0}"
     command: kong migrations bootstrap
     depends_on:
       - kong-db
@@ -194,7 +194,7 @@ services:
     restart: on-failure
 
   kong-migrations-up:
-    image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
+    image: "${KONG_DOCKER_TAG:-kong:3.9.0}"
     command: kong migrations up && kong migrations finish
     depends_on:
       - kong-db
@@ -211,7 +211,7 @@ services:
     restart: on-failure
 
   kong:
-    image: "${KONG_DOCKER_TAG:-kong:3.7.1}"
+    image: "${KONG_DOCKER_TAG:-kong:3.9.0}"
     user: "${KONG_USER:-kong}"
     environment:
       <<: *kong-env
