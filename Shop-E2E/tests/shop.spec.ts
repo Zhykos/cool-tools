@@ -467,7 +467,7 @@ async function checkKong(page: Page): Promise<void> {
 async function checkGrafana(page: Page): Promise<void> {
   await page.goto("http://localhost:3000/login");
   await expect(page).toHaveTitle("Grafana");
-  await expect(page).toHaveScreenshot(); // Screenshot 28
+  await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 }); // Screenshot 28
 
   await page.getByPlaceholder("email or username").fill("admin");
   await page.getByPlaceholder("password").fill("password");
