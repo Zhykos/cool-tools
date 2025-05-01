@@ -29,7 +29,7 @@ services:
       - zipkin
 
   zipkin:
-    image: openzipkin/zipkin:3.5.0
+    image: openzipkin/zipkin:3.5.1
     restart: always
     ports:
       - "9411:9411"
