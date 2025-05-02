@@ -161,7 +161,7 @@ services:
       - db-papermerge
 
   db-papermerge:
-    image: postgres:16.1
+    image: postgres:17.4
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:
