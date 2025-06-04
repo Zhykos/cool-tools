@@ -1,7 +1,6 @@
-import { test, expect, type Page, type Locator } from '@playwright/test';
+import { test, expect, type Page, type Locator } from "@playwright/test";
 
-
-test('Full ErrorUseCase test', async ({ page, request }) => {
+test("Full ErrorUseCase test", async ({ page }) => {
   console.log("Starting test");
 
   // Scenario
@@ -18,7 +17,7 @@ test('Full ErrorUseCase test', async ({ page, request }) => {
 });
 
 async function goHome(page: Page): Promise<void> {
-  await page.goto('http://localhost:3000/');
+  await page.goto("http://localhost:3000/");
 
   await expect(page).toHaveTitle("Welcome to Qwik");
   await expect(page).toHaveScreenshot({ fullPage: true });
@@ -28,7 +27,9 @@ async function goToTodoListFromHome(page: Page): Promise<void> {
   await page.getByText("Todo App").click();
 
   await expect(page).toHaveTitle("Qwik Todo List");
-  await expect(page.getByText("No items found")).toBeVisible({ timeout: 100_000 });
+  await expect(page.getByText("No items found")).toBeVisible({
+    timeout: 100_000,
+  });
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 
@@ -53,13 +54,13 @@ async function addTodoErrorItem(page: Page): Promise<void> {
 }
 
 async function checkZipkin(page: Page): Promise<void> {
-  await page.goto('http://localhost:9411/');
+  await page.goto("http://localhost:9411/");
   await expect(page).toHaveTitle("Zipkin");
   await expect(page).toHaveScreenshot();
 
   // Set language to English
 
-  await page.getByTestId("change-language-button").click();  
+  await page.getByTestId("change-language-button").click();
   await page.getByTestId("language-list-item-en").click();
 
   // Set time range to last 15 minutes and limit to 100 traces
@@ -88,14 +89,16 @@ async function findTraces(page: Page): Promise<boolean> {
     try {
       await page.getByText("Run Query").click();
       await page.waitForLoadState();
-      
+
       const allRowsShop: Locator = page.getByText("error-case-195-frontend:");
       const allRowsShopCount: number = await allRowsShop.count();
       if (allRowsShopCount !== 4) {
         throw new Error(`Expected 4 rows, got ${allRowsShopCount}`);
       }
-      
-      const allRowsShopClick: Locator = page.getByText("error-case-195-frontend: create todo item");
+
+      const allRowsShopClick: Locator = page.getByText(
+        "error-case-195-frontend: create todo item",
+      );
       const allRowsShopClickCount: number = await allRowsShopClick.count();
       if (allRowsShopClickCount !== 2) {
         throw new Error(`Expected 2 rows, got ${allRowsShopClickCount}`);
@@ -106,7 +109,7 @@ async function findTraces(page: Page): Promise<boolean> {
       success = true;
     } catch (e) {
       console.error("Error while retry", retries, e.message);
-      await new Promise(resolve => setTimeout(resolve, 5_000));
+      await new Promise((resolve) => setTimeout(resolve, 5_000));
     }
 
     retries++;
@@ -116,7 +119,7 @@ async function findTraces(page: Page): Promise<boolean> {
 }
 
 async function checkSeq(page: Page): Promise<void> {
-  await page.goto('http://localhost:5341/');
+  await page.goto("http://localhost:5341/");
   await expect(page).toHaveTitle("Events — Seq");
   await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.01 });
 
