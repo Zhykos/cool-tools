@@ -9,7 +9,7 @@ x-kong-config: &kong-env
 
 services:
   prometheus:
-    image: prom/prometheus:v3.3.0
+    image: prom/prometheus:v3.4.1
     restart: unless-stopped
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
