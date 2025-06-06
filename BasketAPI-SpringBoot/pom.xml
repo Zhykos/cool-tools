@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.5</version>
+		<version>3.5.0</version>
 		<relativePath />
 	</parent>
 	<groupId>fr.zhykos.cool.tools</groupId>
@@ -22,7 +22,7 @@
 			<dependency>
 				<groupId>io.opentelemetry</groupId>
 				<artifactId>opentelemetry-bom</artifactId>
-				<version>1.49.0</version>
+				<version>1.50.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -84,17 +84,17 @@
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core-micrometer</artifactId>
-			<version>1.2.5</version>
+			<version>1.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
-			<version>1.14.6</version>
+			<version>1.15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-			<version>3.4.5</version>
+			<version>3.5.0</version>
 		</dependency>
 
 	</dependencies>
