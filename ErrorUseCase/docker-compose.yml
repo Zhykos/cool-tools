@@ -3,7 +3,7 @@ name: fr-zhykos-cool-tools-error-use-case
 services:
 
   opentelemetry-collector:
-    image: otel/opentelemetry-collector-contrib:0.123.0
+    image: otel/opentelemetry-collector-contrib:0.127.0
     command:
       - --config=/etc/otel/receivers.yml
       - --config=/etc/otel/processors.yml
