@@ -68,7 +68,7 @@ services:
       - "3100:3100"
 
   grafana:
-    image: grafana/grafana:11.6.1
+    image: grafana/grafana:12.0.1
     user: "472"
     restart: unless-stopped
     environment:
