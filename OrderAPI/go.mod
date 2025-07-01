@@ -1,11 +1,11 @@
 module OrderAPI
 
-go 1.23.0
+go 1.23.8
 
 toolchain go1.24.1
 
 require (
-	github.com/twmb/franz-go v1.18.1
+	github.com/twmb/franz-go v1.19.5
 	github.com/twmb/franz-go/plugin/kotel v1.6.0
 	go.mongodb.org/mongo-driver v1.17.3
 	go.opentelemetry.io/contrib/instrumentation/go.mongodb.org/mongo-driver/mongo/otelmongo v0.60.0
@@ -30,7 +30,7 @@ require (
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
-	github.com/twmb/franz-go/pkg/kmsg v1.9.0 // indirect
+	github.com/twmb/franz-go/pkg/kmsg v1.11.2 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
