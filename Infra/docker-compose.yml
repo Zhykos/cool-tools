@@ -148,7 +148,7 @@ services:
 
   # https://docs.papermerge.io/3.4/setup/docker-compose/
   papermerge:
-    image: papermerge/papermerge:3.4.1
+    image: papermerge/papermerge:3.5.1
     environment:
       PAPERMERGE__SECURITY__SECRET_KEY: 12345
       PAPERMERGE__AUTH__USERNAME: admin
