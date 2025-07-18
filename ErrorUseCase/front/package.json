@@ -37,7 +37,7 @@
     "@types/node": "22.15.29",
     "@typescript-eslint/eslint-plugin": "8.33.1",
     "@typescript-eslint/parser": "8.33.1",
-    "compression": "^1.7.4",
+    "compression": "^1.8.1",
     "dotenv": "^16.5.0",
     "eslint": "8.57.0",
     "eslint-plugin-qwik": "^1.12.0",
